@@ -58,8 +58,20 @@ module.exports.updateMoney = async (id, money) => {
 
 module.exports.buyStock = async (id, data) => {
     try {
-        const findUser = await User.updateOne(id, {$push: {stockCode: data}})
-        return {code: 'Success'};
+        const moneyRequire = data.cost * data.weight;
+        let moneyNew = -1;
+        const result = await User.findOne(id, (err, docs) => {
+            if (err) throw err;
+            if (docs.money >= moneyRequire){
+                User.updateOne(id, {$push: {stockCode: data}}, (err) => {
+                    if (err) throw err;
+                });
+                docs.money -= moneyRequire;
+                docs.save();
+                moneyNew = docs.money;
+            }
+        });
+        return {message: moneyNew};
     } catch (error) {
         throw error;
     }
