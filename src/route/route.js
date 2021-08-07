@@ -8,6 +8,7 @@ router.route('/')
 router.route('/:id')
     .get(controller.getUser)
     .delete(controller.deleteUser)
+    .put(controller.updateUser)
 
 router.route('/:id/stock')
     .put(controller.buyStock)
@@ -15,7 +16,7 @@ router.route('/:id/stock')
 
 router.route('/:id/money')
     .put(controller.addMoney)
-    .delete(controller.subMoney);
+    .delete(controller.subMoney)
 
 router.route('/register')
     .post(controller.createUser)

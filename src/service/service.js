@@ -43,6 +43,9 @@ module.exports.getUser = async (id) => {
 
 module.exports.updateUser = async (id, data) => {
     try {
+        if (data.password){
+            data = hashPass(data);
+        }
         const result = await User.updateOne(id, data);
         return result;
     } catch (error) {
@@ -142,7 +145,8 @@ module.exports.sellStock = async (id, data) => {
                 }
                 else {
                     return {
-                        message: "KL failed"
+                        message: "KL failed",
+                        weight: stock.weight
                     }
                 }
             }

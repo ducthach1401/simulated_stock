@@ -1,4 +1,5 @@
-const service = require('../service/service.js')
+const service = require('../service/service.js');
+const { getStocks } = require('../service/stock.js');
 
 module.exports.createUser = async (req, res) => {
     const data = req.body;
@@ -14,6 +15,15 @@ module.exports.getAllUser = async (req, res) => {
 module.exports.getUser = async (req, res) => {
     const id = {_id: req.params.id};
     const result = await service.getUser(id);
+    res.json(result);
+}
+
+module.exports.updateUser = async (req, res) => {
+    const id = {
+        _id: req.params.id
+    }
+    const data = req.body;
+    const result = await service.updateUser(id, data);
     res.json(result);
 }
 
@@ -34,6 +44,8 @@ module.exports.buyStock = async (req, res) => {
         dateBuy: Date.now(),
         cost: 1000
     }
+    test = await getStocks();
+    console.log(test);
     const result = await service.buyStock(id, data);
     res.json(result);
 }
