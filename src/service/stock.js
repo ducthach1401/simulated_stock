@@ -1,17 +1,11 @@
-const cheerio = require('cheerio');
-const request = require('request');
+const fetch = require('node-fetch');
 
-module.exports.getStocks = async () =>{
-    request({
-        method: 'GET',
-        url: 'https://banggia.cafef.vn/stockhandler.ashx'
-    }, async (err, res, body) => {
-        if (err) return console.error(err);
-        const data = JSON.parse(body);
-        let list = {};
-        for await (let stock of data){
-            list[stock.a] = stock.b;
-        }
-        return list;
-    });
+module.exports.getStocks = async () => {
+    const url = 'https://banggia.cafef.vn/stockhandler.ashx';
+    const stocks = await fetch(url).then(res => res.json());
+    let result = {};
+    for (let stock of stocks){
+        result[stock.a] = stock.b * 1000;
+    }
+    return result;
 }
