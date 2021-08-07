@@ -86,3 +86,12 @@ module.exports.login = async (req, res) => {
     res.json(result);
 }
 
+module.exports.getCost = async (req, res) => {
+    const cost = await getStocks();
+    const result = {
+        code: req.query.code,
+        cost: cost[req.query.code]
+    }
+    res.json(result);
+}
+

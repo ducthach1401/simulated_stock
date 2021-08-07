@@ -13,6 +13,7 @@ router.route('/:id')
 router.route('/:id/stock')
     .put(controller.buyStock)
     .delete(controller.sellStock)
+    .get(controller.getCost)
 
 router.route('/:id/money')
     .put(controller.addMoney)
