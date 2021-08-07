@@ -1,14 +1,26 @@
 const model = require('../model/model.js');
 const mongoose = require('mongoose');
 const User = model.User;
+const bcrypt = require('bcrypt');
+const factory = 10;
+
+function hashPass(data) {
+    try {
+        data.password = bcrypt.hashSync(data.password, factory)
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 module.exports.createUser = async (data) => {
     try {
+        data = hashPass(data);
         const newUser = new User(data);
-        const result = await newUser.save();
-        return {message: newUser._id};
+        await newUser.save();
+        return {message: newUser};
     } catch (error) {
-        return {message: 'Username exist'}
+        return {message: error}
     }
 }
 
@@ -40,7 +52,12 @@ module.exports.deleteUser = async (id) => {
 
 module.exports.addMoney = async (id, money) => {
     try {
-        const result = await User.updateOne(id, {$inc: {money: money.money}})
+        let result = await User.updateOne(id, {
+            $inc: {money: money.money}
+        })
+        result = await User.updateOne(id, {
+            $inc: {capital: money.money}
+        })
         return result;
     } catch (error) {
         throw error;
@@ -58,20 +75,36 @@ module.exports.subMoney = async (id, money) => {
 
 module.exports.buyStock = async (id, data) => {
     try {
-        const moneyRequire = data.cost * data.weight;
-        let moneyNew = -1;
-        const result = await User.findOne(id, (err, docs) => {
-            if (err) throw err;
-            if (docs.money >= moneyRequire){
-                User.updateOne(id, {$push: {stockCode: data}}, (err) => {
-                    if (err) throw err;
-                });
-                docs.money -= moneyRequire;
-                docs.save();
-                moneyNew = docs.money;
+        data.capital = data.cost * data.weight;
+        const user = await User.findOne(id);
+        if (user.money >= data.capital){
+            let check = true;
+            for (let stock of user.stockCode){
+                if (stock.code == data.code){
+                    stock.capital += data.capital;
+                    stock.weight += data.weight;
+                    user.money -= data.capital;
+                    stock.dateBuy = data.dateBuy;
+                    check = false;
+                    user.save();
+                    break;
+                }
             }
-        });
-        return {message: moneyNew};
+            if (check){
+                await User.updateMany(id, {
+                    $push: {stockCode: data},
+                })
+
+                await User.updateMany(id, {
+                    $inc: {money : -data.capital}
+                })
+            }
+            return {Money: user.money - data.capital}
+        }
+        else {
+            return {Message: "Failed"}
+        }
+       
     } catch (error) {
         throw error;
     }
@@ -79,12 +112,36 @@ module.exports.buyStock = async (id, data) => {
 
 module.exports.sellStock = async (id, data) => {
     try {
-        console.log(data);
+        data.capital = data.cost * data.weight;
+        const user = await User.findOne(id);
+        for (let stock of user.stockCode){
+            if (stock.code == data.code){
+                if (stock.weight >= data.weight){
+                    user.money += data.capital;
+                    user.earning += (data.cost -(stock.capital / stock.weight)) * data.weight;
+                    stock.weight -= data.weight;
+                    stock.capital -= (stock.capital / stock.weight) * data.weight;
+                    user.save();
+                    if (stock.weight == 0){
+                        await User.updateOne(id, {$pull: {stockCode: {_id: stock._id}}})
+                    }
+                    return {
+                        money: user.money,
+                        earning: user.earning,
+                        weight: stock.weight
+                    }
+                }
+                else {
+                    return {
+                        message: "KL failed"
+                    }
+                }
+            }
+        }
+        return {
+            message: "Not found code"
+        }
     } catch (error) {
         throw error;
     }
 }
-
-
-
-

@@ -4,12 +4,18 @@ const controller = require('../controller/controller.js');
 const router = express.Router();
 router.route('/')
     .post(controller.createUser)
+    .get(controller.getAllUser)
+
+router.route('/:id')
+    .get(controller.getUser)
+    .delete(controller.deleteUser)
 
 router.route('/:id/stock')
     .put(controller.buyStock)
     .delete(controller.sellStock)
 
 router.route('/:id/money')
-    .put(controller.addMoney);
+    .put(controller.addMoney)
+    .delete(controller.subMoney);
     
 module.exports = router;
