@@ -5,7 +5,12 @@ const User = require('./src/route/route.js');
 const cors = require('cors');   
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useCreateIndex: true
+});
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

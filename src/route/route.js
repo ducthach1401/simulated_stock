@@ -11,4 +11,5 @@ router.route('/:id/stock')
 
 router.route('/:id/money')
     .put(controller.addMoney);
+    
 module.exports = router;

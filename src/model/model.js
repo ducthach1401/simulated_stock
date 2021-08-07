@@ -4,7 +4,7 @@ const defaultMoney = 10000000;
 const IUser = mongoose.Schema({
     _id: {type: mongoose.Types.ObjectId, default: mongoose.Types.ObjectId},
     name: {type: String, require: true},
-    username: {type: String, require: true, unique: true},
+    username: {type: String, require: true, unique: true, index: true},
     password: {type: String, require: true},
     money: {type: Number, default: defaultMoney},
     stockCode: [{
