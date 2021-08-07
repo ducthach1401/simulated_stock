@@ -41,6 +41,15 @@ module.exports.getUser = async (id) => {
     }
 }
 
+module.exports.updateUser = async (id, data) => {
+    try {
+        const result = await User.updateOne(id, data);
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports.deleteUser = async (id) => {
     try {
         const result = await User.deleteOne(id);
@@ -119,8 +128,8 @@ module.exports.sellStock = async (id, data) => {
                 if (stock.weight >= data.weight){
                     user.money += data.capital;
                     user.earning += (data.cost -(stock.capital / stock.weight)) * data.weight;
-                    stock.weight -= data.weight;
                     stock.capital -= (stock.capital / stock.weight) * data.weight;
+                    stock.weight -= data.weight;
                     user.save();
                     if (stock.weight == 0){
                         await User.updateOne(id, {$pull: {stockCode: {_id: stock._id}}})
@@ -143,5 +152,22 @@ module.exports.sellStock = async (id, data) => {
         }
     } catch (error) {
         throw error;
+    }
+}
+
+module.exports.login = async(data) =>{
+    try {
+        const user = await User.findOne({username: data.username})
+        const result = bcrypt.compareSync(data.password, user.password);
+        if (result){
+            return {id: user._id}
+        }
+        else {
+            return {
+                message: "Password wrong"
+            }
+        }
+    } catch (error) {
+        throw error;   
     }
 }

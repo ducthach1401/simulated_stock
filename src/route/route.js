@@ -3,7 +3,6 @@ const controller = require('../controller/controller.js');
 
 const router = express.Router();
 router.route('/')
-    .post(controller.createUser)
     .get(controller.getAllUser)
 
 router.route('/:id')
@@ -17,5 +16,11 @@ router.route('/:id/stock')
 router.route('/:id/money')
     .put(controller.addMoney)
     .delete(controller.subMoney);
-    
+
+router.route('/register')
+    .post(controller.createUser)
+
+router.route('/login')
+    .post(controller.login)
+
 module.exports = router;

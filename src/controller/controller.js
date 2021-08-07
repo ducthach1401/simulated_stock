@@ -68,3 +68,9 @@ module.exports.subMoney = async (req, res) => {
     res.json(result);
 }
 
+module.exports.login = async (req, res) => {
+    const data = req.body;
+    const result = await service.login(data);
+    res.json(result);
+}
+
