@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
+app.use(express.static(__dirname + '/src/view/'));
 app.use('/user', User);
 app.use('/', View);
 app.listen(port, () => {
