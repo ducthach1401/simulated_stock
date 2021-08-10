@@ -163,6 +163,11 @@ module.exports.sellStock = async (id, data) => {
 module.exports.login = async(data) =>{
     try {
         const user = await User.findOne({username: data.username})
+        if (!user){
+            return {
+                message: "User wrong"
+            }
+        }
         const result = bcrypt.compareSync(data.password, user.password);
         if (result){
             const payload = {
