@@ -1,6 +1,7 @@
 const model = require('../model/model.js');
 const mongoose = require('mongoose');
 const User = model.User;
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const factory = 10;
 
@@ -20,7 +21,7 @@ module.exports.createUser = async (data) => {
         await newUser.save();
         return {message: newUser};
     } catch (error) {
-        return {message: error}
+        return {message: "Username exist"}
     }
 }
 
@@ -164,7 +165,17 @@ module.exports.login = async(data) =>{
         const user = await User.findOne({username: data.username})
         const result = bcrypt.compareSync(data.password, user.password);
         if (result){
-            return {id: user._id}
+            const payload = {
+                username: data.username
+            }
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '6h'});
+            const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
+            user.refreshToken = refreshToken;
+            user.save();
+            return {
+                accessToken: accessToken,
+                refreshToken: refreshToken
+            }
         }
         else {
             return {
@@ -173,5 +184,26 @@ module.exports.login = async(data) =>{
         }
     } catch (error) {
         throw error;   
+    }
+}
+
+module.exports.regenerateAccessToken = async (refreshToken) => {
+    try {
+        const user = await User.find({refreshToken: refreshToken});
+        if (user) {
+            const payload = {
+                username: user.username
+            }
+            const user = await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+            const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '6h'});
+            return {
+                accessToken: accessToken
+            }
+        }
+        else {
+            return null;
+        }
+    } catch (error) {
+        throw error;
     }
 }

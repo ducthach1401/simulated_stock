@@ -7,6 +7,7 @@ const IUser = mongoose.Schema({
     username: {type: String, require: true, unique: true},
     password: {type: String, require: true},
     money: {type: Number, default: defaultMoney},
+    refreshToken: {type: String, default: ''},
     capital: {type: Number, default: defaultMoney},
     earning: {type: Number, default: defaultEarning},
     stockCode: [{

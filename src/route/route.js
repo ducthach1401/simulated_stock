@@ -1,28 +1,34 @@
 const express = require('express');
-const controller = require('../controller/controller.js');
-
+const controller = require('../controller/controller');
+const authenticateToken = require('../middleware/auth.user');
+const commonValidateQuery = require('../middleware/valid.query');
+const commonValidateBody = require('../middleware/valid.body');
+const schemaValidate = require('../DTO/DTO');
 const router = express.Router();
 router.route('/')
-    .get(controller.getAllUser)
+    .get(authenticateToken, controller.getAllUser)
 
 router.route('/:id')
-    .get(controller.getUser)
-    .delete(controller.deleteUser)
-    .put(controller.updateUser)
+    .get(authenticateToken, controller.getUser)
+    .delete(authenticateToken, controller.deleteUser)
+    .put(commonValidateBody(schemaValidate.updateUserSchema) ,authenticateToken, controller.updateUser)
 
 router.route('/:id/stock')
-    .put(controller.buyStock)
-    .delete(controller.sellStock)
-    .get(controller.getCost)
+    .put(commonValidateBody(schemaValidate.buystockSchema), authenticateToken, controller.buyStock)
+    .delete(commonValidateBody(schemaValidate.sellstockSchema), authenticateToken, controller.sellStock)
+    .get(commonValidateQuery(schemaValidate.getCostSchema), authenticateToken, controller.getCost)
 
 router.route('/:id/money')
-    .put(controller.addMoney)
-    .delete(controller.subMoney)
+    .put(commonValidateBody(schemaValidate.addMoneySchema), authenticateToken, controller.addMoney)
+    .delete(commonValidateBody(schemaValidate.subMoneySchema), authenticateToken, controller.subMoney)
 
 router.route('/register')
-    .post(controller.createUser)
+    .post(commonValidateBody(schemaValidate.createUserSchema),controller.createUser)
 
 router.route('/login')
-    .post(controller.login)
+    .post(commonValidateBody(schemaValidate.loginSchema), controller.login)
+
+router.route('/refresh')
+    .post(authenticateToken, controller.refresh)
 
 module.exports = router;

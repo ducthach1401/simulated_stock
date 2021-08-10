@@ -82,8 +82,16 @@ module.exports.subMoney = async (req, res) => {
 
 module.exports.login = async (req, res) => {
     const data = req.body;
-    const result = await service.login(data);
-    res.json(result);
+    const token = await service.login(data);
+    if (token) res.status(200).json(token);
+    else res.status(401).json({message: "Auth failed"});
+}
+
+module.exports.refresh = async (req, res) => {
+    const refreshToken = req.body.refreshToken;
+    const accessToken = await this.userService.regenerateAccessToken(refreshToken);
+    if (accessToken) res.status(200).json(accessToken);
+    else res.sendStatus(403);
 }
 
 module.exports.getCost = async (req, res) => {
