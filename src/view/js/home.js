@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "https://simulatestock.glitch.me/";
 async function getUser(){
     const url = API_URL + '/user/'
     const response = await fetch(url, {
