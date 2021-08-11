@@ -84,6 +84,9 @@ async function getRank(){
         temp = document.createElement('p');
         temp.innerHTML = count + '. ' + acc.name + ": " + acc.money.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
         document.getElementById('ranking').appendChild(temp);
+        if (count >= 5){
+            break;
+        }
     }
 }
 
