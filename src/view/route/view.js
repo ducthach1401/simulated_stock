@@ -28,4 +28,12 @@ router.get('/logout', function (req, res) {
         res.redirect("/");
 });
 
+router.get('/information', function (req, res) {
+        if (req.cookies.access_token){
+                res.sendFile(path.resolve(dirHtml + '/home.html'));
+        }
+        else {
+                res.redirect("/");
+        }
+})
 module.exports = router

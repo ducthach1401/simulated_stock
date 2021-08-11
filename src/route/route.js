@@ -34,4 +34,7 @@ router.route('/login')
 router.route('/refresh')
     .post(authenticateToken, controller.refresh)
 
+router.route('/stocks')
+    .get(authenticateToken, controller.getAllStock)
+
 module.exports = router;

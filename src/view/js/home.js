@@ -68,7 +68,7 @@ async function getRank(){
     const url = API_URL + "/user/all";
     const response = await fetch(url, {
         method: 'GET',
-        // credentials: 'include',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -92,4 +92,15 @@ async function getRank(){
 
 async function logout(){
     window.location.href = '/logout';
+}
+
+async function showStock(){
+    const url = API_URL + "/user/stocks";
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 }
