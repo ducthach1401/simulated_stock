@@ -1,0 +1,12 @@
+body {
+    background-color: #2e2e2e;
+    color: ghostwhite;
+}
+
+.title {
+    color: darkorange;
+}
+
+#user-information p{
+    margin: auto;
+}

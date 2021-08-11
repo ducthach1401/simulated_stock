@@ -16,9 +16,13 @@ async function login() {
     const token = await response.json();
     if (token.message) {
         alert("User wrong or Password wrong");
+        window.location.href = '/'
     }
     else {
-        alert("Login Success");
-        document.cookie = "accessToken = '${token.accessToken}'; refreshToken = ${token.refreshToken};"
+        window.location.href = '/'
     }
+}
+
+async function register(){
+    window.location.href = '/register';
 }

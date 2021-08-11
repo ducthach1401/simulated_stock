@@ -5,15 +5,27 @@ const dirHtml = __dirname + '/../html'
 const dirCss = __dirname + '/../css'
 
 router.get('/', function(req, res) {
-        res.sendFile(path.resolve(dirHtml + '/home.html'));
-});
-
-router.get('/login', function (req, res) {
-        res.sendFile(path.resolve(dirHtml + '/login.html'));
+        if (req.cookies.access_token){
+                res.sendFile(path.resolve(dirHtml + '/home.html'));
+        }
+        else {
+                res.sendFile(path.resolve(dirHtml + '/login.html'));
+        }
 });
 
 router.get('/register', function (req, res) {
-        res.sendFile(path.resolve(dirHtml + '/register.html'));
+        if (req.cookies.access_token){
+                res.redirect("/");
+        }
+        else {
+                res.sendFile(path.resolve(dirHtml + '/register.html'));
+        }
+});
+
+router.get('/logout', function (req, res) {
+        res.clearCookie("access_token");
+        res.clearCookie("refresh_token");
+        res.redirect("/");
 });
 
 module.exports = router

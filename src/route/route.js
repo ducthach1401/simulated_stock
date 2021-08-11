@@ -6,7 +6,10 @@ const commonValidateBody = require('../middleware/valid.body');
 const schemaValidate = require('../DTO/DTO');
 const router = express.Router();
 router.route('/')
-    .get(authenticateToken, controller.getAllUser)
+    .get(authenticateToken, controller.getUserbyInfo);
+
+router.route('/all')
+    .get(authenticateToken, controller.getAllUser);
 
 router.route('/:id')
     .get(authenticateToken, controller.getUser)

@@ -21,7 +21,7 @@ module.exports.createUser = async (data) => {
         await newUser.save();
         return {message: newUser};
     } catch (error) {
-        return {message: "Username exist"}
+        throw error;
     }
 }
 
@@ -33,6 +33,15 @@ module.exports.getAll = async() => {
         throw error;
     }
 }
+module.exports.getUserbyinfo = async (username) => {
+    try {
+        const result = await User.findOne(username);
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports.getUser = async (id) => {
     try {
         const result = await User.findById(id);
@@ -171,7 +180,8 @@ module.exports.login = async(data) =>{
         const result = bcrypt.compareSync(data.password, user.password);
         if (result){
             const payload = {
-                username: data.username
+                _id: user._id,
+                username: user.username
             }
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '6h'});
             const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);

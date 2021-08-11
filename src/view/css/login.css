@@ -78,3 +78,15 @@ to {background-position: -100px 0px;background-size:2750px;}
   color: white;
   text-decoration: none;
 }
+
+#register {
+  color: gold;
+  text-decoration: underline;
+  position: relative;
+  left: 110px;
+  top: 10px;
+}
+
+#register:hover{
+  color: blue;
+}

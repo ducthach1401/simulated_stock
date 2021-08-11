@@ -10,6 +10,7 @@ const IUser = mongoose.Schema({
     refreshToken: {type: String, default: ''},
     capital: {type: Number, default: defaultMoney},
     earning: {type: Number, default: defaultEarning},
+    roleUser: {type: Boolean, default: false},
     stockCode: [{
         code: String,
         weight: Number,

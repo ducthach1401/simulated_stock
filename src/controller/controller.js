@@ -1,21 +1,35 @@
 const service = require('../service/service.js');
 const { getStocks } = require('../service/stock.js');
+const serializerUser = require('../serializer/user.serializer')
 
 module.exports.createUser = async (req, res) => {
-    const data = req.body;
-    const result = await service.createUser(data);
-    res.json(result);
+    try {
+        const data = req.body;
+        const result = await service.createUser(data);
+        res.json({success: true});
+    } catch (error) {
+        res.json({message: "Username Exist"})
+    }
 }
 
 module.exports.getAllUser = async (req, res) => {
-    const result = await service.getAll();
+    let result = await service.getAll();
+    result = result.map((element) => serializerUser.infoUser(element));
     res.json(result);
 }
 
 module.exports.getUser = async (req, res) => {
     const id = {_id: req.params.id};
     const result = await service.getUser(id);
-    res.json(result);
+    res.json(serializerUser.infoUser(result));
+}
+
+module.exports.getUserbyInfo = async (req, res) => {
+    const username = {
+        username: res.locals.username
+    }
+    const result = await service.getUserbyinfo(username);
+    res.json(serializerUser.infoUser(result));
 }
 
 module.exports.updateUser = async (req, res) => {
@@ -83,7 +97,17 @@ module.exports.subMoney = async (req, res) => {
 module.exports.login = async (req, res) => {
     const data = req.body;
     const token = await service.login(data);
-    if (token) res.status(200).json(token);
+    if (token.accessToken) {
+        res.cookie('access_token', token.accessToken, {
+            httpOnly: true,
+            //secure: true;
+        });
+        res.cookie('refresh_token', token.refreshToken, {
+            httpOnly: true,
+            //secure: true;
+        });
+        res.status(200).json({success: "ok"});
+    }
     else res.status(401).json({message: "Auth failed"});
 }
 
