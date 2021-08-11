@@ -1,33 +1,42 @@
+
+const API_URL = "http://localhost:8080"
 async function register() {
     const name = document.getElementById('name').value;
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('confirm-password').value;
-    if (passwordConfirm != password){
+    if (name.length > 20){
+        alert("Name must be less than 20 characters");
+    }
+    else if (username.length > 20) {
+        alert("Username must be less than 20 characters");
+    }
+    else if (passwordConfirm != password){
         alert('Password does not match');
-        window.location.href = '/register';
-    }
-    const url = 'https://simulatestock.glitch.me/user/register'
-    const payload = {
-        name: name,
-        username: username,
-        password: password
-    }
-    const response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    const token = await response.json();
-    if (!token.success) {
-        alert(token.message);
-        window.location.href = '/register';
     }
     else {
-        alert("Register Success");
-        window.location.href = '/'
+        const url = API_URL + '/user/register';
+        const payload = {
+            name: name,
+            username: username,
+            password: password
+        }
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const token = await response.json();
+        if (!token.success) {
+            alert(token.message);
+            window.location.href = '/register';
+        }
+        else {
+            alert("Register Success");
+            window.location.href = '/'
+        }
     }
 }
 

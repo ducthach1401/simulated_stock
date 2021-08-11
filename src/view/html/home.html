@@ -12,15 +12,22 @@
 </head>
 <body>
     <div class="container">
+        <div class="row header">
+            <h1 class="title">Simulate Stock</h1>
+        </div>
         <div class="row">
-            <div class="col">
-                <h1 class="title">Simulate Stock</h1>
-                <div id="user-information">
-                    <script>getUser()</script>
-                </div>
+            <div class="col-4">
+                <h3 class="sub1">Information</h3>
+                <div id="user-information"><script>getUser()</script></div>
+                <h3 class="sub2">Ranking</h3>
+                <div id="ranking"></div>
+                <script>getRank()</script>
             </div>
             <div class="col">
-                <h1>Ranking</h1>
+
+            </div>
+            <div class="col-1">
+                <button class="btn btn-warning" onclick="logout()">Logout</button>
             </div>
         </div>
 
