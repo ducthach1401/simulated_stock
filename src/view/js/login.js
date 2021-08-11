@@ -1,7 +1,7 @@
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const url = 'http://localhost:8080/user/login'
+    const url = 'https://simulatestock.glitch.me/user/login'
     const payload = {
         username: username,
         password: password

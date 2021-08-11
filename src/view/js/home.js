@@ -1,5 +1,5 @@
 async function getUser(){
-    const url = 'http://localhost:8080/user/';
+    const url = 'https://simulatestock.glitch.me/user/';
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',

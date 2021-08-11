@@ -7,7 +7,7 @@ async function register() {
         alert('Password does not match');
         window.location.href = '/register';
     }
-    const url = 'http://localhost:8080/user/register'
+    const url = 'https://simulatestock.glitch.me/user/register'
     const payload = {
         name: name,
         username: username,
