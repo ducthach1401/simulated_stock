@@ -143,7 +143,7 @@ module.exports.sellStock = async (id, data) => {
                     user.earning += (data.cost -(stock.capital / stock.weight)) * data.weight;
                     stock.capital -= (stock.capital / stock.weight) * data.weight;
                     stock.weight -= data.weight;
-                    user.save();
+                    await user.save();
                     if (stock.weight == 0){
                         await User.updateOne(id, {$pull: {stockCode: {_id: stock._id}}})
                     }

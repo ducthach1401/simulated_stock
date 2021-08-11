@@ -23,18 +23,29 @@
                 <div id="ranking"></div>
                 <script>getRank()</script>
             </div>
-            <div class="col">
+            <div class="col main">
                 <table id="exchange">
                     <tr>
                         <th>Stock Code</th>
                         <th>Standard</th>
                         <th>Ceiling</th>
                         <th>Floor</th>
+                        <th>Weight</th>
+                        <th>Buy</th>
                     </tr>
                 </table>
+                <script>showStock()</script>
             </div>
-            <div class="col-1">
-                <button class="btn btn-warning" onclick="logout()">Logout</button>
+            <div class="col-2">
+                <button class="btn btn-warning buttonUser" onclick="logout()">Logout</button>
+                <button class="btn btn-warning buttonUser" onclick="changeName()">Change Name</button>
+                <button class="btn btn-warning buttonUser" onclick="changePassword()">Change Password</button>
+                <div>
+                    <p>Lưu ý: </p>
+                    <p>Có thể tham khảo ở các sàn chứng khoán thực tế về biểu đồ tăng giảm</p>
+                    <p>Chỉ chơi cho vui không phải tiền thật.</p>
+                    <p>Add thêm tiền liên hệ: Thạch</p>
+                </div>
             </div>
         </div>
 

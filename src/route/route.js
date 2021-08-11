@@ -19,7 +19,7 @@ router.route('/:id')
 router.route('/:id/stock')
     .put(commonValidateBody(schemaValidate.buystockSchema), authenticateToken, controller.buyStock)
     .delete(commonValidateBody(schemaValidate.sellstockSchema), authenticateToken, controller.sellStock)
-    .get(commonValidateQuery(schemaValidate.getCostSchema), authenticateToken, controller.getCost)
+    .get(authenticateToken, controller.getCost)
 
 router.route('/:id/money')
     .put(commonValidateBody(schemaValidate.addMoneySchema), authenticateToken, controller.addMoney)
@@ -34,7 +34,6 @@ router.route('/login')
 router.route('/refresh')
     .post(authenticateToken, controller.refresh)
 
-router.route('/stocks')
+router.route('/:id/stocks')
     .get(authenticateToken, controller.getAllStock)
-
 module.exports = router;

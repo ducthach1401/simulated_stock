@@ -32,3 +32,32 @@ table, th, td {
 .sub2 {
     margin-top: 30px;
 }
+
+.orange {
+    color: orange;
+}
+
+.green {
+    color: greenyellow;
+}
+
+.red {
+    color: red;
+}
+
+table input {
+    width: 50px;
+}
+
+table button {
+    width: 75px;
+}
+
+table th, table td {
+    text-align: center;
+}
+
+.buttonUser {
+    width: 170px;
+    margin-bottom: 20px;
+}
