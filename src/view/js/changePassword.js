@@ -1,6 +1,3 @@
-const API_URL = "https://simulatestock.glitch.me/";
-// const API_URL = "http://localhost:8080";
-
 async function changePassword() {
     const user = await getUserID();
     const url = API_URL + '/user/' + user._id + '/password';
