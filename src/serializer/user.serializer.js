@@ -8,3 +8,15 @@ module.exports.infoUser = (model) => {
         stockCode: model.stockCode,
     }
 }
+
+module.exports.infoUserAll = (model) => {
+    return {
+        _id: model.id,
+        name: model.name,
+        money: model.money,
+        capital: model.capital,
+        earning: model.earning,
+        stockCode: model.stockCode,
+        roleUser: model.roleUser
+    }
+}

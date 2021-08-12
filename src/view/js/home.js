@@ -1,5 +1,5 @@
-const API_URL = "https://simulatestock.glitch.me/";
-// const API_URL = "http://localhost:8080";
+// const API_URL = "https://simulatestock.glitch.me/";
+const API_URL = "http://localhost:8080";
 
 var dataStockGobal = profit();
 
@@ -146,13 +146,13 @@ async function getUser(){
     document.getElementById('user-information').appendChild(tableSell);
 
     button = document.createElement('button');
-    button.setAttribute('class', "btn btn-success sellButton")
+    button.setAttribute('class', "btn btn-danger sellButton")
     button.innerHTML = 'Sell';
     button.setAttribute('onclick', 'sellStock()');
     document.getElementById('user-information').appendChild(button);
 
     button = document.createElement('button');
-    button.setAttribute('class', "btn btn-success totalButton");
+    button.setAttribute('class', "btn btn-info totalButton");
     button.innerHTML = 'Total money';
     button.setAttribute('onclick', 'totalBill()');
     document.getElementById('user-information').appendChild(button);
@@ -232,7 +232,13 @@ async function showStock(){
 
         temp = document.createElement('td');
         temp.setAttribute('id', 'price' + stock);
-        if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
+        if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
+            temp.classList.add('cyan');
+        }
+        else  if (parseInt(data[stock][3]) == parseInt(data[stock][2])){
+            temp.classList.add('magenta');
+        }
+        else if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
             temp.classList.add('green');
         }
         else  if (parseInt(data[stock][3]) < parseInt(data[stock][0])){

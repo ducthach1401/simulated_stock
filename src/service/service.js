@@ -181,7 +181,8 @@ module.exports.login = async(data) =>{
         if (result){
             const payload = {
                 _id: user._id,
-                username: user.username
+                username: user.username,
+                roleUser: user.roleUser
             }
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '6h'});
             const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
