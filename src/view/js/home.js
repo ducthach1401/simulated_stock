@@ -1,6 +1,8 @@
 const API_URL = "https://simulatestock.glitch.me/";
 // const API_URL = "http://localhost:8080";
 
+var dataStockGobal = profit();
+
 async function getUser(){
     const url = API_URL + '/user/'
     const response = await fetch(url, {
@@ -73,7 +75,7 @@ async function getUser(){
     table.appendChild(row);
     tableSell.appendChild(rowSell);
     tableSell.setAttribute('id', 'tableSell');
-    cost = await profit(data);
+    cost =  await dataStockGobal;
     for (let stock of data.stockCode){
         row = document.createElement('tr');
         rowSell = document.createElement('tr');
@@ -158,7 +160,7 @@ async function getUser(){
 
 async function totalBill(){
     const user = await getUserID();
-    const priceStock = await profit(user);
+    const priceStock = await dataStockGobal;
 
     const table = document.getElementById('tableSell');
     let stock;
@@ -206,16 +208,7 @@ async function logout(){
 }
 
 async function showStock(){
-    const user = await getUserID();
-    const url = API_URL + "/user/" + user._id + "/stocks";
-    const response = await fetch(url, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-    const data = await response.json();
+    const data =  await dataStockGobal;
     for (let stock in data){
         row = document.createElement('tr')
         temp = document.createElement('td');
@@ -353,7 +346,8 @@ async function sellStock(){
     }
 }
 
-async function profit(user){
+async function profit(){
+    user = await getUserID();
     url = API_URL + '/user/' + user._id + '/stocks';
     response = await fetch(url, {
         method: 'GET',
