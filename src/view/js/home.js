@@ -344,11 +344,9 @@ async function sellStock(){
                 let data = await response.json();
                 if (data.money){
                     alert('Sell Success');
-                    window.location.reload();
                 }
                 else {
                     alert("Don't enough weight or Error");
-                    window.location.reload();
                 }
             }
             else {
@@ -356,6 +354,7 @@ async function sellStock(){
             }
         }
     }
+    window.location.reload();
 }
 
 async function profit(){
