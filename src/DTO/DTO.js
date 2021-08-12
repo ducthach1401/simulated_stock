@@ -1,13 +1,13 @@
 const Joi = require('joi');
 
 module.exports.createUserSchema = Joi.object({
-    name: Joi.string().required(),
-    username: Joi.string().required(),
+    name: Joi.string().required().max(20),
+    username: Joi.string().required().max(20),
     password: Joi.string().required()
 });
 
 module.exports.updateUserSchema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string().required().max(20),
 });
 
 module.exports.buystockSchema = Joi.object({
@@ -28,13 +28,8 @@ module.exports.addMoneySchema = Joi.object({
     money: Joi.number().required()
 });
 
-module.exports.createUserSchema = Joi.object({
-    name: Joi.string().required(),
-    username: Joi.string().required(),
-    password: Joi.string().required()
-});
 module.exports.loginSchema = Joi.object({
-    username: Joi.string().required(),
+    username: Joi.string().required().max(20),
     password: Joi.string().required()
 });
 

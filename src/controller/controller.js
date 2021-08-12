@@ -18,6 +18,17 @@ module.exports.getAllUser = async (req, res) => {
     res.json(result);
 }
 
+module.exports.getAll = async (req, res) => {
+    if (res.locals.roleUser){
+        let result = await service.getAll();
+        result = result.map((element) => serializerUser.infoUserRole(element));
+        res.json(result);
+    }
+    else {
+        res.json({error: 'Deny'})
+    }
+}
+
 module.exports.getUser = async (req, res) => {
     const id = {_id: req.params.id};
     const result = await service.getUser(id);
@@ -29,7 +40,7 @@ module.exports.getUserbyInfo = async (req, res) => {
         username: res.locals.username
     }
     const result = await service.getUserbyinfo(username);
-    res.json(serializerUser.infoUser(result));
+    res.json(serializerUser.infoUserRole(result));
 }
 
 module.exports.updateUser = async (req, res) => {

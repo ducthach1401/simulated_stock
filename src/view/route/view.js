@@ -55,5 +55,14 @@ router.get('/changePassword', function (req, res){
         } 
 });
 
+router.get('/admin', function (req, res){
+        if (req.cookies.access_token){
+                res.sendFile(path.resolve(dirHtml + '/admin.html'));
+        }
+        else {
+                res.redirect("/");
+        } 
+});
+
 
 module.exports = router

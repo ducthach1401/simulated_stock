@@ -8,6 +8,8 @@ const router = express.Router();
 router.route('/')
     .get(authenticateToken, controller.getUserbyInfo);
 
+router.route('/getAll')
+    .get(authenticateToken, controller.getAll)
 router.route('/all')
     .get(authenticateToken, controller.getAllUser);
 

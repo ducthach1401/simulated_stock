@@ -29,7 +29,6 @@ async function register() {
         const token = await response.json();
         if (!token.success) {
             alert(token.message);
-            window.location.href = '/register';
         }
         else {
             alert("Register Success");

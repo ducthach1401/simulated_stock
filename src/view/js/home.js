@@ -10,6 +10,7 @@ async function getUser(){
         },
     });
     let data = await response.json();
+    
     let temp = document.createElement('p');
     temp.innerHTML = 'Name: ' + data.name;
     document.getElementById('user-information').appendChild(temp);
@@ -25,6 +26,14 @@ async function getUser(){
     temp = document.createElement('p');
     temp.innerHTML = 'Earning: ' + data.earning.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
     document.getElementById('user-information').appendChild(temp);
+
+    if (data.roleUser){
+        temp = document.createElement('button');
+        temp.setAttribute('class', 'btn btn-warning buttonUser');
+        temp.setAttribute('onclick', 'admin()');
+        temp.innerHTML = 'Admin';
+        document.getElementById('button').appendChild(temp);
+    }
 
     tableSell = document.createElement('table');
     rowSell = document.createElement('tr');
@@ -371,3 +380,6 @@ async function changePassword(){
     window.location.href = '/changePassword';
 }
 
+async function admin(){
+    window.location.href = '/admin';
+}
