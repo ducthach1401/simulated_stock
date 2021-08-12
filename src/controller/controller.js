@@ -1,5 +1,5 @@
 const service = require('../service/service.js');
-const { getStocks } = require('../service/stock.js');
+const { getStocks, test } = require('../service/stock.js');
 const serializerUser = require('../serializer/user.serializer')
 
 module.exports.createUser = async (req, res) => {
