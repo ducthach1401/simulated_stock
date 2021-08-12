@@ -289,12 +289,14 @@ async function getUserID() {
 
 async function buyStock(code){
     const user = await getUserID();
+    const stock = await dataStockGobal;
     const url = API_URL + '/user/' + user._id + '/stock';
     const weight = document.getElementById(code).value;
     if (!isNaN(weight) && (weight > 0)){
         payload = {
             code: code,
-            weight: parseInt(weight)
+            weight: parseInt(weight),
+            cost: parseInt(stock[code][3])
         }
         const response = await fetch(url, {
             method: 'PUT',
@@ -311,7 +313,7 @@ async function buyStock(code){
         }
         else {
             alert("Don't enough money or Error");
-            window.location.reload();
+            // window.location.reload();
         }
     }
     else {
@@ -324,6 +326,7 @@ async function sellStock(){
     const url = API_URL + '/user/' + user._id + '/stock';
     const table = document.getElementById('tableSell');
     let stock;
+    const dataStock = await dataStockGobal;
     for (let row = 1; row < table.childElementCount; row++){
         stock = table.childNodes[row].childNodes[0].innerHTML;
         weightSell = parseInt(document.getElementById(stock + 'S').value);
@@ -331,7 +334,8 @@ async function sellStock(){
             if (weightSell > 0){
                 payload = {
                     code: stock,
-                    weight: weightSell
+                    weight: weightSell,
+                    cost: parseInt(dataStock[stock][3])
                 }
                 const response = await fetch(url, {
                     method: 'DELETE',
@@ -344,6 +348,7 @@ async function sellStock(){
                 let data = await response.json();
                 if (data.money){
                     alert('Sell Success');
+                    window.location.reload();
                 }
                 else {
                     alert("Don't enough weight or Error");
@@ -354,7 +359,6 @@ async function sellStock(){
             }
         }
     }
-    window.location.reload();
 }
 
 async function profit(){

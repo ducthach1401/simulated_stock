@@ -75,11 +75,9 @@ module.exports.buyStock = async (req, res) => {
         const id = {
             _id: req.params.id
         }
-        const cost = await getStocks();
         const data = {
             ...req.body,
             dateBuy: Date.now(),
-            cost: cost[req.body.code][3]
         }
         const result = await service.buyStock(id, data);
         res.json(result);
@@ -94,10 +92,8 @@ module.exports.sellStock = async (req, res) => {
         const id = {
             _id: req.params.id
         }
-        const cost = await getStocks();
         const data = {
             ...req.body,
-            cost: cost[req.body.code][3]
         }
         const result = await service.sellStock(id, data);
         res.json(result);
