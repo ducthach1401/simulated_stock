@@ -41,3 +41,7 @@ module.exports.loginSchema = Joi.object({
 module.exports.getCostSchema = Joi.object({
     code: Joi.string().required(),
 });
+
+module.exports.updatePasswordSchema = Joi.object({
+    password: Joi.string().required(),
+});

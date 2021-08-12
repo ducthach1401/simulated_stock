@@ -9,7 +9,7 @@ module.exports.infoUser = (model) => {
     }
 }
 
-module.exports.infoUserAll = (model) => {
+module.exports.infoUserRole = (model) => {
     return {
         _id: model.id,
         name: model.name,

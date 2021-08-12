@@ -36,4 +36,7 @@ router.route('/refresh')
 
 router.route('/:id/stocks')
     .get(authenticateToken, controller.getAllStock)
+
+router.route('/:id/password')
+    .put(commonValidateBody(schemaValidate.updatePasswordSchema),authenticateToken, controller.updateUser)
 module.exports = router;

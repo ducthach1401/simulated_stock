@@ -365,3 +365,12 @@ async function profit(){
     let dataStock = await response.json();
     return dataStock;
 }
+
+async function changeName(){
+    window.location.href = '/changeName';
+}
+
+async function changePassword(){
+    window.location.href = '/changePassword';
+}
+

@@ -35,5 +35,25 @@ router.get('/information', function (req, res) {
         else {
                 res.redirect("/");
         }
-})
+});
+
+router.get('/changeName', function (req, res){
+        if (req.cookies.access_token){
+                res.sendFile(path.resolve(dirHtml + '/changeName.html'));
+        }
+        else {
+                res.redirect("/");
+        } 
+});
+
+router.get('/changePassword', function (req, res){
+        if (req.cookies.access_token){
+                res.sendFile(path.resolve(dirHtml + '/changePassword.html'));
+        }
+        else {
+                res.redirect("/");
+        } 
+});
+
+
 module.exports = router
