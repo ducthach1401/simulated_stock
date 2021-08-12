@@ -1,5 +1,5 @@
-const API_URL = "https://simulatestock.glitch.me/";
-// const API_URL = "http://localhost:8080";
+// const API_URL = "https://simulatestock.glitch.me/";
+const API_URL = "http://localhost:8080";
 
 async function getUser(){
     const url = API_URL + '/user/'
@@ -51,7 +51,7 @@ async function getUser(){
     rowSell.appendChild(temp);
 
     temp = document.createElement('th');
-    temp.innerHTML = 'Sell';
+    temp.innerHTML = 'Total Money';
     rowSell.appendChild(temp);
 
     temp = document.createElement('th');
@@ -72,7 +72,7 @@ async function getUser(){
 
     table.appendChild(row);
     tableSell.appendChild(rowSell);
-
+    tableSell.setAttribute('id', 'tableSell');
     cost = await profit(data);
     for (let stock of data.stockCode){
         row = document.createElement('tr');
@@ -87,24 +87,43 @@ async function getUser(){
         rowSell.appendChild(code);
 
         capital = document.createElement('td');
-        capital.innerHTML = stock.weight;
+        capital.innerHTML = stock.weight.toLocaleString('vi-VN');
         rowSell.appendChild(capital);
 
         capital = document.createElement('td');
         capital.innerHTML = stock.capital.toLocaleString('vi-VN');
+        capital.setAttribute('class', 'orange');
         row.appendChild(capital);
 
         temp = document.createElement('td');
         tempCost = cost[stock.code][3] * stock.weight * 0.999;
+        if (tempCost >= stock.capital){
+            temp.setAttribute('class', 'green');
+        }
+        else {
+            temp.setAttribute('class', 'red');
+        }
         temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999).toLocaleString('vi-VN');
         row.appendChild(temp);
 
         temp = document.createElement('td');
+        if ((cost[stock.code][3] * stock.weight * 0.999 - stock.capital) >= 0){
+            temp.setAttribute('class', 'green');
+        }
+        else {
+            temp.setAttribute('class', 'red');
+        }
         temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999 - stock.capital).toLocaleString('vi-VN');
         row.appendChild(temp);
 
 
         percent = document.createElement('td');
+        if ((Math.round(tempCost / stock.capital * 10000)/100) >= 100){
+            percent.setAttribute('class', 'green');
+        }
+        else {
+            percent.setAttribute('class', 'red');
+        }
         percent.innerHTML = Math.round(tempCost / stock.capital * 10000)/100 + ' %';
         row.appendChild(percent);
 
@@ -115,12 +134,7 @@ async function getUser(){
         rowSell.appendChild(temp);
 
         temp = document.createElement('td');
-        button = document.createElement('button');
-        button.setAttribute('class', "btn btn-success")
-        button.value = stock.code + "S";
-        button.innerHTML = 'Sell';
-        button.setAttribute('onclick', 'sellStock(this.value)');
-        temp.appendChild(button);
+        
         rowSell.appendChild(temp);
 
         tableSell.appendChild(rowSell);
@@ -128,6 +142,37 @@ async function getUser(){
     }
     document.getElementById('user-information').appendChild(table);
     document.getElementById('user-information').appendChild(tableSell);
+
+    button = document.createElement('button');
+    button.setAttribute('class', "btn btn-success sellButton")
+    button.innerHTML = 'Sell';
+    button.setAttribute('onclick', 'sellStock()');
+    document.getElementById('user-information').appendChild(button);
+
+    button = document.createElement('button');
+    button.setAttribute('class', "btn btn-success totalButton");
+    button.innerHTML = 'Total money';
+    button.setAttribute('onclick', 'totalBill()');
+    document.getElementById('user-information').appendChild(button);
+}
+
+async function totalBill(){
+    const user = await getUserID();
+    const priceStock = await profit(user);
+
+    const table = document.getElementById('tableSell');
+    let stock;
+    for (let row = 1; row < table.childElementCount; row++){
+        stock = table.childNodes[row].childNodes[0].innerHTML;
+        weightSell = parseInt(document.getElementById(stock + 'S').value);
+        if (!isNaN(weightSell) && (weightSell > 0)){
+            price = parseInt(priceStock[stock][3]);
+            table.childNodes[row].childNodes[3].innerHTML = (price *  weightSell).toLocaleString('vi-VN');
+        }
+        else {
+            table.childNodes[row].childNodes[3].innerHTML = 0;
+        }
+    }
 }
 
 async function getRank(){
@@ -241,7 +286,7 @@ async function buyStock(code){
     const user = await getUserID();
     const url = API_URL + '/user/' + user._id + '/stock';
     const weight = document.getElementById(code).value;
-    if (!isNaN(weight)){
+    if (!isNaN(weight) && (weight > 0)){
         payload = {
             code: code,
             weight: parseInt(weight)
@@ -269,36 +314,42 @@ async function buyStock(code){
     }
 }
 
-async function sellStock(code){
+async function sellStock(){
     const user = await getUserID();
     const url = API_URL + '/user/' + user._id + '/stock';
-    const weight = document.getElementById(code).value;
-    code = code.slice(0, code.length - 1);
-    if (!isNaN(weight)){
-        payload = {
-            code: code,
-            weight: parseInt(weight)
+    const table = document.getElementById('tableSell');
+    let stock;
+    for (let row = 1; row < table.childElementCount; row++){
+        stock = table.childNodes[row].childNodes[0].innerHTML;
+        weightSell = parseInt(document.getElementById(stock + 'S').value);
+        if (!isNaN(weightSell)){
+            if (weightSell > 0){
+                payload = {
+                    code: stock,
+                    weight: weightSell
+                }
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    body: JSON.stringify(payload),
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                let data = await response.json();
+                if (data.money){
+                    alert('Sell Success');
+                    window.location.reload();
+                }
+                else {
+                    alert("Don't enough weight or Error");
+                    window.location.reload();
+                }
+            }
+            else {
+                alert('Please input integer number');
+            }
         }
-        const response = await fetch(url, {
-            method: 'DELETE',
-            body: JSON.stringify(payload),
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        let data = await response.json();
-        if (data.money){
-            alert('Sell Success');
-            window.location.reload();
-        }
-        else {
-            alert("Don't enough weight or Error");
-            window.location.reload();
-        }
-    }
-    else {
-        alert('Please input integer number');
     }
 }
 
