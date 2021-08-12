@@ -1,4 +1,6 @@
-const API_URL = "https://simulatestock.glitch.me/";
+// const API_URL = "https://simulatestock.glitch.me/";
+const API_URL = "http://localhost:8080";
+
 async function getUser(){
     const url = API_URL + '/user/'
     const response = await fetch(url, {
@@ -25,53 +27,92 @@ async function getUser(){
     temp.innerHTML = 'Earning: ' + data.earning.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
     document.getElementById('user-information').appendChild(temp);
 
+    tableSell = document.createElement('table');
+    rowSell = document.createElement('tr');
     
     table = document.createElement('table');
+    table.setAttribute('id','tableinfo')
     row = document.createElement('tr');
 
-    header_code = document.createElement('th');
-    header_code.innerHTML = 'Code';
+    temp = document.createElement('th');
+    temp.innerHTML = 'Code';
+    row.appendChild(temp);
 
-    header_weight = document.createElement('th');
-    header_weight.innerHTML = 'Weight';
+    temp = document.createElement('th');
+    temp.innerHTML = 'Code'
+    rowSell.appendChild(temp);
 
-    header_capital = document.createElement('th');
-    header_capital.innerHTML = 'Capital';
+    temp = document.createElement('th');
+    temp.innerHTML = 'Weight';
+    rowSell.appendChild(temp);
 
-    header_weightS = document.createElement('th');
-    header_weightS.innerHTML = 'Weight'
+    temp = document.createElement('th');
+    temp.innerHTML = 'Weight Sell';
+    rowSell.appendChild(temp);
 
-    header_Sell = document.createElement('th');
-    header_Sell.innerHTML = 'Sell'
+    temp = document.createElement('th');
+    temp.innerHTML = 'Sell';
+    rowSell.appendChild(temp);
 
-    row.appendChild(header_code);
-    row.appendChild(header_weight);
-    row.appendChild(header_capital);
-    row.appendChild(header_weightS);
-    row.appendChild(header_Sell);
+    temp = document.createElement('th');
+    temp.innerHTML = 'Capital';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Current Price'
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Profit Loss'
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Percent';
+    row.appendChild(temp);
+
     table.appendChild(row);
+    tableSell.appendChild(rowSell);
 
+    cost = await profit(data);
     for (let stock of data.stockCode){
         row = document.createElement('tr');
+        rowSell = document.createElement('tr');
+
         code = document.createElement('td');
         code.innerHTML = stock.code;
+        row.appendChild(code);
 
-        weight = document.createElement('td');
-        weight.innerHTML = stock.weight;
+        code = document.createElement('td');
+        code.innerHTML = stock.code;
+        rowSell.appendChild(code);
+
+        capital = document.createElement('td');
+        capital.innerHTML = stock.weight;
+        rowSell.appendChild(capital);
 
         capital = document.createElement('td');
         capital.innerHTML = stock.capital.toLocaleString('vi-VN');
-
-
-        row.appendChild(code);
-        row.appendChild(weight);
         row.appendChild(capital);
+
+        temp = document.createElement('td');
+        tempCost = cost[stock.code][3] * stock.weight * 0.999;
+        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999).toLocaleString('vi-VN');
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999 - stock.capital).toLocaleString('vi-VN');
+        row.appendChild(temp);
+
+
+        percent = document.createElement('td');
+        percent.innerHTML = Math.round(tempCost / stock.capital * 10000)/100 + ' %';
+        row.appendChild(percent);
 
         temp = document.createElement('td');
         input = document.createElement('input');
         input.setAttribute("id", stock.code + "S");
         temp.appendChild(input);
-        row.appendChild(temp);
+        rowSell.appendChild(temp);
 
         temp = document.createElement('td');
         button = document.createElement('button');
@@ -80,11 +121,13 @@ async function getUser(){
         button.innerHTML = 'Sell';
         button.setAttribute('onclick', 'sellStock(this.value)');
         temp.appendChild(button);
-        row.appendChild(temp);
+        rowSell.appendChild(temp);
 
+        tableSell.appendChild(rowSell);
         table.appendChild(row);
     }
     document.getElementById('user-information').appendChild(table);
+    document.getElementById('user-information').appendChild(tableSell);
 }
 
 async function getRank(){
@@ -140,13 +183,27 @@ async function showStock(){
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        temp.classList.add('green');
+        temp.classList.add('cyan');
         temp.innerHTML = data[stock][1].toLocaleString('vi-VN');
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        temp.classList.add('red');
+        temp.classList.add('magenta');
         temp.innerHTML = data[stock][2].toLocaleString('vi-VN');
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        temp.setAttribute('id', 'price' + stock);
+        if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
+            temp.classList.add('green');
+        }
+        else  if (parseInt(data[stock][3]) < parseInt(data[stock][0])){
+            temp.classList.add('red');
+        }
+        else {
+            temp.classList.add('orange');
+        }
+        temp.innerHTML = data[stock][3].toLocaleString('vi-VN');
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -163,7 +220,6 @@ async function showStock(){
         button.setAttribute('onclick', 'buyStock(this.value)');
         temp.appendChild(button);
         row.appendChild(temp);
-
         document.getElementById('exchange').append(row);
     }
 }
@@ -244,4 +300,17 @@ async function sellStock(code){
     else {
         alert('Please input integer number');
     }
+}
+
+async function profit(user){
+    url = API_URL + '/user/' + user._id + '/stocks';
+    response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    let dataStock = await response.json();
+    return dataStock;
 }

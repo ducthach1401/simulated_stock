@@ -57,7 +57,7 @@ module.exports.buyStock = async (req, res) => {
     const data = {
         ...req.body,
         dateBuy: Date.now(),
-        cost: cost[req.body.code][0]
+        cost: cost[req.body.code][3]
     }
     const result = await service.buyStock(id, data);
     res.json(result);
@@ -70,7 +70,7 @@ module.exports.sellStock = async (req, res) => {
     const cost = await getStocks();
     const data = {
         ...req.body,
-        cost: cost[req.body.code][0]
+        cost: cost[req.body.code][3]
     }
     const result = await service.sellStock(id, data);
     res.json(result);
@@ -122,7 +122,7 @@ module.exports.getCost = async (req, res) => {
     const cost = await getStocks();
     const result = {
         code: req.query.code,
-        cost: cost[req.query.code]
+        cost: cost[req.query.code][3]
     }
     res.json(result);
 }

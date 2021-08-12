@@ -108,7 +108,7 @@ module.exports.buyStock = async (id, data) => {
                     user.money -= data.capital;
                     stock.dateBuy = data.dateBuy;
                     check = false;
-                    user.save();
+                    await user.save();
                     break;
                 }
             }
@@ -134,7 +134,7 @@ module.exports.buyStock = async (id, data) => {
 
 module.exports.sellStock = async (id, data) => {
     try {
-        data.capital = data.cost * data.weight;
+        data.capital = data.cost * data.weight * 0.999;
         const user = await User.findOne(id);
         for (let stock of user.stockCode){
             if (stock.code == data.code){
