@@ -1,5 +1,3 @@
-const API_URL = "https://simulatestock.glitch.me/"
-
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;

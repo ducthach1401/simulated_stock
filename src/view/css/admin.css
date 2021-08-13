@@ -55,7 +55,7 @@ table, th, td {
 }
 
 table input {
-    width: 50px;
+    width: 130px;
 }
 
 table button {
@@ -80,7 +80,8 @@ h5 {
     margin-bottom: 20px;
 }
 
-.sellButton, .totalButton {
-    margin-top: 10px;
-    margin-left: 10px;
-  }
+table {
+    text-align: center;
+    margin: auto;
+    margin-bottom: 30px;
+}

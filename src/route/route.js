@@ -8,6 +8,8 @@ const router = express.Router();
 router.route('/')
     .get(authenticateToken, controller.getUserbyInfo);
 
+router.route('/getAll')
+    .get(authenticateToken, controller.getAll)
 router.route('/all')
     .get(authenticateToken, controller.getAllUser);
 
@@ -36,4 +38,7 @@ router.route('/refresh')
 
 router.route('/:id/stocks')
     .get(authenticateToken, controller.getAllStock)
+
+router.route('/:id/password')
+    .put(commonValidateBody(schemaValidate.updatePasswordSchema),authenticateToken, controller.updateUser)
 module.exports = router;

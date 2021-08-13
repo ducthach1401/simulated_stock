@@ -1,5 +1,5 @@
 const service = require('../service/service.js');
-const { getStocks } = require('../service/stock.js');
+const { getStocks, test } = require('../service/stock.js');
 const serializerUser = require('../serializer/user.serializer')
 
 module.exports.createUser = async (req, res) => {
@@ -18,6 +18,17 @@ module.exports.getAllUser = async (req, res) => {
     res.json(result);
 }
 
+module.exports.getAll = async (req, res) => {
+    if (res.locals.roleUser){
+        let result = await service.getAll();
+        result = result.map((element) => serializerUser.infoUserRole(element));
+        res.json(result);
+    }
+    else {
+        res.json({error: 'Deny'})
+    }
+}
+
 module.exports.getUser = async (req, res) => {
     const id = {_id: req.params.id};
     const result = await service.getUser(id);
@@ -29,69 +40,95 @@ module.exports.getUserbyInfo = async (req, res) => {
         username: res.locals.username
     }
     const result = await service.getUserbyinfo(username);
-    res.json(serializerUser.infoUser(result));
+    res.json(serializerUser.infoUserRole(result));
 }
 
 module.exports.updateUser = async (req, res) => {
-    const id = {
-        _id: req.params.id
+    if (req.params.id == res.locals._id){
+        const id = {
+            _id: req.params.id
+        }
+        const data = req.body;
+        const result = await service.updateUser(id, data);
+        res.json(result);
     }
-    const data = req.body;
-    const result = await service.updateUser(id, data);
-    res.json(result);
+    else {
+        res.json({error: 'Deny'})
+    }
 }
 
 module.exports.deleteUser = async (req, res) => {
-    const id = {
-        _id: req.params.id
+    if (res.locals.roleUser){
+        const id = {
+            _id: req.params.id
+        }
+        const result = await service.deleteUser(id);
+        res.json(result);
     }
-    const result = await service.deleteUser(id);
-    res.json(result);
+    else {
+        res.json({error: 'Deny'});
+    }
 }
 
 module.exports.buyStock = async (req, res) => {
-    const id = {
-        _id: req.params.id
+    if (req.params.id == res.locals._id){
+        const id = {
+            _id: req.params.id
+        }
+        const data = {
+            ...req.body,
+            dateBuy: Date.now(),
+        }
+        const result = await service.buyStock(id, data);
+        res.json(result);
     }
-    const cost = await getStocks();
-    const data = {
-        ...req.body,
-        dateBuy: Date.now(),
-        cost: cost[req.body.code][0]
+    else {
+        res.json({error: 'Deny'});
     }
-    const result = await service.buyStock(id, data);
-    res.json(result);
 }
 
 module.exports.sellStock = async (req, res) => {
-    const id = {
-        _id: req.params.id
+    if (req.params.id == res.locals._id){
+        const id = {
+            _id: req.params.id
+        }
+        const data = {
+            ...req.body,
+        }
+        const result = await service.sellStock(id, data);
+        res.json(result);
     }
-    const cost = await getStocks();
-    const data = {
-        ...req.body,
-        cost: cost[req.body.code][0]
+    else {
+        res.json({error: 'Deny'});
     }
-    const result = await service.sellStock(id, data);
-    res.json(result);
 }
 
 module.exports.addMoney = async (req, res) => {
-    const id = {
-        _id: req.params.id
+    if (res.locals.roleUser){
+        const id = {
+            _id: req.params.id
+        }
+        const data = req.body;
+        const result = await service.addMoney(id, data);
+        res.json(result);
     }
-    const data = req.body;
-    const result = await service.addMoney(id, data);
-    res.json(result);
+    else {
+        res.json({error: 'Deny'})
+    }
 }
 
 module.exports.subMoney = async (req, res) => {
-    const id = {
-        _id: req.params.id
+    if (res.locals.roleUser){
+        const id = {
+            _id: req.params.id
+        }
+        const data = req.body;
+        const result = await service.subMoney(id, data);
+        res.json(result);
     }
-    const data = req.body;
-    const result = await service.subMoney(id, data);
-    res.json(result);
+    else{
+        res.json({error: 'Deny'})
+    }
 }
 
 module.exports.login = async (req, res) => {
@@ -122,7 +159,7 @@ module.exports.getCost = async (req, res) => {
     const cost = await getStocks();
     const result = {
         code: req.query.code,
-        cost: cost[req.query.code]
+        cost: cost[req.query.code][3]
     }
     res.json(result);
 }

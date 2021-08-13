@@ -1,5 +1,3 @@
-
-const API_URL = "https://simulatestock.glitch.me/"
 async function register() {
     const name = document.getElementById('name').value;
     const username = document.getElementById('username').value;
@@ -31,7 +29,6 @@ async function register() {
         const token = await response.json();
         if (!token.success) {
             alert(token.message);
-            window.location.href = '/register';
         }
         else {
             alert("Register Success");
