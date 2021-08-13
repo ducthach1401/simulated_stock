@@ -1,5 +1,21 @@
 var dataStockGobal = profit();
 
+async function getNameOfUser() {
+    const url = API_URL + '/user/'
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    let data = await response.json();
+
+    let temp = document.createElement('span');
+    temp.innerHTML = data.name;
+    document.getElementById('navbarDropdown').appendChild(temp);
+}
+
 async function getUser(){
     const url = API_URL + '/user/'
     const response = await fetch(url, {
@@ -13,26 +29,26 @@ async function getUser(){
     
     let temp = document.createElement('p');
     temp.innerHTML = 'Name: ' + data.name;
-    document.getElementById('user-information').appendChild(temp);
+    document.getElementById('information').appendChild(temp);
 
     temp = document.createElement('p');
     temp.innerHTML = 'Money: ' + data.money.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
-    document.getElementById('user-information').appendChild(temp);
+    document.getElementById('information').appendChild(temp);
 
     temp = document.createElement('p');
     temp.innerHTML = 'Capital: ' + data.capital.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
-    document.getElementById('user-information').appendChild(temp);
+    document.getElementById('information').appendChild(temp);
 
     temp = document.createElement('p');
     temp.innerHTML = 'Earning: ' + data.earning.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
-    document.getElementById('user-information').appendChild(temp);
+    document.getElementById('information').appendChild(temp);
 
     if (data.roleUser){
-        temp = document.createElement('button');
-        temp.setAttribute('class', 'btn btn-warning buttonUser');
+        temp = document.createElement('span');
+        temp.setAttribute('class', 'dropdown-item');
         temp.setAttribute('onclick', 'admin()');
         temp.innerHTML = 'Admin';
-        document.getElementById('button').appendChild(temp);
+        document.getElementById('admin').appendChild(temp);
     }
 
     tableSell = document.createElement('table');
@@ -195,18 +211,79 @@ async function getRank(){
     let data = await response.json()
     let temp;
     let count = 0;
-    data.sort(function(a,b){
-        return -a.money + b.money;
+    let cost =  await dataStockGobal;
+    data = data.map(ele => {
+        const total = ele.stockCode.reduce((a,b) => {
+            return a + cost[b.code][3] * b.weight * 0.999
+        }, 0) + ele.money;
+        const profit = ele.stockCode.reduce((a,b) => {
+            return a + cost[b.code][3] * b.weight * 0.999 - b.capital
+        }, 0)
+        return {
+            ...ele,
+            profit,
+            total
+        }
     });
+    data.sort(function(a,b){
+        return -a.total + b.total;
+    });
+    table = document.createElement('table');
+    table.setAttribute("class", "w-100 table table-dark table-striped")
+    tbody = document.createElement("tbody");
+    row = document.createElement('tr');
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Rank';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Name';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Profit';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Total';
+    row.appendChild(temp);
+
+    table.appendChild(row);
+
     for (let acc of data){
         count ++;
-        temp = document.createElement('p');
-        temp.innerHTML = count + '. ' + acc.name + ": " + acc.money.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
-        document.getElementById('ranking').appendChild(temp);
-        if (count >= 5){
-            break;
-        }
+        // temp = document.createElement('p');
+        // temp.innerHTML = count + '. ' + acc.name + ": " + acc.total.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+        // document.getElementById('ranking').appendChild(temp);
+        
+        
+        row = document.createElement('tr');
+
+        temp = document.createElement('td');
+        temp.innerHTML = count;
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        temp.innerHTML = acc.name;
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        temp.innerHTML = acc.profit.toLocaleString('vi-VN');
+        row.appendChild(temp);
+        
+        temp = document.createElement('td');
+        temp.innerHTML = acc.total.toLocaleString('vi-VN');
+        row.appendChild(temp);
+
+        tbody.appendChild(row);
+
+        // if (count >= 5){
+        //     break;
+        // }
     }
+    table.appendChild(tbody);
+    document.getElementById("table-ranking").appendChild(table);
 }
 
 async function logout(){

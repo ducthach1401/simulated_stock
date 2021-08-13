@@ -1,0 +1,41 @@
+body {
+    background-color: #2e2e2e !important;
+    color: ghostwhite !important;
+}
+
+.title {
+    color: darkorange;
+    text-align: center;
+    margin: 10px;
+    font-size: 45px;
+}
+
+.leaderBoard {
+    width: 50%;
+    margin: 0 auto;
+    background-color: #212529;
+    border-radius: 10px;
+}
+
+.header {
+    height: 200px;
+}
+
+.header h1 {
+    display: inline-block;
+    margin-left: 50px;
+    font-size: 60px;
+}
+
+.header img {
+    width: 80px;
+    height: 80px;
+}
+
+.leaderBoard table {
+    text-align: center;
+}
+
+span {
+    cursor: pointer;
+}

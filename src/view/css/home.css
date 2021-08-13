@@ -7,7 +7,7 @@ body {
     color: darkorange;
     text-align: center;
     margin: 10px;
-    font-size: 50px;
+    font-size: 45px;
 }
 
 #user-information p{
@@ -15,9 +15,12 @@ body {
     margin-bottom: 10px;
 }
 
-.header {
+/* .header {
     margin-bottom: 20px;
     background-color: black;
+} */
+span {
+    cursor: pointer;
 }
 
 table, th, td {

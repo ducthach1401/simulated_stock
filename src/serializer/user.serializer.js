@@ -2,6 +2,7 @@ module.exports.infoUser = (model) => {
     return {
         name: model.name,
         money: model.money,
+        stockCode: model.stockCode
     }
 }
 
