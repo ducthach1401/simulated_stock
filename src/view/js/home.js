@@ -1,6 +1,6 @@
 var dataStockGobal = profit();
 setInterval(refreshStock, 10000);
-setInterval(getRank, 10000);
+// setInterval(getRank, 10000);
 function refreshStock(){
     dataStockGobal = profit();
 }
