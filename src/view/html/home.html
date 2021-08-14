@@ -61,7 +61,7 @@
             <ul class="m-0">
                 <li>Có thể tham khảo ở các sàn chứng khoán thực tế về biểu đồ tăng giảm</li>
                 <li>Chỉ chơi cho vui không phải tiền thật.</li>
-                <li>Làm lại từ đầu liên hệ: Pha san roi` a`</li>
+                <li>Làm lại từ đầu: Pha san roi` a`</li>
             </ul>
             
         </div>
@@ -81,8 +81,8 @@
             </div>
             <div class="col main">
                 <form class="d-flex w-50 mb-3 float-end">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchStock()" id="search">
+                    <button class="btn btn-outline-light" type="button" onkeyup="searchStock()">Search</button>
                 </form>
                 <table id="exchange" class="w-100">
                     <tr>

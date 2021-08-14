@@ -1,3 +1,5 @@
+// setInterval(updateMoney, 2000);
+
 async function home(){
     window.location.href = '/';
 }
@@ -15,13 +17,54 @@ async function getUserAll(){
     return data;
 }
 
+async function updateMoney(){
+    const users = await getUserAll();
+    for (let user of users){
+        document.getElementById('money' + user._id).innerHTML = Math.round(user.money).toLocaleString('vi-VN');
+    }
+}
 async function showUser(){
     const users = await getUserAll();
     let temp;
+    let count = 0;
+    document.getElementById('user').innerHTML = '';
+
+    row = document.createElement('tr');
+    temp = document.createElement('td');
+    temp.innerHTML = 'ID';
+    row.appendChild(temp);
+
+    temp = document.createElement('td');
+    temp.innerHTML = 'Name';
+    row.appendChild(temp);
+
+    temp = document.createElement('td');
+    temp.innerHTML = 'Money';
+    row.appendChild(temp);
+
+    temp = document.createElement('td');
+    temp.innerHTML = 'Add/Sub Money	';
+    row.appendChild(temp);
+
+    temp = document.createElement('td');
+    temp.innerHTML = 'Add';
+    row.appendChild(temp);
+
+    temp = document.createElement('td');
+    temp.innerHTML = 'Sub';
+    row.appendChild(temp);
+
+    temp = document.createElement('td');
+    temp.innerHTML = 'Delete';
+    row.appendChild(temp);
+
+    document.getElementById('user').appendChild(row);
+
     for (let user of users){
+        count ++;
         row = document.createElement('tr');
         temp = document.createElement('td');
-        temp.innerHTML = user._id;
+        temp.innerHTML = count;
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -30,6 +73,7 @@ async function showUser(){
 
         temp = document.createElement('td');
         temp.innerHTML = Math.round(user.money).toLocaleString('vi-VN');
+        temp.setAttribute('id', 'money' + user._id);
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -66,7 +110,6 @@ async function showUser(){
             temp.appendChild(button);
         }
         row.appendChild(temp);
-
         document.getElementById('user').appendChild(row);
     }
 }
@@ -87,7 +130,8 @@ async function addMoney(id){
             },
         });
         alert('Success');
-        window.location.reload();
+        document.getElementById(id).value = '';
+        updateMoney();
     }  
 }
 
@@ -107,7 +151,8 @@ async function subMoney(id){
             },
         });
         alert('Success');
-        window.location.reload();
+        document.getElementById(id).value = '';
+        updateMoney();
     }
 }
 
@@ -122,6 +167,6 @@ async function deleteAcc(id){
             },
         });
         alert('Success');
-        window.location.reload();
+        showUser();
     }
 }

@@ -1,4 +1,9 @@
 var dataStockGobal = profit();
+setInterval(refreshStock, 10000);
+setInterval(getRank, 10000);
+function refreshStock(){
+    dataStockGobal = profit();
+}
 
 async function getNameOfUser() {
     const url = API_URL + '/user/'
@@ -10,14 +15,22 @@ async function getNameOfUser() {
         },
     });
     let data = await response.json();
-
-    let temp = document.createElement('span');
+    let temp;
+    if (data.roleUser){
+        document.getElementById('admin').innerHTML = '';
+        temp = document.createElement('span');
+        temp.setAttribute('class', 'dropdown-item');
+        temp.setAttribute('onclick', 'admin()');
+        temp.innerHTML = 'Admin';
+        document.getElementById('admin').appendChild(temp);
+    }
+    temp = document.createElement('span');
     temp.innerHTML = data.name;
     document.getElementById('navbarDropdown').appendChild(temp);
 }
 
 async function getUser(){
-    const url = API_URL + '/user/'
+    const url = API_URL + '/user/';
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -29,12 +42,13 @@ async function getUser(){
     
     let temp = document.createElement('p');
     temp.innerHTML = 'Name: ' + data.name;
+    document.getElementById('information').innerHTML = '';
     document.getElementById('information').appendChild(temp);
 
     temp = document.createElement('p');
     temp.innerHTML = 'Money: ' + data.money.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
     document.getElementById('information').appendChild(temp);
-
+    
     temp = document.createElement('p');
     temp.innerHTML = 'Capital: ' + data.capital.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
     document.getElementById('information').appendChild(temp);
@@ -44,6 +58,7 @@ async function getUser(){
     document.getElementById('information').appendChild(temp);
 
     if (data.roleUser){
+        document.getElementById('admin').innerHTML = '';
         temp = document.createElement('span');
         temp.setAttribute('class', 'dropdown-item');
         temp.setAttribute('onclick', 'admin()');
@@ -164,6 +179,7 @@ async function getUser(){
         tableSell.appendChild(rowSell);
         table.appendChild(row);
     }
+    document.getElementById('user-information').innerHTML = '';
     document.getElementById('user-information').appendChild(table);
     document.getElementById('user-information').appendChild(tableSell);
 
@@ -283,6 +299,7 @@ async function getRank(){
         // }
     }
     table.appendChild(tbody);
+    document.getElementById("table-ranking").innerHTML = '';
     document.getElementById("table-ranking").appendChild(table);
 }
 
@@ -292,6 +309,7 @@ async function logout(){
 
 async function showStock(){
     const data =  await dataStockGobal;
+    setInterval(updatePrice, 10000);
     for (let stock in data){
         row = document.createElement('tr')
         temp = document.createElement('td');
@@ -343,7 +361,7 @@ async function showStock(){
         button = document.createElement('button');
         button.value = stock;
         button.innerHTML = 'Buy';
-        button.setAttribute('class', "btn btn-success")
+        button.setAttribute('class', "btn btn-success btn" + stock);
         button.setAttribute('onclick', 'buyStock(this.value)');
         temp.appendChild(button);
         row.appendChild(temp);
@@ -365,6 +383,8 @@ async function getUserID() {
 }
 
 async function buyStock(code){
+    let button = document.getElementsByClassName('btn' + code);
+    button.disabled = true;
     const user = await getUserID();
     const stock = await dataStockGobal;
     const url = API_URL + '/user/' + user._id + '/stock';
@@ -375,31 +395,37 @@ async function buyStock(code){
             weight: parseInt(weight),
             cost: parseInt(stock[code][3])
         }
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify(payload),
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        let data = await response.json();
-        if (data.Money){
-            alert('Buy Success');
-            window.location.reload();
-        }
-        else {
-            alert("Don't enough money or Error");
-            // window.location.reload();
+        if (window.confirm('Do you buy ' + code + ' weight = ' + weight)){
+            const response = await fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(payload),
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            let data = await response.json();
+            if (data.Money){
+                alert('Buy Success');
+                document.getElementById(code).value = '';
+                getUser();
+            }
+            else {
+                alert("Don't enough money or Error");
+                // window.location.reload();
+            }
         }
     }
     else {
         alert('Please input integer number');
     }
+    button.disabled = false;
 }
 
 async function sellStock(){
     const user = await getUserID();
+    let button = document.getElementsByClassName('sellButton');
+    button.disabled = true;
     const url = API_URL + '/user/' + user._id + '/stock';
     const table = document.getElementById('tableSell');
     let stock;
@@ -414,21 +440,24 @@ async function sellStock(){
                     weight: weightSell,
                     cost: parseInt(dataStock[stock][3])
                 }
-                const response = await fetch(url, {
-                    method: 'DELETE',
-                    body: JSON.stringify(payload),
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                let data = await response.json();
-                if (data.money){
-                    alert('Sell Success');
-                    window.location.reload();
-                }
-                else {
-                    alert("Don't enough weight or Error");
+                if (window.confirm('Do you want to them?')){
+                    const response = await fetch(url, {
+                        method: 'DELETE',
+                        body: JSON.stringify(payload),
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    let data = await response.json();
+                    if (data.money){
+                        alert('Sell Success');
+                        document.getElementById(stock + 'S').value = '';
+                        getUser();
+                    }
+                    else {
+                        alert("Don't enough weight or Error");
+                    }
                 }
             }
             else {
@@ -436,6 +465,7 @@ async function sellStock(){
             }
         }
     }
+    button.disabled = false;
 }
 
 async function profit(){
@@ -462,4 +492,30 @@ async function changePassword(){
 
 async function admin(){
     window.location.href = '/admin';
+}
+
+async function updatePrice(){
+    const data = await dataStockGobal;
+    for (let stock in data){
+        document.getElementById('price' + stock).innerHTML = data[stock][3].toLocaleString('vi-VN');
+    }
+}
+
+function searchStock() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("exchange");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+            } else {
+            tr[i].style.display = "none";
+            }
+        }       
+    }
 }
