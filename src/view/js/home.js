@@ -394,22 +394,22 @@ async function showStock(){
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        temp.classList.add('cyan');
+        temp.classList.add('magenta');
         temp.innerHTML = data[stock][1].toLocaleString('vi-VN');
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        temp.classList.add('magenta');
+        temp.classList.add('cyan');
         temp.innerHTML = data[stock][2].toLocaleString('vi-VN');
         row.appendChild(temp);
 
         temp = document.createElement('td');
         temp.setAttribute('id', 'price' + stock);
         if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
-            temp.classList.add('cyan');
+            temp.classList.add('magenta');
         }
         else  if (parseInt(data[stock][3]) == parseInt(data[stock][2])){
-            temp.classList.add('magenta');
+            temp.classList.add('cyan');
         }
         else if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
             temp.classList.add('green');
@@ -572,10 +572,10 @@ async function updatePrice(){
     for (let stock in data){
         temp = document.getElementById('price' + stock);
         if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
-            temp.className = 'cyan';
+            temp.className = 'magenta';
         }
         else  if (parseInt(data[stock][3]) == parseInt(data[stock][2])){
-            temp.className = 'magenta';
+            temp.className = 'cyan';
         }
         else if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
             temp.className = 'green';
