@@ -1,5 +1,6 @@
 var dataStockGobal = profit();
 setInterval(refreshStock, 10000);
+
 // setInterval(getRank, 10000);
 function refreshStock(){
     dataStockGobal = profit();
@@ -196,8 +197,75 @@ async function getUser(){
     document.getElementById('user-information').appendChild(button);
 }
 
-async function tableinfo(data){
+async function updateTableInfo(user, cost){
+    let table = document.getElementById('tableinfo');
+    table.innerHTML = '';
+    row = document.createElement('tr');
 
+    temp = document.createElement('th');
+    temp.innerHTML = 'Code';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Capital';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Current Price';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Profit';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Percent';
+    row.appendChild(temp);
+
+    table.appendChild(row);
+    for (let stock of user.stockCode){
+        row = document.createElement('tr');
+
+        code = document.createElement('td');
+        code.innerHTML = stock.code;
+        row.appendChild(code);
+
+        capital = document.createElement('td');
+        capital.innerHTML = stock.capital.toLocaleString('vi-VN');
+        capital.setAttribute('class', 'orange');
+        row.appendChild(capital);
+
+        temp = document.createElement('td');
+        tempCost = cost[stock.code][3] * stock.weight * 0.999;
+        if (tempCost >= stock.capital){
+            temp.setAttribute('class', 'green');
+        }
+        else {
+            temp.setAttribute('class', 'red');
+        }
+        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999).toLocaleString('vi-VN');
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        if ((cost[stock.code][3] * stock.weight * 0.999 - stock.capital) >= 0){
+            temp.setAttribute('class', 'green');
+        }
+        else {
+            temp.setAttribute('class', 'red');
+        }
+        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999 - stock.capital).toLocaleString('vi-VN');
+        row.appendChild(temp);
+        percent = document.createElement('td');
+        if ((Math.round(tempCost / stock.capital * 10000)/100) >= 100){
+            percent.setAttribute('class', 'green');
+        }
+        else {
+            percent.setAttribute('class', 'red');
+        }
+        percent.innerHTML = Math.round(tempCost / stock.capital * 10000)/100 + ' %';
+        row.appendChild(percent);
+        table.appendChild(row);
+    }
 }
 
 async function totalBill(){
@@ -500,6 +568,7 @@ async function admin(){
 
 async function updatePrice(){
     const data = await dataStockGobal;
+    const user = await getUserID();
     for (let stock in data){
         temp = document.getElementById('price' + stock);
         if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
@@ -519,6 +588,7 @@ async function updatePrice(){
         }
         temp.innerHTML = data[stock][3].toLocaleString('vi-VN');
     }
+    updateTableInfo(user,data);
 }
 
 function searchStock() {
