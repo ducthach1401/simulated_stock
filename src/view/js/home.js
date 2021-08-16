@@ -98,11 +98,11 @@ async function getUser(){
     row.appendChild(temp);
 
     temp = document.createElement('th');
-    temp.innerHTML = 'Current Price'
+    temp.innerHTML = 'Current Price';
     row.appendChild(temp);
 
     temp = document.createElement('th');
-    temp.innerHTML = 'Profit Loss'
+    temp.innerHTML = 'Profit';
     row.appendChild(temp);
 
     temp = document.createElement('th');
