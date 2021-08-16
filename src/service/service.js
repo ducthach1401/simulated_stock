@@ -76,10 +76,10 @@ module.exports.addMoney = async (id, money) => {
     try {
         let result = await User.updateOne(id, {
             $inc: {money: money.money}
-        })
+        });
         result = await User.updateOne(id, {
             $inc: {capital: money.money}
-        })
+        });
         return result;
     } catch (error) {
         throw error;
@@ -88,7 +88,8 @@ module.exports.addMoney = async (id, money) => {
 
 module.exports.subMoney = async (id, money) => {
     try {
-        const result = await User.updateOne(id, {$inc: {money: -money.money}})
+        let result = await User.updateOne(id, {$inc: {money: -money.money}});
+        result = await User.updateOne(id, {$inc: {capital: -money.money}})
         return result;
     } catch (error) {
         throw error;
