@@ -196,6 +196,10 @@ async function getUser(){
     document.getElementById('user-information').appendChild(button);
 }
 
+async function tableinfo(data){
+
+}
+
 async function totalBill(){
     const user = await getUserID();
     const priceStock = await dataStockGobal;
@@ -497,7 +501,23 @@ async function admin(){
 async function updatePrice(){
     const data = await dataStockGobal;
     for (let stock in data){
-        document.getElementById('price' + stock).innerHTML = data[stock][3].toLocaleString('vi-VN');
+        temp = document.getElementById('price' + stock);
+        if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
+            temp.className = 'cyan';
+        }
+        else  if (parseInt(data[stock][3]) == parseInt(data[stock][2])){
+            temp.className = 'magenta';
+        }
+        else if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
+            temp.className = 'green';
+        }
+        else  if (parseInt(data[stock][3]) < parseInt(data[stock][0])){
+            temp.className = 'red';
+        }
+        else {
+            temp.className = 'orange';
+        }
+        temp.innerHTML = data[stock][3].toLocaleString('vi-VN');
     }
 }
 
