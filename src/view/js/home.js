@@ -170,11 +170,11 @@ async function getUser(){
         temp = document.createElement('td');
         input = document.createElement('input');
         input.setAttribute("id", stock.code + "S");
+        temp.setAttribute('onkeyup', 'totalBill()');
         temp.appendChild(input);
         rowSell.appendChild(temp);
 
         temp = document.createElement('td');
-        
         rowSell.appendChild(temp);
 
         tableSell.appendChild(rowSell);
@@ -279,7 +279,7 @@ async function totalBill(){
         weightSell = parseInt(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell) && (weightSell > 0)){
             price = parseInt(priceStock[stock][3]);
-            table.childNodes[row].childNodes[3].innerHTML = (price *  weightSell).toLocaleString('vi-VN');
+            table.childNodes[row].childNodes[3].innerHTML = (price *  weightSell * 0.999).toLocaleString('vi-VN');
         }
         else {
             table.childNodes[row].childNodes[3].innerHTML = 0;
@@ -425,8 +425,14 @@ async function showStock(){
 
         temp = document.createElement('td');
         input = document.createElement('input');
+        input.setAttribute('onkeyup', 'totalCode(this.id)');
         input.setAttribute("id", stock);
         temp.appendChild(input);
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        temp.setAttribute('id', 'total' + stock);
+        temp.setAttribute('class', 'total');
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -438,6 +444,20 @@ async function showStock(){
         temp.appendChild(button);
         row.appendChild(temp);
         document.getElementById('exchange').append(row);
+    }
+}
+
+async function totalCode(id){
+    let total = document.getElementById('total' + id);
+    let weight = document.getElementById(id).value;
+    if (!isNaN(weight) && (weight)){
+        const user = await getUserID();
+        const priceStock = await dataStockGobal;
+        const currentPrice = priceStock[id][3];
+        total.innerHTML = Math.round(parseInt(weight) * currentPrice).toLocaleString('vi-VN');
+    }
+    else {
+        total.innerHTML = '';
     }
 }
 

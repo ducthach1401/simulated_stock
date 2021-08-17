@@ -86,4 +86,12 @@ h5 {
 .sellButton, .totalButton {
     margin-top: 10px;
     margin-left: 10px;
-  }
+}
+
+.total {
+    width: 130px;
+}
+
+#exchange input {
+    width: 50px;
+}
