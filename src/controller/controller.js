@@ -149,9 +149,14 @@ module.exports.login = async (req, res) => {
 }
 
 module.exports.refresh = async (req, res) => {
-    const refreshToken = req.body.refreshToken;
-    const accessToken = await this.userService.regenerateAccessToken(refreshToken);
-    if (accessToken) res.status(200).json(accessToken);
+    const refreshToken = req.cookies.refresh_token;
+    const token = await service.regenerateAccessToken(refreshToken);
+    if (token) {
+        res.cookie('access_token',token.accessToken, {
+        httpOnly: true,
+        });
+        res.status(200).json({success: 'ok'});
+    }
     else res.sendStatus(403);
 }
 
@@ -167,5 +172,5 @@ module.exports.getCost = async (req, res) => {
 module.exports.getAllStock = async (req, res) => {
     const result = await getStocks();
     res.json(result);
-}
+} 
 

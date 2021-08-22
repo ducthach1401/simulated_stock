@@ -33,8 +33,8 @@ router.route('/register')
 router.route('/login')
     .post(commonValidateBody(schemaValidate.loginSchema), controller.login)
 
-router.route('/refresh')
-    .post(authenticateToken, controller.refresh)
+// router.route('/v1/refresh')
+//     .get(authenticateToken, controller.refresh)
 
 router.route('/:id/stocks')
     .get(authenticateToken, controller.getAllStock)

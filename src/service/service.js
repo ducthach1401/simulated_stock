@@ -206,12 +206,14 @@ module.exports.login = async(data) =>{
 
 module.exports.regenerateAccessToken = async (refreshToken) => {
     try {
-        const user = await User.find({refreshToken: refreshToken});
+        const user = await User.findOne({refreshToken: refreshToken});
         if (user) {
             const payload = {
-                username: user.username
+                _id: user._id,
+                username: user.username,
+                roleUser: user.roleUser
             }
-            const user = await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+            const userRefresh = await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '6h'});
             return {
                 accessToken: accessToken
