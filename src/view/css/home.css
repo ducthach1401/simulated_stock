@@ -95,3 +95,7 @@ h5 {
 #exchange input {
     width: 50px;
 }
+
+.container {
+    max-width: 1400px;
+}
