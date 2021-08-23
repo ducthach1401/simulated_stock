@@ -1,7 +1,6 @@
 var dataStockGobal = profit();
-setInterval(refreshStock, 10000);
+setInterval(refreshStock, 5000);
 
-// setInterval(getRank, 10000);
 function refreshStock(){
     dataStockGobal = profit();
 }
@@ -463,7 +462,7 @@ async function totalCode(id){
 
 async function getUserID() {
     const url = API_URL + '/user/'
-    const response = await fetch(url, {
+    let response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
         headers: {

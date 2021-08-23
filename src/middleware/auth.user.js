@@ -13,8 +13,7 @@ module.exports = async function authenticateToken (req, res, next) {
             next();
         }
         catch(err) {
-            await controller.refresh(req, res);
-            // res.sendStatus(403);
+            res.sendStatus(403);
         }
     }
     else {
