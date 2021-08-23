@@ -34,6 +34,7 @@ router.get('/register', function (req, res) {
 router.get('/logout', function (req, res) {
         res.clearCookie("access_token");
         res.clearCookie("refresh_token");
+        res.clearCookie("exp");
         res.redirect("/");
 });
 

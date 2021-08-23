@@ -16,10 +16,11 @@ async function login() {
     const token = await response.json();
     if (token.message) {
         alert("User wrong or Password wrong");
-        window.location.href = '/'
+        window.location.href = '/';
     }
     else {
-        window.location.href = '/'
+        document.cookie = 'exp=' + Date.now();
+        window.location.href = '/';
     }
 }
 
