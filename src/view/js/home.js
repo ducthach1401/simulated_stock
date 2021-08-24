@@ -591,7 +591,6 @@ async function updatePrice(){
     for (let stock in data){
         temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][3].toLocaleString('vi-VN')){
-            console.log(temp.innerHTML + ' ' + data[stock][3].toLocaleString('vi-VN'));
             if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
                 temp.className = 'magenta';
             }
