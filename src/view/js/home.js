@@ -184,13 +184,13 @@ async function getUser(){
     document.getElementById('user-information').appendChild(tableSell);
 
     button = document.createElement('button');
-    button.setAttribute('class', "btn btn-danger sellButton")
+    button.setAttribute('class', "btn btn-outline-warning sellButton")
     button.innerHTML = 'Sell';
     button.setAttribute('onclick', 'sellStock()');
     document.getElementById('user-information').appendChild(button);
 
     button = document.createElement('button');
-    button.setAttribute('class', "btn btn-info totalButton");
+    button.setAttribute('class', "btn btn-outline-light totalButton");
     button.innerHTML = 'Total money';
     button.setAttribute('onclick', 'totalBill()');
     document.getElementById('user-information').appendChild(button);
@@ -438,7 +438,7 @@ async function showStock(){
         button = document.createElement('button');
         button.value = stock;
         button.innerHTML = 'Buy';
-        button.setAttribute('class', "btn btn-success btn" + stock);
+        button.setAttribute('class', "btn btn-outline-info btn" + stock);
         button.setAttribute('onclick', 'buyStock(this.value)');
         temp.appendChild(button);
         row.appendChild(temp);

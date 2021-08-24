@@ -24,7 +24,7 @@ span {
 }
 
 table, th, td {
-    border: 2px solid whitesmoke;
+    border: 1px solid whitesmoke;
     padding: 10px;
     background-color: black;
 }
@@ -86,6 +86,7 @@ h5 {
 .sellButton, .totalButton {
     margin-top: 10px;
     margin-left: 10px;
+    width: 120px;
 }
 
 .total {

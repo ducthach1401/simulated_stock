@@ -85,7 +85,7 @@ async function showUser(){
         temp = document.createElement('td');
         button = document.createElement('button');
         button.innerHTML = "Add";
-        button.setAttribute('class', 'btn btn-success')
+        button.setAttribute('class', 'btn btn-outline-info')
         button.setAttribute('onclick', 'addMoney(this.value)');
         button.setAttribute('value', user._id);
         temp.appendChild(button);
@@ -93,7 +93,7 @@ async function showUser(){
 
         temp = document.createElement('td');
         button = document.createElement('button');
-        button.setAttribute('class', 'btn btn-secondary')
+        button.setAttribute('class', 'btn btn-outline-light')
         button.setAttribute('onclick', 'subMoney(this.value)');
         button.setAttribute('value', user._id);
         button.innerHTML = "Sub";
@@ -103,7 +103,7 @@ async function showUser(){
         temp = document.createElement('td');
         if (!user.roleUser){
             button = document.createElement('button');
-            button.setAttribute('class', 'btn btn-danger');
+            button.setAttribute('class', 'btn btn-outline-danger');
             button.setAttribute('onclick', 'deleteAcc(this.value)');
             button.setAttribute('value', user._id);
             button.innerHTML = "Delete";
