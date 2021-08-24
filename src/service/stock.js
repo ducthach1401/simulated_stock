@@ -7,11 +7,11 @@ module.exports.getStocks = async () => {
         let result = {};
         for (let stock of stocks){
             let cost;
-            if (isNaN(stock.o)){
-                if (!isNaN(stock.l)){
+            if (isNaN(stock.o) || (stock.o <= 0)){
+                if (!isNaN(stock.l) && (stock.l > 0)){
                     cost = stock.l * 1000;
                 }
-                else if (!isNaN(stock.q)){
+                else if (!isNaN(stock.q) && (stock.q > 0)){
                     cost = stock.q * 1000;
                 }
                 else {
