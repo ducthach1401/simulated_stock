@@ -4,13 +4,22 @@ async function register() {
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('confirm-password').value;
     if (name.length > 20){
-        alert("Name must be less than 20 characters");
+        Swal.fire({
+            title: "Name must be less than 20 characters",
+            icon: 'error'
+        });
     }
     else if (username.length > 20) {
-        alert("Username must be less than 20 characters");
+        Swal.fire({
+            title: "Username must be less than 20 characters",
+            icon: 'error'
+        });
     }
     else if (passwordConfirm != password){
-        alert('Password does not match');
+        Swal.fire({
+            title: "Password does not match",
+            icon: 'error'
+        });
     }
     else {
         const url = API_URL + '/user/register';
@@ -28,11 +37,19 @@ async function register() {
         });
         const token = await response.json();
         if (!token.success) {
-            alert(token.message);
+            Swal.fire({
+                title: token.message,
+                icon: 'error'
+            });
         }
         else {
-            alert("Register Success");
-            window.location.href = '/'
+            Swal.fire({
+                title: "Register Success",
+                icon: 'success'
+            });
+            setTimeout(() => {
+                window.location.href = '/'
+            }, 1000);
         }
     }
 }

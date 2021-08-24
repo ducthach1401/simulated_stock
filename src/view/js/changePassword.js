@@ -15,11 +15,19 @@ async function changePassword() {
                 'Content-Type': 'application/json',
             },
         });
-        alert("Success and Login again")
-        window.location.href = '/logout';
+        Swal.fire({
+            title: "Success and Login again",
+            icon: 'success'
+        });
+        setTimeout(() => {
+            window.location.href = '/logout';
+        }, 1000);
     }
     else {
-        alert("Password don't match");
+        Swal.fire({
+            title: "Password don't match",
+            icon: 'error'
+        });
     }
 }
 

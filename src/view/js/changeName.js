@@ -3,7 +3,10 @@ async function changeName() {
     const url = API_URL + '/user/' + user._id;
     const name = document.getElementById('name').value;
     if (name.length > 20){
-        alert('Name must be less than 20 characters')
+        Swal.fire({
+            title: "Name must be less than 20 characters",
+            icon: 'error'
+        });
     }
     else {
         const payload = {
@@ -17,7 +20,13 @@ async function changeName() {
                 'Content-Type': 'application/json',
             },
         });
-        window.location.href = '/';
+        Swal.fire({
+            title: "Change Name",
+            icon: 'success'
+        });
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 1000);
     }
 }
 

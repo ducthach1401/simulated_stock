@@ -486,7 +486,13 @@ async function buyStock(code){
             weight: parseInt(weight),
             cost: parseInt(stock[code][3])
         }
-        if (window.confirm('Do you buy ' + code + ' weight = ' + weight)){
+        const confirmBuy = await Swal.fire({
+            title: 'Do you buy ' + code + '?',
+            icon: 'question',
+            confirmButtonText: 'Buy',
+            showCancelButton: true
+        });
+        if (confirmBuy.isConfirmed) {
             const response = await fetch(url, {
                 method: 'PUT',
                 body: JSON.stringify(payload),
@@ -497,18 +503,26 @@ async function buyStock(code){
             });
             let data = await response.json();
             if (data.Money){
-                alert('Buy Success');
+                Swal.fire({
+                    title: 'Buy Success',
+                    icon: 'success'
+                });
                 document.getElementById(code).value = '';
                 getUser();
             }
             else {
-                alert("Don't enough money or Error");
-                // window.location.reload();
+                Swal.fire({
+                    title: "Don't enough money or Error",
+                    icon: 'error'
+                });
             }
         }
     }
     else {
-        alert('Please input integer number');
+        Swal.fire({
+            title: "Please input integer number",
+            icon: 'error'
+        });
     }
     button.disabled = false;
 }
@@ -531,7 +545,13 @@ async function sellStock(){
                     weight: weightSell,
                     cost: parseInt(dataStock[stock][3])
                 }
-                if (window.confirm('Do you want to them?')){
+                const confirmSell = await Swal.fire({
+                    title: 'Do you sell ' + stock + '?',
+                    icon: 'question',
+                    confirmButtonText: 'Sell',
+                    showCancelButton: true
+                });
+                if (confirmSell.isConfirmed) {
                     const response = await fetch(url, {
                         method: 'DELETE',
                         body: JSON.stringify(payload),
@@ -542,18 +562,33 @@ async function sellStock(){
                     });
                     let data = await response.json();
                     if (data.money){
-                        alert('Sell Success');
+                        Swal.fire({
+                            title: "Sell Success",
+                            icon: 'success'
+                        });
                         document.getElementById(stock + 'S').value = '';
                         getUser();
                     }
                     else {
-                        alert("Don't enough weight or Error");
+                        Swal.fire({
+                            title: "Don't enough weight or Error",
+                            icon: 'error'
+                        });
                     }
                 }
             }
             else {
-                alert('Please input integer number');
+                Swal.fire({
+                    title: "Please input integer number",
+                    icon: 'error'
+                });
             }
+        }
+        else {
+            Swal.fire({
+                title: "Please input integer number",
+                icon: 'error'
+            });
         }
     }
     button.disabled = false;

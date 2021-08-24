@@ -15,12 +15,23 @@ async function login() {
     });
     const token = await response.json();
     if (token.message) {
-        alert("User wrong or Password wrong");
-        window.location.href = '/';
+        Swal.fire({
+            title: "User wrong or Password wrong",
+            icon: 'error'
+        });
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 1000);
     }
     else {
         document.cookie = 'exp=' + Date.now();
-        window.location.href = '/';
+        Swal.fire({
+            title: "Login Success",
+            icon: 'success'
+        });
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 1000);
     }
 }
 

@@ -120,7 +120,13 @@ async function addMoney(id){
     const payload = {
         money: money
     }
-    if (window.confirm('add Money?')){
+    const confirmAdd = await Swal.fire({
+        title: 'Do you add money ' + money + '?',
+        icon: 'question',
+        confirmButtonText: 'Add',
+        showCancelButton: true
+    });
+    if (confirmAdd.isConfirmed) {
         const response = await fetch(url, {
             method: 'PUT',
             body: JSON.stringify(payload),
@@ -129,7 +135,10 @@ async function addMoney(id){
                 'Content-Type': 'application/json',
             },
         });
-        alert('Success');
+        Swal.fire({
+            title: "Success",
+            icon: 'success'
+        });
         document.getElementById(id).value = '';
         updateMoney();
     }  
@@ -141,7 +150,13 @@ async function subMoney(id){
     const payload = {
         money: money
     }
-    if (window.confirm('Sub money?')){
+    const confirmSub = await Swal.fire({
+        title: 'Do you sub money ' + money + '?',
+        icon: 'question',
+        confirmButtonText: 'Add',
+        showCancelButton: true
+    });
+    if (confirmSub.isConfirmed) {
         const response = await fetch(url, {
             method: 'DELETE',
             body: JSON.stringify(payload),
@@ -150,7 +165,10 @@ async function subMoney(id){
                 'Content-Type': 'application/json',
             },
         });
-        alert('Success');
+        Swal.fire({
+            title: "Success",
+            icon: 'success'
+        });        
         document.getElementById(id).value = '';
         updateMoney();
     }
@@ -158,7 +176,13 @@ async function subMoney(id){
 
 async function deleteAcc(id){
     const url = API_URL + '/user/' + id;
-    if (window.confirm('Delete???')){
+    const confirmDel = await Swal.fire({
+        title: 'Do you delete this account?',
+        icon: 'question',
+        confirmButtonText: 'Add',
+        showCancelButton: true
+    });
+    if (confirmDel.isConfirmed) {
         const response = await fetch(url, {
             method: 'DELETE',
             credentials: 'include',
@@ -166,7 +190,10 @@ async function deleteAcc(id){
                 'Content-Type': 'application/json',
             },
         });
-        alert('Success');
+        Swal.fire({
+            title: "Delete Success",
+            icon: 'success'
+        });
         showUser();
     }
 }
