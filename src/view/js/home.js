@@ -590,22 +590,26 @@ async function updatePrice(){
     const user = await getUserID();
     for (let stock in data){
         temp = document.getElementById('price' + stock);
-        if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
-            temp.className = 'magenta';
+        if (temp.innerHTML != data[stock][3].toLocaleString('vi-VN')){
+            console.log(temp.innerHTML + ' ' + data[stock][3].toLocaleString('vi-VN'));
+            if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
+                temp.className = 'magenta';
+            }
+            else  if (parseInt(data[stock][3]) == parseInt(data[stock][2])){
+                temp.className = 'cyan';
+            }
+            else if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
+                temp.className = 'green';
+            }
+            else  if (parseInt(data[stock][3]) < parseInt(data[stock][0])){
+                temp.className = 'red';
+            }
+            else {
+                temp.className = 'orange';
+            }
+            temp.className += ' highlight';
+            temp.innerHTML = data[stock][3].toLocaleString('vi-VN');
         }
-        else  if (parseInt(data[stock][3]) == parseInt(data[stock][2])){
-            temp.className = 'cyan';
-        }
-        else if (parseInt(data[stock][3]) > parseInt(data[stock][0])){
-            temp.className = 'green';
-        }
-        else  if (parseInt(data[stock][3]) < parseInt(data[stock][0])){
-            temp.className = 'red';
-        }
-        else {
-            temp.className = 'orange';
-        }
-        temp.innerHTML = data[stock][3].toLocaleString('vi-VN');
     }
     updateTableInfo(user,data);
 }
