@@ -104,9 +104,9 @@ h5 {
 .highlight {
     animation-name: changebackground;
     animation-duration: 2s;
-
 }
 
 @keyframes changebackground {
+    from {background-color: black;}
     to {background-color: gold;}
 }

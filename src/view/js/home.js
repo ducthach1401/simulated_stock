@@ -624,7 +624,7 @@ async function updatePrice(){
     const data = await dataStockGobal;
     const user = await getUserID();
     for (let stock in data){
-        temp = document.getElementById('price' + stock);
+        let temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][3].toLocaleString('vi-VN')){
             if (parseInt(data[stock][3]) == parseInt(data[stock][1])){
                 temp.className = 'magenta';
@@ -643,6 +643,9 @@ async function updatePrice(){
             }
             temp.className += ' highlight';
             temp.innerHTML = data[stock][3].toLocaleString('vi-VN');
+            setTimeout(()=>{
+                temp.classList.remove('highlight');
+            }, 2000)
         }
     }
     updateTableInfo(user,data);
