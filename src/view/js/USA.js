@@ -1,5 +1,5 @@
 var dataStockGobal = profit();
-setInterval(refreshStock, 30000);
+setInterval(refreshStock, 10000);
 
 function refreshStock(){
     dataStockGobal = profit();
@@ -30,7 +30,7 @@ async function getNameOfUser() {
 }
 
 async function getUser(){
-    const url = API_URL + '/user/';
+    const url = API_URL + '/userUSA/';
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -46,15 +46,15 @@ async function getUser(){
     document.getElementById('information').appendChild(temp);
 
     temp = document.createElement('p');
-    temp.innerHTML = 'Money: ' + data.money.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+    temp.innerHTML = 'Money: ' + data.money.toLocaleString('en-US', {style : 'currency', currency : 'USD'});
     document.getElementById('information').appendChild(temp);
     
     temp = document.createElement('p');
-    temp.innerHTML = 'Capital: ' + data.capital.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+    temp.innerHTML = 'Capital: ' + data.capital.toLocaleString('en-US', {style : 'currency', currency : 'USD'});
     document.getElementById('information').appendChild(temp);
 
     temp = document.createElement('p');
-    temp.innerHTML = 'Earning: ' + data.earning.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+    temp.innerHTML = 'Earning: ' + data.earning.toLocaleString('en-US', {style : 'currency', currency : 'USD'});
     document.getElementById('information').appendChild(temp);
 
     if (data.roleUser){
@@ -126,11 +126,11 @@ async function getUser(){
         rowSell.appendChild(code);
 
         capital = document.createElement('td');
-        capital.innerHTML = stock.weight.toLocaleString('vi-VN');
+        capital.innerHTML = stock.weight.toLocaleString('en-US');
         rowSell.appendChild(capital);
 
         capital = document.createElement('td');
-        capital.innerHTML = stock.capital.toLocaleString('vi-VN');
+        capital.innerHTML = stock.capital.toLocaleString('en-US');
         capital.setAttribute('class', 'orange');
         row.appendChild(capital);
 
@@ -142,7 +142,7 @@ async function getUser(){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999).toLocaleString('vi-VN');
+        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999) * 100) /100).toLocaleString('en-US');
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -152,7 +152,7 @@ async function getUser(){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999 - stock.capital).toLocaleString('vi-VN');
+        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999 - stock.capital )* 100) /100).toLocaleString('en-US');
         row.appendChild(temp);
 
 
@@ -230,7 +230,7 @@ async function updateTableInfo(user, cost){
         row.appendChild(code);
 
         capital = document.createElement('td');
-        capital.innerHTML = stock.capital.toLocaleString('vi-VN');
+        capital.innerHTML = stock.capital.toLocaleString('en-US');
         capital.setAttribute('class', 'orange');
         row.appendChild(capital);
 
@@ -242,7 +242,7 @@ async function updateTableInfo(user, cost){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999).toLocaleString('vi-VN');
+        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999).toLocaleString('en-US');
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -252,7 +252,7 @@ async function updateTableInfo(user, cost){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999 - stock.capital).toLocaleString('vi-VN');
+        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999 - stock.capital).toLocaleString('en-US');
         row.appendChild(temp);
         percent = document.createElement('td');
         if ((Math.round(tempCost / stock.capital * 10000)/100) >= 100){
@@ -278,7 +278,7 @@ async function totalBill(){
         weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell) && (weightSell > 0)){
             price = parseFloat(priceStock[stock][3]);
-            table.childNodes[row].childNodes[3].innerHTML = (price *  weightSell * 0.999).toLocaleString('vi-VN');
+            table.childNodes[row].childNodes[3].innerHTML = (Math.round(price *  weightSell * 0.999 * 100) / 100).toLocaleString('en-US');
         }
         else {
             table.childNodes[row].childNodes[3].innerHTML = 0;
@@ -287,7 +287,7 @@ async function totalBill(){
 }
 
 async function getRank(){
-    const url = API_URL + "/user/all";
+    const url = API_URL + "/userUSA/all";
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -341,7 +341,7 @@ async function getRank(){
     for (let acc of data){
         count ++;
         // temp = document.createElement('p');
-        // temp.innerHTML = count + '. ' + acc.name + ": " + acc.total.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'});
+        // temp.innerHTML = count + '. ' + acc.name + ": " + acc.total.toLocaleString('en-US', {style : 'currency', currency : 'USD'});
         // document.getElementById('ranking').appendChild(temp);
         
         
@@ -356,11 +356,11 @@ async function getRank(){
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        temp.innerHTML = acc.profit.toLocaleString('vi-VN');
+        temp.innerHTML = acc.profit.toLocaleString('en-US');
         row.appendChild(temp);
         
         temp = document.createElement('td');
-        temp.innerHTML = acc.total.toLocaleString('vi-VN');
+        temp.innerHTML = acc.total.toLocaleString('en-US');
         row.appendChild(temp);
 
         tbody.appendChild(row);
@@ -380,7 +380,7 @@ async function logout(){
 
 async function showStock(){
     const data =  await dataStockGobal;
-    setInterval(updatePrice, 30000);
+    setInterval(updatePrice, 10000);
     for (let stock in data){
         row = document.createElement('tr')
         temp = document.createElement('td');
@@ -453,7 +453,7 @@ async function totalCode(id){
         const user = await getUserID();
         const priceStock = await dataStockGobal;
         const currentPrice = priceStock[id][3];
-        total.innerHTML = Math.round(parseFloat(weight) * currentPrice).toLocaleString('vi-VN');
+        total.innerHTML = (Math.round(parseFloat(weight) * currentPrice * 100) / 100).toLocaleString('en-US');
     }
     else {
         total.innerHTML = '';
@@ -461,7 +461,7 @@ async function totalCode(id){
 }
 
 async function getUserID() {
-    const url = API_URL + '/user/'
+    const url = API_URL + '/userUSA/'
     let response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -474,18 +474,18 @@ async function getUserID() {
 }
 
 async function buyStock(code){
-    if (true){
-        Swal.fire({
-            title: "Experiment",
-            icon: 'error'
-        });
-        return true;
-    }
+    // if (true){
+    //     Swal.fire({
+    //         title: "Experiment",
+    //         icon: 'error'
+    //     });
+    //     return true;
+    // }
     let button = document.getElementsByClassName('btn' + code);
     button.disabled = true;
     const user = await getUserID();
     const stock = await dataStockGobal;
-    const url = API_URL + '/user/' + user._id + '/stock';
+    const url = API_URL + '/userUSA/' + user._id + '/stock';
     const weight = document.getElementById(code).value;
     if (!isNaN(weight) && (weight > 0)){
         payload = {
@@ -518,6 +518,7 @@ async function buyStock(code){
                 getUser();
             }
             else {
+                console.log(data);
                 Swal.fire({
                     title: "Don't enough money or Error",
                     icon: 'error'
@@ -538,7 +539,7 @@ async function sellStock(){
     const user = await getUserID();
     let button = document.getElementsByClassName('sellButton');
     button.disabled = true;
-    const url = API_URL + '/user/' + user._id + '/stock';
+    const url = API_URL + '/userUSA/' + user._id + '/stock';
     const table = document.getElementById('tableSell');
     let stock;
     const dataStock = await dataStockGobal;
@@ -591,7 +592,8 @@ async function sellStock(){
                 });
             }
         }
-        else {
+        
+        else if (document.getElementById(stock + 'S').value) {
             Swal.fire({
                 title: "Please input integer number",
                 icon: 'error'
@@ -603,7 +605,7 @@ async function sellStock(){
 
 async function profit(){
     user = await getUserID();
-    url = API_URL + '/userUSA/getStock';
+    url = API_URL + '/userUSA/'+ user._id +'/stock';
     response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -632,7 +634,7 @@ async function updatePrice(){
     const user = await getUserID();
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
-        if (temp.innerHTML != data[stock][3]){
+        if (temp.innerHTML != data[stock][3].toLocaleString('en-US')){
             if (parseFloat(data[stock][3]) == parseFloat(data[stock][1])){
                 temp.className = 'magenta';
             }
@@ -649,7 +651,7 @@ async function updatePrice(){
                 temp.className = 'orange';
             }
             temp.className += ' highlight';
-            temp.innerHTML = data[stock][3];
+            temp.innerHTML = data[stock][3].toLocaleString('en-US');
             setTimeout(()=>{
                 temp.classList.remove('highlight');
             }, 2000)
