@@ -634,7 +634,7 @@ async function updatePrice(){
     const user = await getUserID();
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
-        if (temp.innerHTML != data[stock][3].toLocaleString('en-US')){
+        if (temp.innerHTML != data[stock][3]){
             if (parseFloat(data[stock][3]) == parseFloat(data[stock][1])){
                 temp.className = 'magenta';
             }
@@ -651,7 +651,7 @@ async function updatePrice(){
                 temp.className = 'orange';
             }
             temp.className += ' highlight';
-            temp.innerHTML = data[stock][3].toLocaleString('en-US');
+            temp.innerHTML = data[stock][3];
             setTimeout(()=>{
                 temp.classList.remove('highlight');
             }, 2000)
