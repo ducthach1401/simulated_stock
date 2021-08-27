@@ -476,7 +476,7 @@ async function getUserID() {
 async function buyStock(code){
     if (true){
         Swal.fire({
-            title: "Thu nghiem",
+            title: "Experiment",
             icon: 'error'
         });
         return true;

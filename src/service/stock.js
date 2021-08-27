@@ -1,44 +1,5 @@
 const fetch = require('node-fetch');
-const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
-
-const minimal_args = [
-    '--autoplay-policy=user-gesture-required',
-    '--disable-background-networking',
-    '--disable-background-timer-throttling',
-    '--disable-backgrounding-occluded-windows',
-    '--disable-breakpad',
-    '--disable-client-side-phishing-detection',
-    '--disable-component-update',
-    '--disable-default-apps',
-    '--disable-dev-shm-usage',
-    '--disable-domain-reliability',
-    '--disable-extensions',
-    '--disable-features=AudioServiceOutOfProcess',
-    '--disable-hang-monitor',
-    '--disable-ipc-flooding-protection',
-    '--disable-notifications',
-    '--disable-offer-store-unmasked-wallet-cards',
-    '--disable-popup-blocking',
-    '--disable-print-preview',
-    '--disable-prompt-on-repost',
-    '--disable-renderer-backgrounding',
-    '--disable-setuid-sandbox',
-    '--disable-speech-api',
-    '--disable-sync',
-    '--hide-scrollbars',
-    '--ignore-gpu-blacklist',
-    '--metrics-recording-only',
-    '--mute-audio',
-    '--no-default-browser-check',
-    '--no-first-run',
-    '--no-pings',
-    '--no-sandbox',
-    '--no-zygote',
-    '--password-store=basic',
-    '--use-gl=swiftshader',
-    '--use-mock-keychain',
-  ];
 
 module.exports.getStocks = async () => {
     try {
@@ -71,56 +32,20 @@ module.exports.getStocks = async () => {
 
 module.exports.stockUSA = async () => {
     try {
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: minimal_args
+        const url = 'https://vn.investing.com/equities/StocksFilter?noconstruct=1&smlID=595&sid=&tabletype=price&index_id=166&fbclid=IwAR00mIbpYshOV9eq2UucYebWAsIQ-PQT6yiX1Lm3b_1DVwKpWDZZaRHUoVE';
+        let data = await fetch(url).then(res => res.text());
+        const $ = cheerio.load(data);
+        let result = {}
+        let table = $('#cross_rate_markets_stocks_1 tbody tr').each((index, element) => {
+            let id = $(element).attr('id').replace('pair_', '');
+            let name = $(element).find('td a').text();
+            let lastPrice = parseFloat($(element).find('.pid-' + id + '-last').text().replace(',',''));
+            let highPrice = parseFloat($(element).find('.pid-' + id + '-high').text().replace(',',''));
+            let lowPrice = parseFloat($(element).find('.pid-' + id + '-low').text().replace(',',''));
+            let tc = Math.round((highPrice + lowPrice) / 2 * 100) /100
+            result[name] = [tc, highPrice, lowPrice, lastPrice];
         });
-        const options = {
-            waitUntil: 'networkidle2',
-            timeout: 30000,
-        };
-        const page = await browser.newPage();
-        const blockedDomains = [
-            'https://pagead2.googlesyndication.com',
-            'https://creativecdn.com',
-            'https://www.googletagmanager.com',
-            'https://cdn.krxd.net',
-            'https://adservice.google.com',
-            'https://cdn.concert.io',
-            'https://z.moatads.com',
-            'https://cdn.permutive.com',
-            'https://googlesyndication.com'
-        ];
-        await page.setRequestInterception(true);
-        page.on('request', (request) => {
-            const url = request.url();
-            if (blockedDomains.some((d) => url.startsWith(d))) {
-            request.abort();
-            } else {
-            request.continue();
-            }
-        });
-
-        await page.goto('https://vn.investing.com/equities/americas', options);
-        await page.select('select[class="selectBox"]', 'S&P 500');
-        await page.waitForSelector('#cross_rate_markets_stocks_1');
-        const data = await page.evaluate(() => {
-            let result = {};
-            let data = document.querySelector('#cross_rate_markets_stocks_1');
-            data = data.querySelectorAll('tr');
-            for (let i = 1; i < data.length; i++){
-                let name = data[i].querySelector('a').innerHTML;
-                let id = data[i].getAttribute('id').replace('pair_', '');
-                let last = data[i].querySelector('.pid-'+ id + '-last').innerHTML.replace(',','');
-                let high = data[i].querySelector('.pid-'+ id + '-high').innerHTML.replace(',','');
-                let low = data[i].querySelector('.pid-'+ id + '-low').innerHTML.replace(',','');
-                let tc = Math.round((parseFloat(high) + parseFloat(low)) * 100 / 2 ) / 100;
-                result[name] = [tc, parseFloat(high), parseFloat(low), parseFloat(last)];
-            }
-            return result;
-        });
-        await browser.close();
-        return data;
+        return result;
     } catch (error) {
         throw error;
     }
