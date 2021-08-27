@@ -584,7 +584,7 @@ async function sellStock(){
                 });
             }
         }
-        else {
+        else if (document.getElementById(stock + 'S').value) {
             Swal.fire({
                 title: "Please input integer number",
                 icon: 'error'

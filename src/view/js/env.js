@@ -17,5 +17,5 @@ async function refreshToken(){
         document.cookie = 'exp=' + Date.now();
     }
 }
-
+setInterval(refreshToken, 600000)
 refreshToken();
