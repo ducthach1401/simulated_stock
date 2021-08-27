@@ -7,6 +7,6 @@ const schemaValidate = require('../DTO/DTO');
 const router = express.Router();
 
 router.route('/getStock')
-    .get(controller.getStockUSA);
+    .get(authenticateToken,controller.getStockUSA);
 
 module.exports = router
