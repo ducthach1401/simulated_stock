@@ -17,4 +17,5 @@ async function refreshToken(){
         document.cookie = 'exp=' + Date.now();
     }
 }
+
 refreshToken();

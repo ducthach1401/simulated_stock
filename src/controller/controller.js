@@ -1,5 +1,5 @@
 const service = require('../service/service.js');
-const { getStocks, test } = require('../service/stock.js');
+const { getStocks } = require('../service/stock.js');
 const serializerUser = require('../serializer/user.serializer')
 
 module.exports.createUser = async (req, res) => {
@@ -157,7 +157,11 @@ module.exports.refresh = async (req, res) => {
         });
         res.status(200).json({success: 'ok'});
     }
-    else res.sendStatus(403);
+    else {
+        res.clearCookie('access_token');
+        res.clearCookie('refresh_token');
+        res.sendStatus(200);
+    }
 }
 
 module.exports.getCost = async (req, res) => {

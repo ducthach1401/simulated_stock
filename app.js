@@ -3,6 +3,8 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const User = require('./src/route/route');
 const View = require('./src/view/route/view');
+const UserUSA = require('./src/route/route.stock');
+
 const cors = require('cors');   
 require('dotenv').config();
 
@@ -19,6 +21,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static(__dirname + '/src/view/'));
 app.use('/user', User);
+app.use('/userUSA', UserUSA)
 app.use('/', View);
 app.listen(port, () => {
     console.log("Run Server http://localhost:8080");
