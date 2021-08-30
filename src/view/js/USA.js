@@ -625,9 +625,9 @@ async function updatePrice(){
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][3]){
-            document.getElementById(stock + 'R') = data[stock][0];
-            document.getElementById(stock + 'C') = data[stock][1];
-            document.getElementById(stock + 'F') = data[stock][2];
+            document.getElementById(stock + 'R').innerHTML = data[stock][0];
+            document.getElementById(stock + 'C').innerHTML = data[stock][1];
+            document.getElementById(stock + 'F').innerHTML = data[stock][2];
 
             if (parseFloat(data[stock][3]) == parseFloat(data[stock][1])){
                 temp.className = 'magenta';
