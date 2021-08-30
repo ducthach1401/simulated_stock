@@ -1,7 +1,8 @@
-const service = require("../service/stock");
-const serviceUSA = require('../service/serviceUSA');
+const service = require("../service/getStock");
+const serviceUSA = require('../service/serviceUSA.user');
 const serializerUser = require('../serializer/user.serializer')
-const serviceUser = require('../service/service');
+const serviceUser = require('../service/service.user');
+
 module.exports.getStockUSA = async (req, res) => {
     const result = await service.stockUSA();
     res.json(result);
@@ -25,17 +26,18 @@ module.exports.buyStock = async (req, res) => {
     });
     if (check){
         const id = {
-            _id: req.params.id
+            username: res.locals.username
         }
+        const cost = await service.stockUSA();
         const data = {
             ...req.body,
+            cost: parseFloat(cost[req.body.code][3]),
             dateBuy: Date.now(),
         }
         const result = await serviceUSA.buyStock(id, data);
         res.json(result);
     }
     else {
-        console.log(req.params.id);
         res.json({error: 'Deny'});
     }
 }
@@ -46,10 +48,12 @@ module.exports.sellStock = async (req, res) => {
     });
     if (check){
         const id = {
-            _id: req.params.id
+            username: res.locals.username
         }
+        const cost = await service.stockUSA();
         const data = {
             ...req.body,
+            cost: parseFloat(cost[req.body.code][3])
         }
         const result = await serviceUSA.sellStock(id, data);
         res.json(result);

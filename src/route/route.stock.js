@@ -1,9 +1,9 @@
-const controller = require("../controller/controllerUSA");
+const controller = require("../controller/controllerUSA.user");
 const express = require('express');
-const authenticateToken = require('../middleware/auth.user');
+const authenticateToken = require('../middleware/authen.user');
 const commonValidateQuery = require('../middleware/valid.query');
 const commonValidateBody = require('../middleware/valid.body');
-const schemaValidate = require('../DTO/DTO');
+const schemaValidate = require('../DTO/DTO.user');
 const router = express.Router();
 
 router.route('/')
@@ -12,7 +12,7 @@ router.route('/')
 router.route('/all')
     .get(authenticateToken, controller.getUserAll);
     
-router.route('/:id/stock')
+router.route('/stock')
     .get(authenticateToken,controller.getStockUSA)
     .put(authenticateToken, controller.buyStock)
     .delete(authenticateToken, controller.sellStock);

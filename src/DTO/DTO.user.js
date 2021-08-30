@@ -13,13 +13,11 @@ module.exports.updateUserSchema = Joi.object({
 module.exports.buystockSchema = Joi.object({
     code: Joi.string().required(),
     weight: Joi.number().required(),
-    cost: Joi.number().required()
 });
 
 module.exports.sellstockSchema = Joi.object({
     code: Joi.string().required(),
     weight: Joi.number().required(),
-    cost: Joi.number().required()
 });
 
 module.exports.subMoneySchema = Joi.object({

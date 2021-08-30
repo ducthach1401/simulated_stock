@@ -22,7 +22,7 @@ async function register() {
         });
     }
     else {
-        const url = API_URL + '/user/register';
+        const url = API_URL + '/v1/user/register';
         const payload = {
             name: name,
             username: username,

@@ -1,5 +1,5 @@
-const service = require('../service/service.js');
-const { getStocks } = require('../service/stock.js');
+const service = require('../service/service.user.js');
+const { getStocks } = require('../service/getStock.js');
 const serializerUser = require('../serializer/user.serializer')
 
 module.exports.createUser = async (req, res) => {
@@ -18,17 +18,6 @@ module.exports.getAllUser = async (req, res) => {
     res.json(result);
 }
 
-module.exports.getAll = async (req, res) => {
-    if (res.locals.roleUser){
-        let result = await service.getAll();
-        result = result.map((element) => serializerUser.infoUserRole(element));
-        res.json(result);
-    }
-    else {
-        res.json({error: 'Deny'})
-    }
-}
-
 module.exports.getUser = async (req, res) => {
     const id = {_id: req.params.id};
     const result = await service.getUser(id);
@@ -44,91 +33,42 @@ module.exports.getUserbyInfo = async (req, res) => {
 }
 
 module.exports.updateUser = async (req, res) => {
-    if (req.params.id == res.locals._id){
-        const id = {
-            _id: req.params.id
-        }
-        const data = req.body;
-        const result = await service.updateUser(id, data);
-        res.json(result);
+    const id = {
+        _id: res.locals._id
     }
-    else {
-        res.json({error: 'Deny'})
-    }
+    const data = req.body;
+    const result = await service.updateUser(id, data);
+    res.json(result);
 }
 
-module.exports.deleteUser = async (req, res) => {
-    if (res.locals.roleUser){
-        const id = {
-            _id: req.params.id
-        }
-        const result = await service.deleteUser(id);
-        res.json(result);
-    }
-    else {
-        res.json({error: 'Deny'});
-    }
-}
+
 
 module.exports.buyStock = async (req, res) => {
-    if (req.params.id == res.locals._id){
-        const id = {
-            _id: req.params.id
-        }
-        const data = {
-            ...req.body,
-            dateBuy: Date.now(),
-        }
-        const result = await service.buyStock(id, data);
-        res.json(result);
+    const id = {
+        _id: res.locals._id
     }
-    else {
-        res.json({error: 'Deny'});
+    const cost = await getStocks();
+    const data = {
+        ...req.body,
+        cost: parseInt(cost[req.body.code][3]),
+        dateBuy: Date.now(),
     }
+    const result = await service.buyStock(id, data);
+    res.json(result);
 }
 
 module.exports.sellStock = async (req, res) => {
-    if (req.params.id == res.locals._id){
-        const id = {
-            _id: req.params.id
-        }
-        const data = {
-            ...req.body,
-        }
-        const result = await service.sellStock(id, data);
-        res.json(result);
+    const id = {
+        _id: res.locals._id
     }
-    else {
-        res.json({error: 'Deny'});
+    const cost = await getStocks();
+    const data = {
+        ...req.body,
+        cost: parseInt(cost[req.body.code][3])
     }
-}
 
-module.exports.addMoney = async (req, res) => {
-    if (res.locals.roleUser){
-        const id = {
-            _id: req.params.id
-        }
-        const data = req.body;
-        const result = await service.addMoney(id, data);
-        res.json(result);
-    }
-    else {
-        res.json({error: 'Deny'})
-    }
-}
-
-module.exports.subMoney = async (req, res) => {
-    if (res.locals.roleUser){
-        const id = {
-            _id: req.params.id
-        }
-        const data = req.body;
-        const result = await service.subMoney(id, data);
-        res.json(result);
-    }
-    else{
-        res.json({error: 'Deny'})
-    }
+    const result = await service.sellStock(id, data);
+    res.json(result);
 }
 
 module.exports.login = async (req, res) => {

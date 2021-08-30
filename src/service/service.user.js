@@ -1,4 +1,4 @@
-const model = require('../model/model.js');
+const model = require('../model/model.user.js');
 const mongoose = require('mongoose');
 const User = model.User;
 const jwt = require('jsonwebtoken');
@@ -9,6 +9,18 @@ function hashPass(data) {
     try {
         data.password = bcrypt.hashSync(data.password, factory)
         return data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.updateUser = async (id, data) => {
+    try {
+        if (data.password){
+            data = hashPass(data);
+        }
+        const result = await User.updateOne(id, data);
+        return result;
     } catch (error) {
         throw error;
     }
@@ -45,51 +57,6 @@ module.exports.getUserbyinfo = async (username) => {
 module.exports.getUser = async (id) => {
     try {
         const result = await User.findById(id);
-        return result;
-    } catch (error) {
-        throw error;
-    }
-}
-
-module.exports.updateUser = async (id, data) => {
-    try {
-        if (data.password){
-            data = hashPass(data);
-        }
-        const result = await User.updateOne(id, data);
-        return result;
-    } catch (error) {
-        throw error;
-    }
-}
-
-module.exports.deleteUser = async (id) => {
-    try {
-        const result = await User.deleteOne(id);
-        return result;
-    } catch (error) {
-        throw error;
-    }
-}
-
-module.exports.addMoney = async (id, money) => {
-    try {
-        let result = await User.updateOne(id, {
-            $inc: {money: money.money}
-        });
-        result = await User.updateOne(id, {
-            $inc: {capital: money.money}
-        });
-        return result;
-    } catch (error) {
-        throw error;
-    }
-}
-
-module.exports.subMoney = async (id, money) => {
-    try {
-        let result = await User.updateOne(id, {$inc: {money: -money.money}});
-        result = await User.updateOne(id, {$inc: {capital: -money.money}})
         return result;
     } catch (error) {
         throw error;

@@ -5,7 +5,7 @@ async function home(){
 }
 
 async function getUserAll(){
-    const url = API_URL + '/user/getAll'
+    const url = API_URL + '/v1/admin/'
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -115,7 +115,7 @@ async function showUser(){
 }
 
 async function addMoney(id){
-    const url = API_URL + '/user/' + id + '/money';
+    const url = API_URL + '/v1/admin/' + id + '/money';
     const money = parseInt(document.getElementById(id).value);
     const payload = {
         money: money
@@ -145,7 +145,7 @@ async function addMoney(id){
 }
 
 async function subMoney(id){
-    const url = API_URL + '/user/' + id + '/money';
+    const url = API_URL + '/v1/admin/' + id + '/money';
     const money = parseInt(document.getElementById(id).value);
     const payload = {
         money: money
@@ -175,7 +175,7 @@ async function subMoney(id){
 }
 
 async function deleteAcc(id){
-    const url = API_URL + '/user/' + id;
+    const url = API_URL + '/v1/admin/' + id ;
     const confirmDel = await Swal.fire({
         title: 'Do you delete this account?',
         icon: 'question',

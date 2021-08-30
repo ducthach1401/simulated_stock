@@ -1,7 +1,7 @@
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const url = API_URL + '/user/login';
+    const url = API_URL + '/v1/user/login';
     const payload = {
         username: username,
         password: password

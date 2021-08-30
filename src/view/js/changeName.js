@@ -1,6 +1,6 @@
 async function changeName() {
     const user = await getUserID();
-    const url = API_URL + '/user/' + user._id;
+    const url = API_URL + '/v1/user/';
     const name = document.getElementById('name').value;
     if (name.length > 20){
         Swal.fire({
@@ -31,7 +31,7 @@ async function changeName() {
 }
 
 async function getUserID() {
-    const url = API_URL + '/user/'
+    const url = API_URL + '/v1/user/'
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',

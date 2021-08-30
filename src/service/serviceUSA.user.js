@@ -1,4 +1,4 @@
-const User = require('../model/modelUSA').UserUSA;
+const User = require('../model/modelUSA.user').UserUSA;
 
 module.exports.getUser = async(data) => {
     try {
@@ -68,7 +68,7 @@ module.exports.sellStock = async (id, data) => {
             if (stock.code == data.code){
                 if (stock.weight >= data.weight){
                     user.money += data.capital;
-                    user.earning += (data.cost -(stock.capital / stock.weight)) * data.weight;
+                    user.earning += (data.cost - (stock.capital / stock.weight)) * data.weight;
                     stock.capital -= (stock.capital / stock.weight) * data.weight;
                     stock.weight -= data.weight;
                     await user.save();

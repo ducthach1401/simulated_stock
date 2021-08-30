@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const controller = require('../controller/controller');
+
 module.exports = async function authenticateToken (req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = req.cookies.access_token;

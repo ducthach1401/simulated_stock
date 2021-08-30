@@ -6,7 +6,7 @@ function refreshStock(){
 }
 
 async function getNameOfUser() {
-    const url = API_URL + '/user/'
+    const url = API_URL + '/v1/user/'
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -30,7 +30,7 @@ async function getNameOfUser() {
 }
 
 async function getUser(){
-    const url = API_URL + '/userUSA/';
+    const url = API_URL + '/v1/USA/';
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -287,7 +287,7 @@ async function totalBill(){
 }
 
 async function getRank(){
-    const url = API_URL + "/userUSA/all";
+    const url = API_URL + "/v1/USA/all";
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -461,7 +461,7 @@ async function totalCode(id){
 }
 
 async function getUserID() {
-    const url = API_URL + '/userUSA/'
+    const url = API_URL + '/v1/USA/'
     let response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -474,24 +474,14 @@ async function getUserID() {
 }
 
 async function buyStock(code){
-    // if (true){
-    //     Swal.fire({
-    //         title: "Experiment",
-    //         icon: 'error'
-    //     });
-    //     return true;
-    // }
     let button = document.getElementsByClassName('btn' + code);
     button.disabled = true;
-    const user = await getUserID();
-    const stock = await dataStockGobal;
-    const url = API_URL + '/userUSA/' + user._id + '/stock';
+    const url = API_URL + '/v1/USA/stock';
     const weight = document.getElementById(code).value;
     if (!isNaN(weight) && (weight > 0)){
         payload = {
             code: code,
             weight: parseFloat(weight),
-            cost: parseFloat(stock[code][3])
         }
         const confirmBuy = await Swal.fire({
             title: 'Do you buy ' + code + '?',
@@ -515,10 +505,10 @@ async function buyStock(code){
                     icon: 'success'
                 });
                 document.getElementById(code).value = '';
+                document.getElementById('total' + code).innerHTML = '';
                 getUser();
             }
             else {
-                console.log(data);
                 Swal.fire({
                     title: "Don't enough money or Error",
                     icon: 'error'
@@ -536,13 +526,11 @@ async function buyStock(code){
 }
 
 async function sellStock(){
-    const user = await getUserID();
     let button = document.getElementsByClassName('sellButton');
     button.disabled = true;
-    const url = API_URL + '/userUSA/' + user._id + '/stock';
+    const url = API_URL + '/v1/USA/stock';
     const table = document.getElementById('tableSell');
     let stock;
-    const dataStock = await dataStockGobal;
     for (let row = 1; row < table.childElementCount; row++){
         stock = table.childNodes[row].childNodes[0].innerHTML;
         weightSell = parseFloat(document.getElementById(stock + 'S').value);
@@ -551,7 +539,6 @@ async function sellStock(){
                 payload = {
                     code: stock,
                     weight: weightSell,
-                    cost: parseFloat(dataStock[stock][3])
                 }
                 const confirmSell = await Swal.fire({
                     title: 'Do you sell ' + stock + '?',
@@ -605,7 +592,7 @@ async function sellStock(){
 
 async function profit(){
     user = await getUserID();
-    url = API_URL + '/userUSA/'+ user._id +'/stock';
+    url = API_URL + '/v1/USA/stock';
     response = await fetch(url, {
         method: 'GET',
         credentials: 'include',

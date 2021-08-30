@@ -3,7 +3,7 @@ const API_URL = "https://simulatestock.glitch.me";
 // const API_URL = "http://localhost:8080";
 
 async function refreshToken(){
-    const url = API_URL + '/user/v1/refresh';
+    const url = API_URL + '/v1/user/refresh';
     const time_login = document.cookie.split('=')[1];
     const hour = Math.round((Date.now() - time_login) / (60 * 1000 * 60));
     if (hour >= 4){

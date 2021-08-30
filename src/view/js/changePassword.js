@@ -1,6 +1,6 @@
 async function changePassword() {
     const user = await getUserID();
-    const url = API_URL + '/user/' + user._id + '/password';
+    const url = API_URL + '/v1/user/password';
     const password = document.getElementById('password').value;
     const password_confirm = document.getElementById('password-confirm').value;
     if (password_confirm == password){
@@ -32,7 +32,7 @@ async function changePassword() {
 }
 
 async function getUserID() {
-    const url = API_URL + '/user/'
+    const url = API_URL + '/v1/user/'
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
