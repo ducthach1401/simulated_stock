@@ -1,5 +1,5 @@
 const service = require('../service/service.user.js');
-const { getStocks } = require('../service/getStock.js');
+const { getStocks, getVNIndex } = require('../service/getStock.js');
 const serializerUser = require('../serializer/user.serializer')
 
 var cost;
@@ -121,5 +121,10 @@ module.exports.getCost = async (req, res) => {
 module.exports.getAllStock = async (req, res) => {
     // const result = await getStocks();
     res.json(cost);
-} 
+}
+
+module.exports.getIndex = async (req, res) => {
+    const result = await getVNIndex();
+    res.json(result);
+}
 

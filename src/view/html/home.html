@@ -84,10 +84,15 @@
                 <script>getRank()</script> -->
             </div>
             <div class="col main">
-                <form class="d-flex w-50 mb-3 float-end">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchStock()" id="search">
-                    <button class="btn btn-outline-light" type="button" onkeyup="searchStock()">Search</button>
-                </form>
+                <div class="row">
+                    <div class="col-4" id="VN-Index"></div>
+                    <div class="col">
+                        <form class="d-flex w-75 mb-3 float-end">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchStock()" id="search">
+                            <button class="btn btn-outline-light" type="button" onkeyup="searchStock()">Search</button>
+                        </form>
+                    </div>
+                </div>
                 <table id="exchange" class="w-100">
                     <tr>
                         <th>Stock</th>

@@ -40,4 +40,7 @@ router.route('/stocks')
 router.route('/password')
     .all(authenticateToken)
     .put(commonValidateBody(schemaValidate.updatePasswordSchema),controller.updateUser)
+
+router.route('/VNIndex').get(authenticateToken, controller.getIndex);
+
 module.exports = router;

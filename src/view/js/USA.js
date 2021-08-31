@@ -534,7 +534,7 @@ async function sellStock(){
     const table = document.getElementById('tableSell');
     let stock;
     for (let row = 1; row < table.childElementCount; row++){
-        stock = table.childNodes[row].childNodes[0].innerHTML;
+        stock = table.childNodes[row].childNodes[0].innerText;
         weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell)){
             if (weightSell > 0){

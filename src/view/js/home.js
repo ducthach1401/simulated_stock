@@ -30,6 +30,7 @@ async function getNameOfUser() {
 }
 
 async function getUser(){
+    await getVNIndex();
     const url = API_URL + '/v1/user/';
     const response = await fetch(url, {
         method: 'GET',
@@ -196,7 +197,8 @@ async function getUser(){
     document.getElementById('user-information').appendChild(button);
 }
 
-async function updateTableInfo(user, cost){
+async function updateTableInfo(cost){
+    const user = await getUserID();
     let table = document.getElementById('tableinfo');
     table.innerHTML = '';
     row = document.createElement('tr');
@@ -268,7 +270,6 @@ async function updateTableInfo(user, cost){
 }
 
 async function totalBill(){
-    const user = await getUserID();
     const priceStock = await dataStockGobal;
 
     const table = document.getElementById('tableSell');
@@ -450,7 +451,6 @@ async function totalCode(id){
     let total = document.getElementById('total' + id);
     let weight = document.getElementById(id).value;
     if (!isNaN(weight) && (weight)){
-        const user = await getUserID();
         const priceStock = await dataStockGobal;
         const currentPrice = priceStock[id][3];
         total.innerHTML = Math.round(parseInt(weight) * currentPrice).toLocaleString('vi-VN');
@@ -526,7 +526,6 @@ async function buyStock(code){
 }
 
 async function sellStock(){
-    const user = await getUserID();
     let button = document.getElementsByClassName('sellButton');
     button.disabled = true;
     const url = API_URL + '/v1/user/stock';
@@ -591,7 +590,6 @@ async function sellStock(){
 }
 
 async function profit(){
-    user = await getUserID();
     url = API_URL + '/v1/user/stocks';
     response = await fetch(url, {
         method: 'GET',
@@ -618,7 +616,7 @@ async function admin(){
 
 async function updatePrice(){
     const data = await dataStockGobal;
-    const user = await getUserID();
+    await getVNIndex();
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][3].toLocaleString('vi-VN')){
@@ -644,7 +642,7 @@ async function updatePrice(){
             }, 2000)
         }
     }
-    updateTableInfo(user,data);
+    updateTableInfo(data);
 }
 
 function searchStock() {
@@ -663,5 +661,27 @@ function searchStock() {
             tr[i].style.display = "none";
             }
         }       
+    }
+}
+
+async function getVNIndex() {
+    const url = API_URL + '/v1/user/VNIndex';
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    let data = await response.json();
+    let VNIndex = document.getElementById('VN-Index');
+    VNIndex.className = 'col-4';
+    if (data['change'] >= 0){
+        VNIndex.innerHTML = data['name'] + ': ' + data['price'] + '  &uarr; ' + data['change'] + ' (' + data['prechange'] + '%)';
+        VNIndex.classList.add('green');
+    }
+    else {
+        VNIndex.innerHTML = data['name'] + ': ' + data['price'] + '  &darr; ' + data['change'] + ' (' + data['prechange'] + '%)';
+        VNIndex.classList.add('red');
     }
 }

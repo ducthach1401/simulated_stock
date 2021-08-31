@@ -51,3 +51,17 @@ module.exports.stockUSA = async () => {
     }
 }
 
+module.exports.getVNIndex = async () =>{
+    try {
+        const url = 'https://finance.vietstock.vn/data/getmarketprice?type=2';
+        let data = await fetch(url).then(res => res.json());
+        return {
+            name: data[0]['Name'],
+            price: data[0]['Price'],
+            change: data[0]['Change'],
+            prechange: data[0]['PerChange']
+        }
+    } catch (error) {
+        throw error;
+    }
+}
