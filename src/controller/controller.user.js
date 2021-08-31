@@ -2,6 +2,13 @@ const service = require('../service/service.user.js');
 const { getStocks } = require('../service/getStock.js');
 const serializerUser = require('../serializer/user.serializer')
 
+var cost;
+async function updateCost(){
+    cost = await getStocks();
+}
+updateCost();
+setInterval(updateCost, 2000);
+
 module.exports.createUser = async (req, res) => {
     try {
         const data = req.body;
@@ -41,13 +48,11 @@ module.exports.updateUser = async (req, res) => {
     res.json(result);
 }
 
-
-
 module.exports.buyStock = async (req, res) => {
     const id = {
         _id: res.locals._id
     }
-    const cost = await getStocks();
+    // const cost = await getStocks();
     const data = {
         ...req.body,
         cost: parseInt(cost[req.body.code][3]),
@@ -61,7 +66,7 @@ module.exports.sellStock = async (req, res) => {
     const id = {
         _id: res.locals._id
     }
-    const cost = await getStocks();
+    // const cost = await getStocks();
     const data = {
         ...req.body,
         cost: parseInt(cost[req.body.code][3])
@@ -105,7 +110,7 @@ module.exports.refresh = async (req, res) => {
 }
 
 module.exports.getCost = async (req, res) => {
-    const cost = await getStocks();
+    // const cost = await getStocks();
     const result = {
         code: req.query.code,
         cost: cost[req.query.code][3]
@@ -114,7 +119,7 @@ module.exports.getCost = async (req, res) => {
 }
 
 module.exports.getAllStock = async (req, res) => {
-    const result = await getStocks();
-    res.json(result);
+    // const result = await getStocks();
+    res.json(cost);
 } 
 

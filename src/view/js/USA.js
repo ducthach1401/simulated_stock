@@ -270,11 +270,10 @@ async function updateTableInfo(user, cost){
 async function totalBill(){
     const user = await getUserID();
     const priceStock = await dataStockGobal;
-
     const table = document.getElementById('tableSell');
     let stock;
     for (let row = 1; row < table.childElementCount; row++){
-        stock = table.childNodes[row].childNodes[0].innerHTML;
+        stock = table.childNodes[row].childNodes[0].innerText;
         weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell) && (weightSell > 0)){
             price = parseFloat(priceStock[stock][3]);

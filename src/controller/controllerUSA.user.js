@@ -2,10 +2,16 @@ const service = require("../service/getStock");
 const serviceUSA = require('../service/serviceUSA.user');
 const serializerUser = require('../serializer/user.serializer')
 const serviceUser = require('../service/service.user');
+var cost;
+async function updateCost(){
+    cost = await service.stockUSA();
+}
+updateCost();
+setInterval(updateCost, 2000);
 
 module.exports.getStockUSA = async (req, res) => {
-    const result = await service.stockUSA();
-    res.json(result);
+    // const result = await service.stockUSA();
+    res.json(cost);
 }
 
 module.exports.getUser = async (req, res) => {
@@ -28,7 +34,7 @@ module.exports.buyStock = async (req, res) => {
         const id = {
             username: res.locals.username
         }
-        const cost = await service.stockUSA();
+        // const cost = await service.stockUSA();
         const data = {
             ...req.body,
             cost: parseFloat(cost[req.body.code][3]),
@@ -50,7 +56,7 @@ module.exports.sellStock = async (req, res) => {
         const id = {
             username: res.locals.username
         }
-        const cost = await service.stockUSA();
+        // const cost = await service.stockUSA();
         const data = {
             ...req.body,
             cost: parseFloat(cost[req.body.code][3])
