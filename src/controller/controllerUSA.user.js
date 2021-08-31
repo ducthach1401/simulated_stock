@@ -7,7 +7,7 @@ async function updateCost(){
     cost = await service.stockUSA();
 }
 updateCost();
-setInterval(updateCost, 2000);
+setInterval(updateCost, 5000);
 
 module.exports.getStockUSA = async (req, res) => {
     // const result = await service.stockUSA();

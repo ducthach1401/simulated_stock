@@ -1,5 +1,5 @@
 var dataStockGobal = profit();
-setInterval(refreshStock, 10000);
+setInterval(refreshStock, 8000);
 
 function refreshStock(){
     dataStockGobal = profit();
@@ -379,7 +379,7 @@ async function logout(){
 
 async function showStock(){
     const data =  await dataStockGobal;
-    setInterval(updatePrice, 10000);
+    setInterval(updatePrice, 8000);
     for (let stock in data){
         row = document.createElement('tr')
         temp = document.createElement('td');

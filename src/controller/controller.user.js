@@ -7,7 +7,7 @@ async function updateCost(){
     cost = await getStocks();
 }
 updateCost();
-setInterval(updateCost, 2000);
+setInterval(updateCost, 5000);
 
 module.exports.createUser = async (req, res) => {
     try {
