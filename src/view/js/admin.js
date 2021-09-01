@@ -1,9 +1,5 @@
 // setInterval(updateMoney, 2000);
 
-async function home(){
-    window.location.href = '/';
-}
-
 async function getUserAll(){
     const url = API_URL + '/v1/admin/'
     const response = await fetch(url, {

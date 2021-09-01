@@ -2,6 +2,26 @@ const API_URL = "https://simulatestock.glitch.me";
 // const API_URL = "https://simulatestock.herokuapp.com";
 // const API_URL = "http://localhost:8080";
 
+async function logout(){
+    window.location.href = '/logout';
+}
+
+async function admin(){
+    window.location.href = '/admin';
+}
+
+async function changeName(){
+    window.location.href = '/changeName';
+}
+
+async function changePassword(){
+    window.location.href = '/changePassword';
+}
+
+async function home(){
+    window.location.href = '/'
+}
+
 async function refreshToken(){
     const url = API_URL + '/v1/user/refresh';
     const time_login = document.cookie.split('=')[1];

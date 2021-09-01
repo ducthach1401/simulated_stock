@@ -606,18 +606,6 @@ async function profit(){
     return dataStock;
 }
 
-async function changeName(){
-    window.location.href = '/changeName';
-}
-
-async function changePassword(){
-    window.location.href = '/changePassword';
-}
-
-async function admin(){
-    window.location.href = '/admin';
-}
-
 async function updatePrice(){
     const data = await dataStockGobal;
     const user = await getUserID();
@@ -670,8 +658,4 @@ function searchStock() {
             }
         }       
     }
-}
-
-async function home(){
-    window.location.href = '/'
 }

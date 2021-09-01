@@ -39,3 +39,9 @@ body {
 span {
     cursor: pointer;
 }
+
+.rankbutton{
+    width: 100px;
+    height: 50px;
+    margin-top: 10px;
+}

@@ -70,6 +70,7 @@ module.exports.sellStock = async (req, res) => {
 }
 
 module.exports.getUserAll = async (req, res) => {
-    const result = await serviceUSA.getUserAll();
-    res.json(serializerUser.infoUser(result));
+    let result = await serviceUSA.getUserAll();
+    result = result.map((element) => serializerUser.infoUser(element));
+    res.json(result);
 }
