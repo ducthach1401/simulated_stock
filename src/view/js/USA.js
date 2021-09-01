@@ -243,7 +243,7 @@ async function updateTableInfo(cost){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999).toLocaleString('en-US');
+        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999) * 100) / 100).toLocaleString('en-US');
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -253,7 +253,7 @@ async function updateTableInfo(cost){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (cost[stock.code][3] * stock.weight * 0.999 - stock.capital).toLocaleString('en-US');
+        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999 - stock.capital) * 100) / 100).toLocaleString('en-US');
         row.appendChild(temp);
         percent = document.createElement('td');
         if ((Math.round(tempCost / stock.capital * 10000)/100) >= 100){
