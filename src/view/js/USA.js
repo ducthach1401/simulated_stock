@@ -196,7 +196,8 @@ async function getUser(){
     document.getElementById('user-information').appendChild(button);
 }
 
-async function updateTableInfo(user, cost){
+async function updateTableInfo(cost){
+    const user = await getUserID();
     let table = document.getElementById('tableinfo');
     table.innerHTML = '';
     row = document.createElement('tr');
@@ -268,7 +269,6 @@ async function updateTableInfo(user, cost){
 }
 
 async function totalBill(){
-    const user = await getUserID();
     const priceStock = await dataStockGobal;
     const table = document.getElementById('tableSell');
     let stock;
@@ -452,7 +452,6 @@ async function totalCode(id){
     let total = document.getElementById('total' + id);
     let weight = document.getElementById(id).value;
     if (!isNaN(weight) && (weight)){
-        const user = await getUserID();
         const priceStock = await dataStockGobal;
         const currentPrice = priceStock[id][3];
         total.innerHTML = (Math.round(parseFloat(weight) * currentPrice * 100) / 100).toLocaleString('en-US');
@@ -593,7 +592,6 @@ async function sellStock(){
 }
 
 async function profit(){
-    user = await getUserID();
     url = API_URL + '/v1/USA/stock';
     response = await fetch(url, {
         method: 'GET',
@@ -608,7 +606,6 @@ async function profit(){
 
 async function updatePrice(){
     const data = await dataStockGobal;
-    const user = await getUserID();
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][3]){
@@ -638,7 +635,7 @@ async function updatePrice(){
             }, 2000)
         }
     }
-    updateTableInfo(user,data);
+    updateTableInfo(data);
 }
 
 function searchStock() {
