@@ -1,7 +1,7 @@
 // setInterval(updateMoney, 2000);
 
-async function getUserAll(){
-    const url = API_URL + '/v1/admin/'
+async function getUserUSD(){
+    const url = API_URL + '/v1/admin/all'
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -13,16 +13,17 @@ async function getUserAll(){
     return data;
 }
 
-async function updateMoney(){
-    const users = await getUserAll();
+async function updateUSD(){
+    const users = await getUserUSD();
+    console.log(users);
     for (let user of users){
         document.getElementById('money' + user._id).innerHTML = Math.round(user.money).toLocaleString('vi-VN');
     }
 }
-async function showUser(){
-    document.getElementById('hoseUser').classList.add('active');
-    document.getElementById('sp500User').classList.remove('active');
-    const users = await getUserAll();
+async function showUserUSD(){
+    document.getElementById('sp500User').classList.add('active');
+    document.getElementById('hoseUser').classList.remove('active');
+    const users = await getUserUSD();
     let temp;
     let count = 0;
     document.getElementById('user').innerHTML = '';
@@ -84,7 +85,7 @@ async function showUser(){
         button = document.createElement('button');
         button.innerHTML = "Add";
         button.setAttribute('class', 'btn btn-outline-info')
-        button.setAttribute('onclick', 'addMoney(this.value)');
+        button.setAttribute('onclick', 'addUSD(this.value)');
         button.setAttribute('value', user._id);
         temp.appendChild(button);
         row.appendChild(temp);
@@ -92,7 +93,7 @@ async function showUser(){
         temp = document.createElement('td');
         button = document.createElement('button');
         button.setAttribute('class', 'btn btn-outline-light')
-        button.setAttribute('onclick', 'subMoney(this.value)');
+        button.setAttribute('onclick', 'subUSD(this.value)');
         button.setAttribute('value', user._id);
         button.innerHTML = "Sub";
         temp.appendChild(button);
@@ -102,8 +103,8 @@ async function showUser(){
         if (!user.roleUser){
             button = document.createElement('button');
             button.setAttribute('class', 'btn btn-outline-danger');
-            button.setAttribute('onclick', 'deleteAcc(this.value)');
             button.setAttribute('value', user._id);
+            button.setAttribute('onclick', 'notify()');
             button.innerHTML = "Delete";
             temp.appendChild(button);
         }
@@ -112,8 +113,8 @@ async function showUser(){
     }
 }
 
-async function addMoney(id){
-    const url = API_URL + '/v1/admin/' + id + '/money';
+async function addUSD(id){
+    const url = API_URL + '/v1/admin/' + id + '/USD';
     const money = parseInt(document.getElementById(id).value);
     const payload = {
         money: money
@@ -138,12 +139,12 @@ async function addMoney(id){
             icon: 'success'
         });
         document.getElementById(id).value = '';
-        updateMoney();
+        updateUSD();
     }  
 }
 
-async function subMoney(id){
-    const url = API_URL + '/v1/admin/' + id + '/money';
+async function subUSD(id){
+    const url = API_URL + '/v1/admin/' + id + '/USD';
     const money = parseInt(document.getElementById(id).value);
     const payload = {
         money: money
@@ -168,30 +169,13 @@ async function subMoney(id){
             icon: 'success'
         });        
         document.getElementById(id).value = '';
-        updateMoney();
+        updateUSD();
     }
 }
 
-async function deleteAcc(id){
-    const url = API_URL + '/v1/admin/' + id ;
-    const confirmDel = await Swal.fire({
-        title: 'Do you delete this account?',
-        icon: 'question',
-        confirmButtonText: 'Add',
-        showCancelButton: true
-    });
-    if (confirmDel.isConfirmed) {
-        const response = await fetch(url, {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        Swal.fire({
-            title: "Delete Success",
-            icon: 'success'
-        });
-        showUser();
-    }
+async function notify(){
+    Swal.fire({
+        title: "Just to beautiful :)))))",
+        icon: 'error'
+    });  
 }

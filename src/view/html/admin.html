@@ -13,6 +13,7 @@
     <script src="../js/env.js"></script>
     <script src="../js/admin.js"></script>
     <script src="../js/home.js"></script>
+    <script src="../js/adminUSA.js"></script>
 </head>
 <body>
     <div class="row header mb-5">
@@ -55,6 +56,10 @@
     </div>
     <div class="container">
         <div class="row">
+            <div class="col-2">
+                <button class="btn btn-outline-info switch" id="hoseUser" onclick="showUser()">Stock Hose</button> <br>
+                <button class="btn btn-outline-info switch" id="sp500User" onclick="showUserUSD()">Stock S&P 500</button>
+            </div>
             <div class="col">
                 <table id="user">
                     <script>showUser()</script>

@@ -85,3 +85,14 @@ table {
     margin: auto;
     margin-bottom: 30px;
 }
+
+.switch {
+    width: 150px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+#user {
+    position: relative;
+    right: 100px;
+}

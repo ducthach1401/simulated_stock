@@ -11,6 +11,10 @@ router.route('/')
     .all(authenticateToken, authorUser)
     .get(controller.getAll)
 
+router.route('/all')
+    .all(authenticateToken, authorUser)
+    .get(controller.getUserAll)
+
 router.route('/:id')
     .all(authenticateToken, authorUser)
     .delete(controller.deleteUser)
@@ -20,4 +24,9 @@ router.route('/:id/money')
     .put(commonValidateBody(schemaValidate.addMoneySchema), controller.addMoney)
     .delete(commonValidateBody(schemaValidate.subMoneySchema), controller.subMoney)
 
+router.route('/:id/USD')
+    .all(authenticateToken, authorUser)
+    .put(commonValidateBody(schemaValidate.addMoneySchema), controller.addUSD)
+    .delete(commonValidateBody(schemaValidate.subMoneySchema), controller.subUSD)
+    
 module.exports = router;

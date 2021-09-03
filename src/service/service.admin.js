@@ -1,5 +1,4 @@
 const model = require('../model/model.user.js');
-const mongoose = require('mongoose');
 const { UserUSA } = require('../model/modelUSA.user.js');
 const User = model.User;
 
@@ -34,6 +33,30 @@ module.exports.subMoney = async (id, money) => {
     try {
         let result = await User.updateOne(id, {$inc: {money: -money.money}});
         result = await User.updateOne(id, {$inc: {capital: -money.money}})
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.addUSD = async (id, money) => {
+    try {
+        let result = await UserUSA.updateOne(id, {
+            $inc: {money: money.money}
+        });
+        result = await UserUSA.updateOne(id, {
+            $inc: {capital: money.money}
+        });
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.subUSD = async (id, money) => {
+    try {
+        let result = await UserUSA.updateOne(id, {$inc: {money: -money.money}});
+        result = await UserUSA.updateOne(id, {$inc: {capital: -money.money}})
         return result;
     } catch (error) {
         throw error;
