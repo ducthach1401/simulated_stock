@@ -290,7 +290,7 @@ async function showStock(){
             temp.classList.add('red');
         }
         temp.setAttribute('id',stock + '1h')
-        temp.innerHTML =  (Math.round(data[stock][2] * 1000) / 1000).toLocaleString('en-US');
+        temp.innerHTML =  (Math.round(data[stock][2] * 1000) / 1000).toLocaleString('en-US') + ' %';
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -301,7 +301,7 @@ async function showStock(){
             temp.classList.add('red');
         }
         temp.setAttribute('id',stock + '24h')
-        temp.innerHTML = (Math.round(data[stock][3] * 1000) / 1000).toLocaleString('en-US');
+        temp.innerHTML = (Math.round(data[stock][3] * 1000) / 1000).toLocaleString('en-US') + ' %';
         row.appendChild(temp);
 
         temp = document.createElement('td');
