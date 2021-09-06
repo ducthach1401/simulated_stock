@@ -496,8 +496,8 @@ async function updatePrice(){
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][1]){
-            document.getElementById(stock + '1h').innerHTML = data[stock][2];
-            document.getElementById(stock + '24h').innerHTML = data[stock][3];
+            document.getElementById(stock + '1h').innerHTML = data[stock][2] + ' %';
+            document.getElementById(stock + '24h').innerHTML = data[stock][3] + ' %';
             temp.className += 'ghostwhite highlight';
             temp.innerHTML = data[stock][1];
             setTimeout(()=>{
