@@ -1,4 +1,4 @@
-const controller = require("../controller/controllerUSA.user");
+const controller = require("../controller/controllerCoin.user");
 const express = require('express');
 const authenticateToken = require('../middleware/authen.user');
 const commonValidateQuery = require('../middleware/valid.query');
@@ -12,9 +12,9 @@ router.route('/')
 router.route('/all')
     .get(authenticateToken, controller.getUserAll);
     
-router.route('/stock')
-    .get(authenticateToken,controller.getStockUSA)
-    .put(authenticateToken, commonValidateBody(schemaValidate.buystockSchema), controller.buyStock)
-    .delete(authenticateToken,commonValidateBody(schemaValidate.sellstockSchema), controller.sellStock);
+router.route('/coin')
+    .get(authenticateToken,controller.getCoin)
+    .put(authenticateToken, commonValidateBody(schemaValidate.buyCoinSchema), controller.buyCoin)
+    .delete(authenticateToken, commonValidateBody(schemaValidate.sellCoinSchema), controller.sellCoin);
 
 module.exports = router

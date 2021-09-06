@@ -6,7 +6,7 @@ function refreshStock(){
 }
 
 async function getUser(){
-    const url = API_URL + '/v1/USA/';
+    const url = API_URL + '/v1/coin/';
     const response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -118,7 +118,7 @@ async function getUser(){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999) * 100) /100).toLocaleString('en-US');
+        temp.innerHTML = (Math.round((cost[stock.code][1] * stock.weight * 0.999) * 10000) /10000).toLocaleString('en-US');
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -128,7 +128,7 @@ async function getUser(){
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999 - stock.capital )* 100) /100).toLocaleString('en-US');
+        temp.innerHTML = (Math.round((cost[stock.code][1] * stock.weight * 0.999 - stock.capital )* 10000) /10000).toLocaleString('en-US');
         row.appendChild(temp);
 
 
@@ -212,24 +212,24 @@ async function updateTableInfo(cost){
         row.appendChild(capital);
 
         temp = document.createElement('td');
-        tempCost = cost[stock.code][3] * stock.weight * 0.999;
+        tempCost = cost[stock.code][1] * stock.weight * 0.999;
         if (tempCost >= stock.capital){
             temp.setAttribute('class', 'green');
         }
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999) * 100) / 100).toLocaleString('en-US');
+        temp.innerHTML = (Math.round((cost[stock.code][1] * stock.weight * 0.999) * 100) / 100).toLocaleString('en-US');
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        if ((cost[stock.code][3] * stock.weight * 0.999 - stock.capital) >= 0){
+        if ((cost[stock.code][1] * stock.weight * 0.999 - stock.capital) >= 0){
             temp.setAttribute('class', 'green');
         }
         else {
             temp.setAttribute('class', 'red');
         }
-        temp.innerHTML = (Math.round((cost[stock.code][3] * stock.weight * 0.999 - stock.capital) * 100) / 100).toLocaleString('en-US');
+        temp.innerHTML = (Math.round((cost[stock.code][1] * stock.weight * 0.999 - stock.capital) * 100) / 100).toLocaleString('en-US');
         row.appendChild(temp);
         percent = document.createElement('td');
         if ((Math.round(tempCost / stock.capital * 10000)/100) >= 100){
@@ -252,7 +252,7 @@ async function totalBill(){
         stock = table.childNodes[row].childNodes[0].innerText;
         weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell) && (weightSell > 0)){
-            price = parseFloat(priceStock[stock][3]);
+            price = parseFloat(priceStock[stock][1]);
             table.childNodes[row].childNodes[3].innerHTML = (Math.round(price *  weightSell * 0.999 * 100) / 100).toLocaleString('en-US');
         }
         else {
@@ -260,6 +260,7 @@ async function totalBill(){
         }
     }
 }
+
 
 async function showStock(){
     const data =  await dataStockGobal;
@@ -272,40 +273,35 @@ async function showStock(){
 
         temp = document.createElement('td');
         temp.classList.add('orange');
-        temp.setAttribute('id',stock + 'R')
         temp.innerHTML = data[stock][0];
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        temp.classList.add('magenta');
-        temp.setAttribute('id',stock + 'C')
-        temp.innerHTML = data[stock][1];
-        row.appendChild(temp);
-
-        temp = document.createElement('td');
-        temp.classList.add('cyan');
-        temp.setAttribute('id',stock + 'F')
-        temp.innerHTML = data[stock][2];
-        row.appendChild(temp);
-
-        temp = document.createElement('td');
+        temp.classList.add('ghostwhite');
         temp.setAttribute('id', 'price' + stock);
-        if (parseFloat(data[stock][3]) == parseFloat(data[stock][1])){
-            temp.classList.add('magenta');
-        }
-        else  if (parseFloat(data[stock][3]) == parseFloat(data[stock][2])){
-            temp.classList.add('cyan');
-        }
-        else if (parseFloat(data[stock][3]) > parseFloat(data[stock][0])){
+        temp.innerHTML =  (Math.round(data[stock][1] * 1000000) / 1000000).toLocaleString('en-US');
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        if (data[stock][2] >= 0){
             temp.classList.add('green');
         }
-        else  if (parseFloat(data[stock][3]) < parseFloat(data[stock][0])){
+        else {
             temp.classList.add('red');
         }
-        else {
-            temp.classList.add('orange');
+        temp.setAttribute('id',stock + '1h')
+        temp.innerHTML =  (Math.round(data[stock][2] * 1000) / 1000).toLocaleString('en-US');
+        row.appendChild(temp);
+
+        temp = document.createElement('td');
+        if (data[stock][3] >= 0){
+            temp.classList.add('green');
         }
-        temp.innerHTML = data[stock][3];
+        else {
+            temp.classList.add('red');
+        }
+        temp.setAttribute('id',stock + '24h')
+        temp.innerHTML = (Math.round(data[stock][3] * 1000) / 1000).toLocaleString('en-US');
         row.appendChild(temp);
 
         temp = document.createElement('td');
@@ -337,8 +333,8 @@ async function totalCode(id){
     let weight = document.getElementById(id).value;
     if (!isNaN(weight) && (weight)){
         const priceStock = await dataStockGobal;
-        const currentPrice = priceStock[id][3];
-        total.innerHTML = (Math.round(parseFloat(weight) * currentPrice * 100) / 100).toLocaleString('en-US');
+        const currentPrice = priceStock[id][1];
+        total.innerHTML = (Math.round(parseFloat(weight) * currentPrice * 10000) / 10000).toLocaleString('en-US');
     }
     else {
         total.innerHTML = '';
@@ -346,7 +342,7 @@ async function totalCode(id){
 }
 
 async function getUserID() {
-    const url = API_URL + '/v1/USA/'
+    const url = API_URL + '/v1/coin/'
     let response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -361,8 +357,15 @@ async function getUserID() {
 async function buyStock(code){
     let button = document.getElementsByClassName('btn' + code);
     button.disabled = true;
-    const url = API_URL + '/v1/USA/stock';
+    const url = API_URL + '/v1/coin/coin';
     const weight = document.getElementById(code).value;
+    if (parseFloat(weight) < 0.001){
+        Swal.fire({
+            title: "Weight must be greater than 0.001",
+            icon: 'error'
+        });
+        return;
+    }
     if (!isNaN(weight) && (weight > 0)){
         payload = {
             code: code,
@@ -413,7 +416,7 @@ async function buyStock(code){
 async function sellStock(){
     let button = document.getElementsByClassName('sellButton');
     button.disabled = true;
-    const url = API_URL + '/v1/USA/stock';
+    const url = API_URL + '/v1/coin/coin';
     const table = document.getElementById('tableSell');
     let stock;
     for (let row = 1; row < table.childElementCount; row++){
@@ -476,7 +479,7 @@ async function sellStock(){
 }
 
 async function profit(){
-    url = API_URL + '/v1/USA/stock';
+    url = API_URL + '/v1/coin/coin';
     response = await fetch(url, {
         method: 'GET',
         credentials: 'include',
@@ -492,28 +495,11 @@ async function updatePrice(){
     const data = await dataStockGobal;
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
-        if (temp.innerHTML != data[stock][3]){
-            document.getElementById(stock + 'R').innerHTML = data[stock][0];
-            document.getElementById(stock + 'C').innerHTML = data[stock][1];
-            document.getElementById(stock + 'F').innerHTML = data[stock][2];
-
-            if (parseFloat(data[stock][3]) == parseFloat(data[stock][1])){
-                temp.className = 'magenta';
-            }
-            else  if (parseFloat(data[stock][3]) == parseFloat(data[stock][2])){
-                temp.className = 'cyan';
-            }
-            else if (parseFloat(data[stock][3]) > parseFloat(data[stock][0])){
-                temp.className = 'green';
-            }
-            else  if (parseFloat(data[stock][3]) < parseFloat(data[stock][0])){
-                temp.className = 'red';
-            }
-            else {
-                temp.className = 'orange';
-            }
-            temp.className += ' highlight';
-            temp.innerHTML = data[stock][3];
+        if (temp.innerHTML != data[stock][1]){
+            document.getElementById(stock + '1h').innerHTML = data[stock][2];
+            document.getElementById(stock + '24h').innerHTML = data[stock][3];
+            temp.className += 'ghostwhite highlight';
+            temp.innerHTML = data[stock][1];
             setTimeout(()=>{
                 temp.classList.remove('highlight');
             }, 2000)

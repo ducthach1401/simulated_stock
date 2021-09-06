@@ -1,5 +1,5 @@
 const model = require('../model/model.user.js');
-const { UserUSA } = require('../model/modelUSA.user.js');
+const { UserUSA, UserCoin } = require('../model/modelUSA.user.js');
 const User = model.User;
 
 module.exports.deleteUser = async (id) => {
@@ -7,6 +7,9 @@ module.exports.deleteUser = async (id) => {
         const data = await User.findOne(id);
         const result = await User.deleteOne(id);
         await UserUSA.deleteOne({
+            username: data.username
+        });
+        await UserCoin.deleteOne({
             username: data.username
         });
         return result;
@@ -57,6 +60,30 @@ module.exports.subUSD = async (id, money) => {
     try {
         let result = await UserUSA.updateOne(id, {$inc: {money: -money.money}});
         result = await UserUSA.updateOne(id, {$inc: {capital: -money.money}})
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.addUSDCoin = async (id, money) => {
+    try {
+        let result = await UserCoin.updateOne(id, {
+            $inc: {money: money.money}
+        });
+        result = await UserCoin.updateOne(id, {
+            $inc: {capital: money.money}
+        });
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.subUSDCoin = async (id, money) => {
+    try {
+        let result = await UserCoin.updateOne(id, {$inc: {money: -money.money}});
+        result = await UserCoin.updateOne(id, {$inc: {capital: -money.money}})
         return result;
     } catch (error) {
         throw error;

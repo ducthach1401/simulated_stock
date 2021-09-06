@@ -28,5 +28,9 @@ router.route('/:id/USD')
     .all(authenticateToken, authorUser)
     .put(commonValidateBody(schemaValidate.addMoneySchema), controller.addUSD)
     .delete(commonValidateBody(schemaValidate.subMoneySchema), controller.subUSD)
-    
+
+router.route('/:id/coin')
+    .all(authenticateToken, authorUser)
+    .put(commonValidateBody(schemaValidate.addMoneySchema), controller.addUSDCoin)
+    .delete(commonValidateBody(schemaValidate.subMoneySchema), controller.subUSDCoin)
 module.exports = router;

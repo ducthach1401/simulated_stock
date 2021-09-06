@@ -2,6 +2,8 @@ const serializerUser = require('../serializer/user.serializer')
 const serviceAdmin = require('../service/service.admin')
 const service = require('../service/service.user')
 const serviceUSA = require('../service/serviceUSA.user');
+const serviceCoin = require('../service/serviceCoin.user');
+
 module.exports.getAll = async (req, res) => {
     let result = await service.getAll();
     result = result.map((element) => serializerUser.infoUserRole(element));
@@ -55,5 +57,23 @@ module.exports.subUSD = async (req, res) => {
     }
     const data = req.body;
     const result = await serviceAdmin.subUSD(id, data);
+    res.json(result);
+}
+
+module.exports.addUSDCoin = async (req, res) => {
+    const id = {
+        _id: req.params.id
+    }
+    const data = req.body;
+    const result = await serviceAdmin.addUSDCoin(id, data);
+    res.json(result);
+}
+
+module.exports.subUSDCoin = async (req, res) => {
+    const id = {
+        _id: req.params.id
+    }
+    const data = req.body;
+    const result = await serviceAdmin.subUSDCoin(id, data);
     res.json(result);
 }

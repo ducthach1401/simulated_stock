@@ -65,3 +65,30 @@ module.exports.getVNIndex = async () =>{
         throw error;
     }
 }
+
+module.exports.getCoin = async () => {
+    try {
+        const url = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing?start=1&limit=200&sortBy=market_cap&sortType=desc&convert=USD,BTC,ETH&cryptoType=coins&tagType=all&audited=false&aux=ath,atl,high24h,low24h,num_market_pairs,cmc_rank,date_added,tags,platform,max_supply,circulating_supply,total_supply,volume_7d,volume_30d&tagSlugs=';
+        let data = await fetch(url).then(res => res.json());
+        data = data.data.cryptoCurrencyList;
+        const result = {};
+        let price;
+        let percent1h;
+        let percent24h;
+        for (let i of data){
+            if (i.quotes[2].price > 0.0001){
+                price = Math.round(i.quotes[2].price * 10000) / 10000
+            }
+            else {
+                price = i.quotes[2].price;
+            }
+            percent1h = Math.round(i.quotes[2].percentChange1h * 1000) / 1000;
+            percent24h = Math.round(i.quotes[2].percentChange24h * 1000) / 1000;
+
+            result[i.symbol] = [i.name,price, percent1h, percent24h]; 
+        }
+        return result;
+    } catch (error) {
+        throw error; 
+    }
+}

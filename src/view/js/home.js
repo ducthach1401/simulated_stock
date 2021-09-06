@@ -6,7 +6,7 @@ function refreshStock(){
 }
 
 async function getUser(){
-    await getVNIndex();
+    // await getVNIndex();
     const url = API_URL + '/v1/user/';
     const response = await fetch(url, {
         method: 'GET',
@@ -252,9 +252,9 @@ async function totalBill(){
     let stock;
     for (let row = 1; row < table.childElementCount; row++){
         stock = table.childNodes[row].childNodes[0].innerHTML;
-        weightSell = parseInt(document.getElementById(stock + 'S').value);
+        weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell) && (weightSell > 0)){
-            price = parseInt(priceStock[stock][3]);
+            price = parseFloat(priceStock[stock][3]);
             table.childNodes[row].childNodes[3].innerHTML = (price *  weightSell * 0.999).toLocaleString('vi-VN');
         }
         else {
@@ -337,7 +337,7 @@ async function totalCode(id){
     if (!isNaN(weight) && (weight)){
         const priceStock = await dataStockGobal;
         const currentPrice = priceStock[id][3];
-        total.innerHTML = Math.round(parseInt(weight) * currentPrice).toLocaleString('vi-VN');
+        total.innerHTML = Math.round(parseFloat(weight) * currentPrice).toLocaleString('vi-VN');
     }
     else {
         total.innerHTML = '';
@@ -365,7 +365,7 @@ async function buyStock(code){
     if (!isNaN(weight) && (weight > 0)){
         payload = {
             code: code,
-            weight: parseInt(weight),
+            weight: parseFloat(weight),
         }
         const confirmBuy = await Swal.fire({
             title: 'Do you buy ' + code + '?',
@@ -417,7 +417,7 @@ async function sellStock(){
     let stock;
     for (let row = 1; row < table.childElementCount; row++){
         stock = table.childNodes[row].childNodes[0].innerHTML;
-        weightSell = parseInt(document.getElementById(stock + 'S').value);
+        weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell)){
             if (weightSell > 0){
                 payload = {
@@ -488,7 +488,7 @@ async function profit(){
 
 async function updatePrice(){
     const data = await dataStockGobal;
-    await getVNIndex();
+    // await getVNIndex();
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][3].toLocaleString('vi-VN')){

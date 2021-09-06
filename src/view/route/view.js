@@ -22,6 +22,15 @@ router.get('/USA', function(req, res) {
         }
 });
 
+router.get('/coin', function(req, res) {
+        if (req.cookies.access_token){
+                res.sendFile(path.resolve(dirHtml + '/coin.html'));
+        }
+        else {
+                res.sendFile(path.resolve(dirHtml + '/login.html'));
+        }
+});
+
 router.get('/leaderBoard', function(req, res) {
         if (req.cookies.access_token){
                 res.sendFile(path.resolve(dirHtml + '/ranking.html'));

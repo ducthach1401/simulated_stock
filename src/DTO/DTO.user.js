@@ -12,12 +12,12 @@ module.exports.updateUserSchema = Joi.object({
 
 module.exports.buystockSchema = Joi.object({
     code: Joi.string().required(),
-    weight: Joi.number().required(),
+    weight: Joi.number().required().integer().min(1)
 });
 
 module.exports.sellstockSchema = Joi.object({
     code: Joi.string().required(),
-    weight: Joi.number().required(),
+    weight: Joi.number().required().integer().min(1)
 });
 
 module.exports.subMoneySchema = Joi.object({
@@ -39,4 +39,14 @@ module.exports.getCostSchema = Joi.object({
 
 module.exports.updatePasswordSchema = Joi.object({
     password: Joi.string().required(),
+});
+
+module.exports.buyCoinSchema = Joi.object({
+    code: Joi.string().required(),
+    weight: Joi.number().required().min(0.001)
+});
+
+module.exports.sellCoinSchema = Joi.object({
+    code: Joi.string().required(),
+    weight: Joi.number().required().min(0.001)
 });

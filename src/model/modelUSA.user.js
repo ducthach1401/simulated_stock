@@ -23,3 +23,6 @@ const IUserUSA = mongoose.Schema({
 
 const User = mongoose.model('UserUSA', IUserUSA);
 module.exports.UserUSA = User;
+
+const UserCoin = mongoose.model('UserCoin', IUserUSA);
+module.exports.UserCoin = UserCoin;
