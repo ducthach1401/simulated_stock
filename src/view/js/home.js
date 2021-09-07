@@ -6,7 +6,7 @@ function refreshStock(){
 }
 
 async function getUser(){
-    // await getVNIndex();
+    await getVNIndex();
     const url = API_URL + '/v1/user/';
     const response = await fetch(url, {
         method: 'GET',
@@ -488,7 +488,7 @@ async function profit(){
 
 async function updatePrice(){
     const data = await dataStockGobal;
-    // await getVNIndex();
+    await getVNIndex();
     for (let stock in data){
         let temp = document.getElementById('price' + stock);
         if (temp.innerHTML != data[stock][3].toLocaleString('vi-VN')){
