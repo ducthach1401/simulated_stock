@@ -111,7 +111,7 @@ async function getUser(){
         row.appendChild(capital);
 
         temp = document.createElement('td');
-        tempCost = cost[stock.code][3] * stock.weight * 0.999;
+        tempCost = cost[stock.code][1] * stock.weight * 0.999;
         if (tempCost >= stock.capital){
             temp.setAttribute('class', 'green');
         }
@@ -122,7 +122,7 @@ async function getUser(){
         row.appendChild(temp);
 
         temp = document.createElement('td');
-        if ((cost[stock.code][3] * stock.weight * 0.999 - stock.capital) >= 0){
+        if ((cost[stock.code][1] * stock.weight * 0.999 - stock.capital) >= 0){
             temp.setAttribute('class', 'green');
         }
         else {
