@@ -17,17 +17,18 @@ body {
     border-radius: 10px;
 }
 
-.header {
+.header-ranking {
     height: 200px;
 }
 
-.header h1 {
+.header-ranking h1 {
     display: inline-block;
+    margin: 0;
     margin-left: 50px;
     font-size: 60px;
 }
 
-.header img {
+.header-ranking img {
     width: 80px;
     height: 80px;
 }
@@ -44,4 +45,8 @@ span {
     width: 100px;
     height: 50px;
     margin-top: 10px;
+}
+
+table th {
+    height: 70px;
 }

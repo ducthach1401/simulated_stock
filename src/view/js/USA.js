@@ -323,7 +323,8 @@ async function showStock(){
         temp = document.createElement('td');
         button = document.createElement('button');
         button.value = stock;
-        button.innerHTML = 'Buy';
+        button.textContent = 'Purchase';
+        button.setAttribute('style', 'width: 90px');
         button.setAttribute('class', "btn btn-outline-info btn" + stock);
         button.setAttribute('onclick', 'buyStock(this.value)');
         temp.appendChild(button);
@@ -369,9 +370,9 @@ async function buyStock(code){
             weight: parseFloat(weight),
         }
         const confirmBuy = await Swal.fire({
-            title: 'Do you buy ' + code + '?',
+            title: 'Are you sure to purchase ' + code + '?',
             icon: 'question',
-            confirmButtonText: 'Buy',
+            confirmButtonText: 'Purchase',
             showCancelButton: true
         });
         if (confirmBuy.isConfirmed) {
@@ -386,7 +387,7 @@ async function buyStock(code){
             let data = await response.json();
             if (data.Money){
                 Swal.fire({
-                    title: 'Buy Success',
+                    title: 'Purchase Successfully',
                     icon: 'success'
                 });
                 document.getElementById(code).value = '';
@@ -426,7 +427,7 @@ async function sellStock(){
                     weight: weightSell,
                 }
                 const confirmSell = await Swal.fire({
-                    title: 'Do you sell ' + stock + '?',
+                    title: 'Are you sure to sell ' + stock + '?',
                     icon: 'question',
                     confirmButtonText: 'Sell',
                     showCancelButton: true

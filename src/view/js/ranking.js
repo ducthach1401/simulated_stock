@@ -25,8 +25,8 @@ async function profitUSA(){
 }
 
 async function getRank(){
-    document.getElementById('hose').classList.add('active');
-    document.getElementById('sp500').classList.remove('active');
+    // document.getElementById('hose').classList.add('active');
+    // document.getElementById('sp500').classList.remove('active');
     const url = API_URL + "/v1/user/all";
     const response = await fetch(url, {
         method: 'GET',
@@ -110,13 +110,13 @@ async function getRank(){
         // }
     }
     table.appendChild(tbody);
-    document.getElementById("table-ranking").innerHTML = '';
-    document.getElementById("table-ranking").appendChild(table);
+    document.getElementById("table-ranking-hose").innerHTML = '';
+    document.getElementById("table-ranking-hose").appendChild(table);
 }
 
 async function getRankUSA(){
-    document.getElementById('sp500').classList.add('active');
-    document.getElementById('hose').classList.remove('active');
+    // document.getElementById('sp500').classList.add('active');
+    // document.getElementById('hose').classList.remove('active');
     const url = API_URL + "/v1/USA/all";
     const response = await fetch(url, {
         method: 'GET',
@@ -200,8 +200,8 @@ async function getRankUSA(){
         // }
     }
     table.appendChild(tbody);
-    document.getElementById("table-ranking").innerHTML = '';
-    document.getElementById("table-ranking").appendChild(table);
+    document.getElementById("table-ranking-sp500").innerHTML = '';
+    document.getElementById("table-ranking-sp500").appendChild(table);
 }
 
 async function getRankCoin(){
@@ -213,7 +213,7 @@ async function getRankCoin(){
             'Content-Type': 'application/json',
         },
     });
-    let data = await response.json()
+    let data = await response.json();
     let temp;
     let count = 0;
     let cost =  await dataStockGobal;
@@ -288,6 +288,6 @@ async function getRankCoin(){
         // }
     }
     table.appendChild(tbody);
-    document.getElementById("table-ranking").innerHTML = '';
-    document.getElementById("table-ranking").appendChild(table);
+    document.getElementById("table-ranking-coin").innerHTML = '';
+    document.getElementById("table-ranking-coin").appendChild(table);
 }

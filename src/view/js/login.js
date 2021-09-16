@@ -27,7 +27,9 @@ async function login() {
         document.cookie = 'exp=' + Date.now();
         Swal.fire({
             title: "Login Success",
-            icon: 'success'
+            icon: 'success',
+            text: "Login Successfully!",
+            showConfirmButton: false
         });
         setTimeout(() => {
             window.location.href = '/'
