@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
+const User = require('../model/model.user').User;
 
 module.exports.getStocks = async () => {
     try {
@@ -92,3 +94,101 @@ module.exports.getCoin = async () => {
         throw error; 
     }
 }
+
+module.exports.getDividend = async (code) => {
+    try {
+        const url = 'https://finance.vietstock.vn/lich-su-kien.htm?page=1&tab=1&code=' + code;
+        // const url = 'https://finance.vietstock.vn/lich-su-kien.htm?page=3&tab=1&exchange=-1';
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto(url);
+        await page.waitForSelector(".table-responsive");
+        const data = await page.evaluate(
+            () =>  Array.from(document.querySelectorAll('.table-responsive'))
+                        .map(elem => elem.innerHTML)
+        );
+        let $ = cheerio.load(data[0]);
+        let result = [];
+        const dateNow = new Date();
+        const month = dateNow.getMonth() + 1;
+        const year = dateNow.getFullYear();
+        $('tbody tr').each((index, element) => {
+            let getResult = [];
+            $(element).find('td').each((i, ele) => {
+                if (i == 3){
+                    const date = $(ele).text();
+                    const dateTemp = date.split('/').map((ele) => Number(ele));
+                    if ((dateTemp[2] != year) || (dateTemp[1] != month)) {
+                        return;
+                    }
+                    getResult.push(date);
+                }
+
+                if (i == 6){
+                    if (getResult.length == 0){
+                        return;
+                    }
+                    let temp = $(ele).text().split(', ');
+                    if (temp.length == 2){
+                        if (temp[1].includes(':')){
+                            let ratio = temp[1].split(' ')[2].split(':');
+                            ratio = ratio.map((ele, index) =>{
+                                return Number(ele);
+                            })
+                            getResult.push(ratio);
+                        }
+                        else {
+                            const ratio = Number(temp[1].split(' ')[0].replace(',',''));
+                            getResult.push([ratio]);
+                        }
+                    }
+                    // else if (temp.length == 3){
+                    //     let ratio = temp[1].split(' ')[2].split(':');
+                    //     ratio = ratio.map((ele, index) =>{
+                    //         return Number(ele);
+                    //     })
+                    //     const money = Number(temp[2].split(' ')[1].replace(',',''));
+                    //     getResult.push(ratio, money);
+                    // }
+                    result.push(getResult);
+                }
+            });
+        });
+        return result;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.updateDividend = async () => {
+    try {
+        const dayNow = new Date().getDate();
+        const user = await User.find({
+            username: 'thachpro001'
+        });
+        const dataTest = [ [ '20/09/2021', [ 10, 1 ] ], [ '20/09/2021', [ 500 ] ] ];
+        //test
+        console.log(user);
+        for (let stock of user[0].stockCode){
+            console.log(stock.code);
+            const dividend = dataTest;
+            for (let div of dividend){
+                const day = Number(div[0].split('/')[0])
+                if (day == dayNow){
+                    if (div[1].length == 1){
+                        // chia co tuc bang tien
+                        const temp = div[1][0] * stock.weight;
+                        // console.log(temp);
+                    }
+                    else if (div[1].length == 2){
+                        // chia co tuc bang co phieu
+                    }
+                }
+            }
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+// this.updateDividend();
+// this.getDividend('AAA');
