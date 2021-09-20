@@ -110,3 +110,25 @@ h5 {
     from {background-color: black;}
     to {background-color: gold;}
 }
+
+#form-search {
+    position: relative;
+}
+
+#search {
+    padding-left: 35px;
+}
+
+#input-img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 25%;
+    left: 2%;
+}
+
+input::placeholder {
+    color: rgb(221, 221, 221);
+    opacity: 1;
+    font-size: 14px;
+}

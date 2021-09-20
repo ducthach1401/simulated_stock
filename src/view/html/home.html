@@ -25,9 +25,9 @@
                         <li class="nav-item" onclick="home()">
                             <span class="nav-link active fs-4" aria-current="page" >Home</span>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link fs-4" href="./leaderBoard">Ranking</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link fs-4" href="./USA">S&P 500</a>
                         </li>
@@ -39,6 +39,7 @@
                         <h1 class="title">Simulate Stock</h1>
                         <h5>Những tỷ phú trên phố Walk Nguyễn Huệ</h5>
                     </a>
+                    <a class="nav-link fs-4 text-decoration-none text-white" href="./leaderBoard">Ranking</a>
                     <div class="dropdown">
                         <a class="nav-link dropdown-toggle fs-4 text-decoration-none text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <script>getNameOfUser()</script>
@@ -89,9 +90,10 @@
                 <div class="row">
                     <div class="col-4" id="VN-Index"></div>
                     <div class="col">
-                        <form class="d-flex w-75 mb-3 float-end">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onkeyup="searchStock()" id="search">
-                            <button class="btn btn-outline-light" type="button" onkeyup="searchStock()">Search</button>
+                        <form class="d-flex w-75 mb-3 float-end" onSubmit="return false;" id="form-search">
+                            <input class="form-control" type="search" placeholder="Search for stock..." aria-label="Search" onkeyup="searchStock()" id="search">
+                            <!-- <button class="btn btn-outline-light" type="button" onkeyup="searchStock()">Search</button> -->
+                            <img src="../image/search.png" id="input-img">
                         </form>
                     </div>
                 </div>
@@ -104,25 +106,11 @@
                         <th>Current</th>
                         <th>Weight</th>
                         <th>Total</th>
-                        <th>Buy</th>
+                        <th>Purchase</th>
                     </tr>
                 </table>
                 <script>showStock()</script>
             </div>
-            <!-- <div class="col-2">
-                <div id="button">
-                    <button class="btn btn-warning buttonUser" onclick="logout()">Logout</button>
-                    <button class="btn btn-warning buttonUser" onclick="changeName()">Change Name</button>
-                    <button class="btn btn-warning buttonUser" onclick="changePassword()">Change Password</button>
-                </div>
-                <div id="admin"></div>
-                <div>
-                    <p>Lưu ý: </p>
-                    <p>Có thể tham khảo ở các sàn chứng khoán thực tế về biểu đồ tăng giảm</p>
-                    <p>Chỉ chơi cho vui không phải tiền thật.</p>
-                    <p>Add thêm tiền liên hệ: Pha san roi` a`</p>
-                </div>
-            </div> -->
         </div>
 
     </div>
