@@ -1,6 +1,6 @@
 var dataStockGobal = profit();
 getVNIndex();
-setImmediate(getVNIndex, 8000);
+setInterval(getVNIndex, 8000);
 setInterval(refreshStock, 8000);
 
 function refreshStock(){
