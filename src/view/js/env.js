@@ -1,6 +1,6 @@
 // const API_URL = "https://simulatestock.glitch.me";
-// const API_URL = "https://simulatestock.herokuapp.com";
-const API_URL = "http://localhost:8080";
+const API_URL = "https://simulatestock.herokuapp.com";
+//const API_URL = "http://localhost:8080";
 
 async function logout(){
     window.location.href = '/logout';
