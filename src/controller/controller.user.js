@@ -1,5 +1,5 @@
 const service = require('../service/service.user.js');
-const { getStocks, getVNIndex } = require('../service/getStock.js');
+const { getStocks, getVNIndex, updateDividend, execDividend } = require('../service/getStock.js');
 const serializerUser = require('../serializer/user.serializer')
 
 var cost;
@@ -7,6 +7,10 @@ async function updateCost(){
     cost = await getStocks();
 }
 updateCost();
+// updateDividend();
+execDividend();
+setInterval(updateDividend, 21600000);
+setInterval(execDividend, 21600000);
 setInterval(updateCost, 5000);
 
 module.exports.createUser = async (req, res) => {

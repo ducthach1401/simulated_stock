@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const puppeteer = require('puppeteer');
 const User = require('../model/model.user').User;
+const Div = require('../model/model.div').Div;
 
 module.exports.getStocks = async () => {
     try {
@@ -118,7 +119,7 @@ module.exports.getDividend = async (code) => {
                 if (i == 3){
                     const date = $(ele).text();
                     const dateTemp = date.split('/').map((ele) => Number(ele));
-                    if ((dateTemp[2] != year) || (dateTemp[1] != month)) {
+                    if ((dateTemp[2] < year) || (dateTemp[1] < month)) {
                         return;
                     }
                     getResult.push(date);
@@ -162,26 +163,23 @@ module.exports.getDividend = async (code) => {
 
 module.exports.updateDividend = async () => {
     try {
-        const dayNow = new Date().getDate();
-        const user = await User.find({
-            username: 'thachpro001'
-        });
-        const dataTest = [ [ '20/09/2021', [ 10, 1 ] ], [ '20/09/2021', [ 500 ] ] ];
-        //test
-        console.log(user);
-        for (let stock of user[0].stockCode){
-            console.log(stock.code);
-            const dividend = dataTest;
-            for (let div of dividend){
-                const day = Number(div[0].split('/')[0])
-                if (day == dayNow){
-                    if (div[1].length == 1){
-                        // chia co tuc bang tien
-                        const temp = div[1][0] * stock.weight;
-                        // console.log(temp);
+        const users = await User.find();
+        for (let user of users){
+            for (let stock of user.stockCode){
+                console.log(stock.code);
+                const dividend = await this.getDividend(stock.code);
+                console.log(dividend);
+                for (let div of dividend){
+                    const data = {
+                        username: user.username,
+                        code: stock.code,
+                        date: div[0],
+                        ratio: div[1]
                     }
-                    else if (div[1].length == 2){
-                        // chia co tuc bang co phieu
+                    const check = await Div.findOne(data);
+                    if (check == null){
+                        const saveData = new Div(data);
+                        await saveData.save();
                     }
                 }
             }
@@ -190,5 +188,47 @@ module.exports.updateDividend = async () => {
         throw error;
     }
 }
-// this.updateDividend();
-// this.getDividend('AAA');
+
+module.exports.execDividend = async () => {
+    try {
+        const users = await User.find();
+        for (let user of users){
+            const dividend = await Div.find({
+                username: user.username,
+                isDiv: false
+            });
+            for (let stock of user.stockCode){
+                const date = stock.dateBuy;
+                const dateBuy = Date.parse(date);
+                for (let div of dividend){
+                    if (stock.code == div.code){
+                        let dateDiv = div.date.split('/');
+                        dateDiv = dateDiv[1] + ' ' + dateDiv[0] + ' ' + dateDiv[2];
+                        dateDiv = Date.parse(dateDiv);
+                        if ((dateDiv - dateBuy > 0) && (Date.now() - dateDiv  > 0)) {
+                            if (div.ratio.length == 1){
+                                const costDiv = stock.weight * div.ratio[0];
+                                const earning = user.earning + costDiv;
+                                const money = user.money + costDiv;
+                                const captitalStock = stock.capital - costDiv;
+                                user.money = money;
+                                user.earning = earning;
+                                stock.capital = captitalStock;
+                            }
+                            else if (div.ratio.length == 2){
+                                const weight = stock.weight + Math.floor(stock.weight / div.ratio[0] * div.ratio[1]);
+                                stock.weight = weight;
+                            }
+                            await user.save();
+                            const temp = await Div.updateOne(div, {
+                                isDiv: true
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    } catch (error) {
+        throw error;
+    }
+}
