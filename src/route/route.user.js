@@ -42,5 +42,5 @@ router.route('/password')
     .put(commonValidateBody(schemaValidate.updatePasswordSchema),controller.updateUser)
 
 router.route('/VNIndex').get(authenticateToken, controller.getIndex);
-
+router.route('/div').get(authenticateToken, controller.getDiv);
 module.exports = router;

@@ -17,3 +17,12 @@ module.exports.infoUserRole = (model) => {
         roleUser: model.roleUser
     }
 }
+
+module.exports.divSchema = (model) => {
+    return {
+        code: model.code,
+        date: model.date,
+        ratio: model.ratio,
+        isDiv: model.isDiv
+    }
+}

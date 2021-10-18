@@ -64,6 +64,10 @@ async function getUser(){
     rowSell.appendChild(temp);
 
     temp = document.createElement('th');
+    temp.innerHTML = 'Date Buy';
+    rowSell.appendChild(temp);
+
+    temp = document.createElement('th');
     temp.innerHTML = 'Weight Sell';
     rowSell.appendChild(temp);
 
@@ -105,6 +109,14 @@ async function getUser(){
 
         capital = document.createElement('td');
         capital.innerHTML = stock.weight.toLocaleString('vi-VN');
+        rowSell.appendChild(capital);
+
+        capital = document.createElement('td');
+        let dateBuy = new Date(stock.dateBuy);
+        const month = String(dateBuy.getMonth()).padStart(2, '0');
+        const day = String(dateBuy.getDate()).padStart(2, '0');
+        const year = dateBuy.getFullYear();
+        capital.innerHTML = day + '/' + month + '/' + year;
         rowSell.appendChild(capital);
 
         capital = document.createElement('td');
@@ -172,6 +184,7 @@ async function getUser(){
     button.innerHTML = 'Total money';
     button.setAttribute('onclick', 'totalBill()');
     document.getElementById('user-information').appendChild(button);
+    showDiv();
 }
 
 async function updateTableInfo(cost){
@@ -248,7 +261,6 @@ async function updateTableInfo(cost){
 
 async function totalBill(){
     const priceStock = await dataStockGobal;
-
     const table = document.getElementById('tableSell');
     let stock;
     for (let row = 1; row < table.childElementCount; row++){
@@ -557,4 +569,69 @@ async function getVNIndex() {
         VNIndex.innerHTML = data['name'] + ': ' + data['price'] + '  &darr; ' + data['change'] + ' (' + data['prechange'] + '%)';
         VNIndex.classList.add('red');
     }
+}
+
+async function showDiv(){
+    const url = API_URL + '/v1/user/div';
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    let data = await response.json();
+    let table = document.createElement('table');
+
+    let th = document.createElement('th');
+    th.innerText = 'Code';
+    table.appendChild(th);
+
+    th = document.createElement('th');
+    th.innerText = 'Dividend Date';
+    table.appendChild(th);
+
+    th = document.createElement('th');
+    th.innerText = 'Ratio';
+    table.appendChild(th);
+
+    th = document.createElement('th');
+    th.innerText = 'Paid';
+    table.appendChild(th);
+
+    for (let code of data) {
+        let tr = document.createElement('tr');
+        let td = document.createElement('td');
+        td.innerText = code.code;
+        tr.appendChild(td);
+        table.appendChild(tr);
+
+        td = document.createElement('td');
+        td.innerText = code.date;
+        tr.appendChild(td);
+        table.appendChild(tr);
+
+        td = document.createElement('td');
+        if (code.ratio.length == 1){
+            td.innerText = code.ratio.toLocaleString('vi-VN', {style : 'currency', currency : 'VND'}) + ' / Stock';
+        }
+        else {
+            td.innerText = code.ratio[0] + ' / ' + code.ratio[1];
+        }
+        tr.appendChild(td);
+        table.appendChild(tr);
+
+        td = document.createElement('td');
+        if (code.isDiv){
+            td.innerText = 'Done';
+            tr.setAttribute('class', 'green');
+        }
+        else {
+            tr.setAttribute('class', 'red');
+        }
+        tr.appendChild(td);
+        table.appendChild(tr);
+
+    }
+    document.getElementById('user-information').appendChild(table);
 }

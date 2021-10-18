@@ -1,4 +1,5 @@
 const model = require('../model/model.user.js');
+const Div = require('../model/model.div.js').Div;
 const mongoose = require('mongoose');
 const User = model.User;
 const jwt = require('jsonwebtoken');
@@ -189,6 +190,15 @@ module.exports.regenerateAccessToken = async (refreshToken) => {
         else {
             return null;
         }
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.getDiv = async (username) => {
+    try {
+        const data = await Div.find(username);        
+        return data;
     } catch (error) {
         throw error;
     }

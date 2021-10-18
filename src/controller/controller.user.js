@@ -132,3 +132,11 @@ module.exports.getIndex = async (req, res) => {
     res.json(result);
 }
 
+module.exports.getDiv = async (req, res) => {
+    const username = {
+        username: res.locals.username
+    }
+    let result = await service.getDiv(username);
+    result = result.map((element) => serializerUser.divSchema(element));
+    res.json(result);
+}
