@@ -9,7 +9,7 @@ async function updateCost(){
 updateCost();
 updateDividend();
 execDividend();
-setInterval(updateDividend, 21600000);
+setInterval(updateDividend, 3600000);
 setInterval(execDividend, 21600000);
 setInterval(updateCost, 5000);
 
