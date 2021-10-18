@@ -7,7 +7,7 @@ async function updateCost(){
     cost = await getStocks();
 }
 updateCost();
-// updateDividend();
+updateDividend();
 execDividend();
 setInterval(updateDividend, 21600000);
 setInterval(execDividend, 21600000);
