@@ -268,10 +268,10 @@ async function totalBill(){
         weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell) && (weightSell > 0)){
             price = parseFloat(priceStock[stock][3]);
-            table.childNodes[row].childNodes[3].innerHTML = (price *  weightSell * 0.999).toLocaleString('vi-VN');
+            table.childNodes[row].childNodes[4].innerHTML = (price *  weightSell * 0.999).toLocaleString('vi-VN');
         }
         else {
-            table.childNodes[row].childNodes[3].innerHTML = 0;
+            table.childNodes[row].childNodes[4].innerHTML = 0;
         }
     }
 }
