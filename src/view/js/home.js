@@ -113,7 +113,7 @@ async function getUser(){
 
         capital = document.createElement('td');
         let dateBuy = new Date(stock.dateBuy);
-        const month = String(dateBuy.getMonth()).padStart(2, '0');
+        const month = String(dateBuy.getMonth() + 1).padStart(2, '0');
         const day = String(dateBuy.getDate()).padStart(2, '0');
         const year = dateBuy.getFullYear();
         capital.innerHTML = day + '/' + month + '/' + year;
