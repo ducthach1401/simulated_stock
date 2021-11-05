@@ -113,7 +113,7 @@ async function getUser(){
 
         capital = document.createElement('td');
         let dateBuy = new Date(stock.dateBuy);
-        const month = String(dateBuy.getMonth()).padStart(2, '0');
+        const month = String(dateBuy.getMonth() + 1).padStart(2, '0');
         const day = String(dateBuy.getDate()).padStart(2, '0');
         const year = dateBuy.getFullYear();
         capital.innerHTML = day + '/' + month + '/' + year;
@@ -268,10 +268,10 @@ async function totalBill(){
         weightSell = parseFloat(document.getElementById(stock + 'S').value);
         if (!isNaN(weightSell) && (weightSell > 0)){
             price = parseFloat(priceStock[stock][3]);
-            table.childNodes[row].childNodes[3].innerHTML = (price *  weightSell * 0.999).toLocaleString('vi-VN');
+            table.childNodes[row].childNodes[4].innerHTML = (price *  weightSell * 0.999).toLocaleString('vi-VN');
         }
         else {
-            table.childNodes[row].childNodes[3].innerHTML = 0;
+            table.childNodes[row].childNodes[4].innerHTML = 0;
         }
     }
 }
