@@ -137,3 +137,33 @@ input::placeholder {
     opacity: 1;
     font-size: 14px;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: ghostwhite;
+    text-align: left;
+}
+
+.cmd, .cmd1 {
+    width: 100px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.cmd1 {
+    width: 120px;
+}
+
+ .btnfooter {
+    width: 120px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+ }
+
+ .radio {
+     margin-right: 10px;
+ }

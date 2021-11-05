@@ -112,7 +112,52 @@
                 <script>showStock()</script>
             </div>
         </div>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-1" style="text-align: center; width: 150px;">
+                    <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked value="purchase">
+                    <label class="btn btn-outline-warning btnfooter" for="option1">Purchase</label>
+                </div>
+                <div class="col">
+                    <select name="cmd" id="command" class="form-select cmd">
+                        <option value="LO">LO</option>
+                        <!-- <option value="ATO">ATO</option>
+                        <option value="ATC">ATC</option> -->
+                    </select>
+                    <input type="text" placeholder="Code" class="form-control cmd1" style="width: 80px;">
+                    <input type="text" placeholder="Weight" class="form-control cmd1" style="width: 80px;">
+                    <input type="text" placeholder="Price" class="form-control cmd1">
+                    <input type="text" placeholder="Total" class="form-control cmd1 disabled" disabled style="width: 150px; background-color: azure;">
+                </div>
+                <div class="col-5">
+                    <ul class="m-0">
+                        <li>Price = Money per Share. Example: 10000 = 10.000 VND</li>
+                        <li>Today: The command lasts until canceled or successful in today</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 5px;">
+                <div class="col-1" style="text-align: center; width: 150px;">
+                    <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" value="sell">
+                    <label class="btn btn-outline-warning btnfooter" for="option2">Sell</label>
+                </div>
+                <div class="col">
+                    <button class="btn btn-outline-info btnfooter">Confirm</button>
+                    <input name="day" type="radio" value="today" id="today" checked>
+                    <label for="today"  class="radio">Today</label>
 
+                    <input name="day" type="radio" value="unlimited" id="unlimited">
+                    <label for="unlimited"  class="radio">Unlimited</label>
+                </div>
+                <div class="col-5">
+                    <ul class="m-0">
+                        <li>Unlimited: The command lasts until canceled or successful</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
