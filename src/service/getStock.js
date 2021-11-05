@@ -96,71 +96,6 @@ module.exports.getCoin = async () => {
     }
 }
 
-// module.exports.getDividend = async (code) => {
-//     try {
-//         const url = 'https://finance.vietstock.vn/lich-su-kien.htm?page=1&tab=1&code=' + code;
-//         // const url = 'https://finance.vietstock.vn/lich-su-kien.htm?page=3&tab=1&exchange=-1';
-//         const browser = await puppeteer.launch();
-//         const page = await browser.newPage();
-//         await page.goto(url);
-//         await page.waitForSelector(".table-responsive");
-//         const data = await page.evaluate(
-//             () =>  Array.from(document.querySelectorAll('.table-responsive'))
-//                         .map(elem => elem.innerHTML)
-//         );
-//         let $ = cheerio.load(data[0]);
-//         let result = [];
-//         const dateNow = new Date();
-//         const month = dateNow.getMonth() + 1;
-//         const year = dateNow.getFullYear();
-//         $('tbody tr').each((index, element) => {
-//             let getResult = [];
-//             $(element).find('td').each((i, ele) => {
-//                 if (i == 3){
-//                     const date = $(ele).text();
-//                     const dateTemp = date.split('/').map((ele) => Number(ele));
-//                     if ((dateTemp[2] < year) || (dateTemp[1] < month)) {
-//                         return;
-//                     }
-//                     getResult.push(date);
-//                 }
-
-//                 if (i == 6){
-//                     if (getResult.length == 0){
-//                         return;
-//                     }
-//                     let temp = $(ele).text().split(', ');
-//                     if (temp.length == 2){
-//                         if (temp[1].includes(':')){
-//                             let ratio = temp[1].split(' ')[2].split(':');
-//                             ratio = ratio.map((ele, index) =>{
-//                                 return Number(ele);
-//                             })
-//                             getResult.push(ratio);
-//                         }
-//                         else {
-//                             const ratio = Number(temp[1].split(' ')[0].replace(',',''));
-//                             getResult.push([ratio]);
-//                         }
-//                     }
-//                     // else if (temp.length == 3){
-//                     //     let ratio = temp[1].split(' ')[2].split(':');
-//                     //     ratio = ratio.map((ele, index) =>{
-//                     //         return Number(ele);
-//                     //     })
-//                     //     const money = Number(temp[2].split(' ')[1].replace(',',''));
-//                     //     getResult.push(ratio, money);
-//                     // }
-//                     result.push(getResult);
-//                 }
-//             });
-//         });
-//         return result;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
-
 module.exports.getDividend = async (code) => {
     try {
         const urlDividend = 'https://finfo-api.vndirect.com.vn/v4/events?q=locale:VN~code:'+ code +'~type:dividend~effectiveDate:gte:2021-10-18&sort=effectiveDate:asc&size=20&page=1';
@@ -255,3 +190,28 @@ module.exports.execDividend = async () => {
         throw error;
     }
 }
+
+module.exports.updateDivAfterSell = async (username) => {
+    try {
+        const user = await User.findOne(username);
+        const div = await Div.find(username);
+        for (let stock of div){
+            let flag = 0;
+            for (let code of user.stockCode){
+                if (stock.code == code.code){
+                    flag = 1; 
+                }
+            }
+            if (flag == 0){
+                console.log(stock.code);
+                // await Div.deleteOne({
+                //     username: username,
+                // })
+            }
+        }
+    } catch (error) {
+        throw error;        
+    }
+}
+
+this.updateDivAfterSell({username: "thachpro001"});
