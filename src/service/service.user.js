@@ -1,4 +1,5 @@
 const model = require('../model/model.user.js');
+const Stock = require('./getStock');
 const Div = require('../model/model.div.js').Div;
 const mongoose = require('mongoose');
 const User = model.User;
@@ -90,6 +91,9 @@ module.exports.buyStock = async (id, data) => {
                     $inc: {money : -data.capital}
                 })
             }
+            Stock.updateDividend({
+                username: user.username
+            });
             return {Money: user.money - data.capital}
         }
         else {
@@ -116,6 +120,9 @@ module.exports.sellStock = async (id, data) => {
                     if (stock.weight == 0){
                         await User.updateOne(id, {$pull: {stockCode: {_id: stock._id}}})
                     }
+                    Stock.updateDivAfterSell({
+                        username: user.username
+                    });
                     return {
                         money: user.money,
                         earning: user.earning,

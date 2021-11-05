@@ -7,10 +7,10 @@ async function updateCost(){
     cost = await getStocks();
 }
 updateCost();
-updateDividend();
 execDividend();
-setInterval(updateDividend, 3600000);
-setInterval(execDividend, 21600000);
+updateDividend();
+setInterval(updateDividend, 7200000);
+setInterval(execDividend, 14400000);
 setInterval(updateCost, 5000);
 
 module.exports.createUser = async (req, res) => {
