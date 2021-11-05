@@ -4,6 +4,20 @@ const puppeteer = require('puppeteer');
 const User = require('../model/model.user').User;
 const Div = require('../model/model.div').Div;
 
+function formatDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 module.exports.getStocks = async () => {
     try {
         const url = 'https://banggia.cafef.vn/stockhandler.ashx';
@@ -98,7 +112,8 @@ module.exports.getCoin = async () => {
 
 module.exports.getDividend = async (code) => {
     try {
-        const urlDividend = 'https://finfo-api.vndirect.com.vn/v4/events?q=locale:VN~code:'+ code +'~type:dividend~effectiveDate:gte:2021-10-18&sort=effectiveDate:asc&size=20&page=1';
+        let timenow = formatDate();
+        const urlDividend = 'https://finfo-api.vndirect.com.vn/v4/events?q=locale:VN~code:'+ code +'~type:dividend~effectiveDate:gte:' + timenow + '&sort=effectiveDate:asc&size=20&page=1';
         let data = await fetch(urlDividend).then(res => res.json());
         data = data.data;
         let result = [];
@@ -108,7 +123,7 @@ module.exports.getDividend = async (code) => {
             result.push(temp);
         }
 
-        const urlKinddiv = 'https://finfo-api.vndirect.com.vn/v4/events?q=locale:VN~code:'+ code +'~type:kinddiv~effectiveDate:gte:2021-10-18&sort=effectiveDate:asc&size=20&page=1';
+        const urlKinddiv = 'https://finfo-api.vndirect.com.vn/v4/events?q=locale:VN~code:'+ code +'~type:kinddiv~effectiveDate:gte:' + timenow + '&sort=effectiveDate:asc&size=20&page=1';
         data = await fetch(urlKinddiv).then(res => res.json());
         data = data.data;
         for (let code of data){
@@ -117,7 +132,7 @@ module.exports.getDividend = async (code) => {
             result.push(temp);
         }
 
-        const urlStockDiv = 'https://finfo-api.vndirect.com.vn/v4/events?q=locale:VN~code:'+ code +'~type:stockdiv~effectiveDate:gte:2021-10-18&sort=effectiveDate:asc&size=20&page=1';
+        const urlStockDiv = 'https://finfo-api.vndirect.com.vn/v4/events?q=locale:VN~code:'+ code +'~type:stockdiv~effectiveDate:gte:' + timenow + '&sort=effectiveDate:asc&size=20&page=1';
         data = await fetch(urlStockDiv).then(res => res.json());
         data = data.data;
         for (let code of data){
@@ -222,3 +237,4 @@ module.exports.updateDivAfterSell = async (username) => {
         throw error;        
     }
 }
+
