@@ -50,3 +50,12 @@ module.exports.sellCoinSchema = Joi.object({
     code: Joi.string().required(),
     weight: Joi.number().required().min(0.001)
 });
+
+module.exports.setCommandSchema = Joi.object({
+    command: Joi.string().required().min(2),
+    code: Joi.string().required().min(3),
+    price: Joi.number().integer().required().min(1000),
+    weight: Joi.number().integer().required().min(1),
+    isUnlimited: Joi.boolean().required(),
+    option: Joi.string().required()
+});

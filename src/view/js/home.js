@@ -635,3 +635,117 @@ async function showDiv(){
     }
     document.getElementById('user-information').appendChild(table);
 }
+
+var toggle = 0;
+
+function toggleFooter() {
+    if (toggle == 1){
+        document.getElementById('toggle').className = "btn btn-outline-light";
+        document.getElementById('toggle').style.bottom = "0px";
+        document.getElementById('footer').style.display = "none";
+        toggle = 0;
+    }
+    else {
+        document.getElementById('toggle').className += " active";
+        document.getElementById('toggle').style.bottom = "120px";
+        document.getElementById('footer').style.display = "block";
+        toggle = 1;
+    }
+}
+
+async function totalPrice() {
+    let price = document.getElementById('CPrice').value;
+    let weight = document.getElementById('CWeight').value;
+    if ((weight != '') && (price != '')){
+        document.getElementById('CTotal').value = (parseInt(price) * parseInt(weight)).toLocaleString('vi-vn');
+    }
+    else {
+        document.getElementById('CTotal').value = 0;
+    }
+}
+
+async function getCommand(){
+    let radio = document.getElementsByName("options");
+    let day = document.getElementsByName("day");
+    let option;
+    let exp;
+    let command = document.getElementById('command').value;
+    let code = document.getElementById('CCode').value;
+    let weight = document.getElementById('CWeight').value;
+    let price = document.getElementById('CPrice').value;
+    
+    if (code == ''){
+        Swal.fire({
+            title: "Please input Code",
+            icon: "error"
+        });
+        return;
+    }
+
+    if (weight == ''){
+        Swal.fire({
+            title: "Please input Weight",
+            icon: "error"
+        });
+        return;
+    }
+    else if (!Number.isInteger(parseFloat(weight))){
+        Swal.fire({
+            title: "Please input integer weight",
+            icon: "error"
+        });
+        return;
+    }
+    else if (parseInt(weight) <= 0){
+        Swal.fire({
+            title: "Please input weight > 0",
+            icon: "error"
+        });
+        return;
+    }
+
+    if (price == ''){
+        Swal.fire({
+            title: "Please input Price",
+            icon: "error"
+        });
+        return;
+    }
+    else if (!Number.isInteger(parseFloat(price))){
+        Swal.fire({
+            title: "Please input integer Price",
+            icon: "error"
+        });
+        return;
+    }
+    else if (parseInt(price) < 1000){
+        Swal.fire({
+            title: "Please input Price >= 1000",
+            icon: "error"
+        });
+        return;
+    }
+
+    for (let value = 0; value < radio.length; value++){
+        if (radio[value].checked){
+            option = radio[value].value;
+        }
+    }
+
+    for (let value = 0; value < day.length; value++){
+        if (day[value].checked){
+            exp = day[value].value;
+        }
+    }
+
+    const data = {
+        option: option,
+        exp: exp,
+        command: command,
+        code: code,
+        weight: parseInt(weight),
+        price: parseInt(price)
+    }
+
+    console.log(data);
+}

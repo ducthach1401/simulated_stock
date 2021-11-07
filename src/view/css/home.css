@@ -138,7 +138,7 @@ input::placeholder {
     font-size: 14px;
 }
 
-.footer {
+#footer {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -146,6 +146,7 @@ input::placeholder {
     background-color: black;
     color: ghostwhite;
     text-align: left;
+    display: block;
 }
 
 .cmd, .cmd1 {
@@ -165,5 +166,10 @@ input::placeholder {
  }
 
  .radio {
-     margin-right: 10px;
+    margin-right: 10px;
  }
+
+ #toggle {
+    position: fixed;
+    left: 0px;
+}

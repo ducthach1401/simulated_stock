@@ -113,7 +113,9 @@
             </div>
         </div>
     </div>
-    <div class="footer">
+    <button id="toggle" class="btn btn-outline-light" onclick="toggleFooter()" style="bottom: 0px;">Set command</button>
+
+    <div class="footer" id="footer" style="display: none;">
         <div class="container">
             <div class="row" style="margin-top: 10px;">
                 <div class="col-1" style="text-align: center; width: 150px;">
@@ -126,14 +128,14 @@
                         <!-- <option value="ATO">ATO</option>
                         <option value="ATC">ATC</option> -->
                     </select>
-                    <input type="text" placeholder="Code" class="form-control cmd1" style="width: 80px;">
-                    <input type="text" placeholder="Weight" class="form-control cmd1" style="width: 80px;">
-                    <input type="text" placeholder="Price" class="form-control cmd1">
-                    <input type="text" placeholder="Total" class="form-control cmd1 disabled" disabled style="width: 150px; background-color: azure;">
+                    <input type="text" placeholder="Code" class="form-control cmd1" style="width: 80px;" id="CCode">
+                    <input type="text" placeholder="Weight" class="form-control cmd1" style="width: 80px;" id="CWeight" onkeyup="totalPrice()">
+                    <input type="text" placeholder="Price" class="form-control cmd1" id="CPrice" onkeyup="totalPrice()">
+                    <input type="text" placeholder="Total" class="form-control cmd1 disabled" disabled style="width: 150px; background-color: azure;" id="CTotal">
                 </div>
                 <div class="col-5">
                     <ul class="m-0">
-                        <li>Price = Money per Share. Example: 10000 = 10.000 VND</li>
+                        <li>Unlimited: The command lasts until canceled or successful</li>
                         <li>Today: The command lasts until canceled or successful in today</li>
                     </ul>
                 </div>
@@ -144,7 +146,7 @@
                     <label class="btn btn-outline-warning btnfooter" for="option2">Sell</label>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-info btnfooter">Confirm</button>
+                    <button class="btn btn-outline-info btnfooter" onclick="getCommand()">Confirm</button>
                     <input name="day" type="radio" value="today" id="today" checked>
                     <label for="today"  class="radio">Today</label>
 
@@ -153,7 +155,7 @@
                 </div>
                 <div class="col-5">
                     <ul class="m-0">
-                        <li>Unlimited: The command lasts until canceled or successful</li>
+                        <li>Time</li>
                     </ul>
                 </div>
             </div>
