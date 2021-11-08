@@ -5,7 +5,7 @@ const { clearCommand, execCommand } = require('../service/service.command.js');
 
 var cost;
 async function updateCost(){
-    const options = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', month: '2-digit', day: '2-digit'};
+    const options = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit', month: '2-digit', day: '2-digit', year: 'numeric'};
     const today = new Date();
     const time = today.toLocaleTimeString("vi-VN", options).slice(0,9);
     const dateEng = today.toLocaleDateString("en-US", options).slice(0,9);
