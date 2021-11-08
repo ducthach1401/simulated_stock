@@ -677,7 +677,7 @@ async function totalPrice() {
 }
 
 async function timeStock () {
-    const options = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', month: '2-digit', day: '2-digit'};
+    const options = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit', month: '2-digit', day: '2-digit', year: 'numberic'};
     const today = new Date();
     let time = today.toLocaleTimeString("vi-VN", options).slice(0,9);
     let date = today.toLocaleDateString("vi-VN", options).slice(7);
