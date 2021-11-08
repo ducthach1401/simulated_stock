@@ -122,6 +122,7 @@ module.exports.execCommand = async (stock) => {
                         let result = await ServiceUser.buyStock(username, data);
                         if (result.Money) {
                             await Command.updateOne(command, {
+                                price: stock[code][3],
                                 isSuccess: true
                             });
                         }
@@ -133,6 +134,7 @@ module.exports.execCommand = async (stock) => {
                         let result = await ServiceUser.sellStock(username, data);
                         if (result.money) {
                             await Command.updateOne(command, {
+                                price: stock[code][3],
                                 isSuccess: true
                             });
                         }

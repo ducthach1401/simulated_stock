@@ -6,7 +6,15 @@ const { clearCommand, execCommand } = require('../service/service.command.js');
 var cost;
 async function updateCost(){
     cost = await getStocks();
-    execCommand(cost);
+    let time = new Date();
+    let weekday = time.getDay();
+    let hour = time.getUTCHours() + 7;
+    if ((weekday != 0) && (weekday != 6)) {
+        if ((hour >= 9) && (hour <=15)){
+            await execCommand(cost);
+        }
+    }
+    setTimeout(updateCost, 5000);
 }
 updateCost();
 execDividend();
@@ -15,7 +23,7 @@ clearCommand();
 
 setInterval(updateDividend, 7200000);
 setInterval(execDividend, 14400000);
-setInterval(updateCost, 5000);
+// setInterval(updateCost, 5000);
 setInterval(clearCommand, 7200000);
 
 module.exports.createUser = async (req, res) => {

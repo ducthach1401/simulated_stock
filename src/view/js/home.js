@@ -675,3 +675,17 @@ async function totalPrice() {
         document.getElementById('CTotal').value = 0;
     }
 }
+
+async function timeStock () {
+    let time = new Date();
+    let hour = time.toTimeString('vi-vn').slice(0,8);
+
+    time = new Date(time.toLocaleDateString('vi-vn'));
+    let weekend = time.getDay();
+
+    console.log(hour);
+    console.log(weekend);
+    console.log(time);
+}
+
+timeStock();
