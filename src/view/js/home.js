@@ -677,15 +677,27 @@ async function totalPrice() {
 }
 
 async function timeStock () {
-    let time = new Date();
-    let hour = time.toTimeString('vi-vn').slice(0,8);
+    const options = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false};
+    const today = new Date();
+    let time = today.toLocaleTimeString("vi-VN", options).slice(0,9);
+    let date = today.toLocaleDateString("vi-VN", options).slice(7);
+    let dateEng = today.toLocaleDateString("en-US", options).slice(0,9);
+    const weekend = new Date(dateEng).getDay();
 
-    time = new Date(time.toLocaleDateString('vi-vn'));
-    let weekend = time.getDay();
-
-    console.log(hour);
-    console.log(weekend);
-    console.log(time);
+    let exchange = document.getElementById('infoExchange');
+    let info = '';
+    if ((parseInt(time.split(':')[0]) >= 9) && (parseInt(time.split(':')[0]) <= 14) && (weekend != 0) && (weekend != 6)) {
+        info = 'Open Exchange';
+        exchange.classList = 'green';
+    }
+    else {
+        info = 'Close Exchange';
+        exchange.classList = 'red';
+    }
+    document.getElementById('timeVN').innerHTML = time;
+    document.getElementById('dateVN').innerText = date;
+    exchange.innerHTML = '<b>' + info + '</b>';
+    // timeStock();
 }
 
-timeStock();
+setInterval(timeStock, 1000);

@@ -174,7 +174,7 @@ async function tableCommand(){
         row.appendChild(td);
 
         td = document.createElement('td');
-        td.innerText = command.weight;
+        td.innerText = command.weight.toLocaleString('vi-vn');
         row.appendChild(td);
 
         
