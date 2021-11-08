@@ -26,3 +26,17 @@ module.exports.divSchema = (model) => {
         isDiv: model.isDiv
     }
 }
+
+module.exports.infoCommand = (model) => {
+    return {
+        _id: model.id,
+        command: model.command,
+        code: model.code,
+        price: model.price,
+        weight: model.weight,
+        option: model.option,
+        isUnlimited: model.isUnlimited,
+        isSuccess: model.isSuccess,
+        dateSet: model.daySet
+    }
+}

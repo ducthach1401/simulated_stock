@@ -44,11 +44,15 @@ async function getUser(){
         document.getElementById('admin').appendChild(temp);
     }
 
-    tableSell = document.createElement('table');
-    rowSell = document.createElement('tr');
-    
-    table = document.createElement('table');
-    table.setAttribute('id','tableinfo')
+    showTableInfo(data);
+    showSellTable(data);
+    tableCommand();
+    showDiv();
+}
+
+async function showTableInfo(data){
+    table = document.getElementById('tableinfo');
+    table.innerHTML = '';
     row = document.createElement('tr');
 
     temp = document.createElement('th');
@@ -56,24 +60,8 @@ async function getUser(){
     row.appendChild(temp);
 
     temp = document.createElement('th');
-    temp.innerHTML = 'Code'
-    rowSell.appendChild(temp);
-
-    temp = document.createElement('th');
-    temp.innerHTML = 'Weight';
-    rowSell.appendChild(temp);
-
-    temp = document.createElement('th');
-    temp.innerHTML = 'Date Buy';
-    rowSell.appendChild(temp);
-
-    temp = document.createElement('th');
-    temp.innerHTML = 'Weight Sell';
-    rowSell.appendChild(temp);
-
-    temp = document.createElement('th');
-    temp.innerHTML = 'Total Money';
-    rowSell.appendChild(temp);
+    temp.innerHTML = 'Price';
+    row.appendChild(temp);
 
     temp = document.createElement('th');
     temp.innerHTML = 'Capital';
@@ -92,32 +80,24 @@ async function getUser(){
     row.appendChild(temp);
 
     table.appendChild(row);
-    tableSell.appendChild(rowSell);
-    tableSell.setAttribute('id', 'tableSell');
+
     cost =  await dataStockGobal;
     for (let stock of data.stockCode){
+        tempCost = cost[stock.code][3] * stock.weight * 0.999;
         row = document.createElement('tr');
-        rowSell = document.createElement('tr');
-
         code = document.createElement('td');
         code.innerHTML = stock.code;
         row.appendChild(code);
 
-        code = document.createElement('td');
-        code.innerHTML = stock.code;
-        rowSell.appendChild(code);
-
-        capital = document.createElement('td');
-        capital.innerHTML = stock.weight.toLocaleString('vi-VN');
-        rowSell.appendChild(capital);
-
-        capital = document.createElement('td');
-        let dateBuy = new Date(stock.dateBuy);
-        const month = String(dateBuy.getMonth() + 1).padStart(2, '0');
-        const day = String(dateBuy.getDate()).padStart(2, '0');
-        const year = dateBuy.getFullYear();
-        capital.innerHTML = day + '/' + month + '/' + year;
-        rowSell.appendChild(capital);
+        temp = document.createElement('td');
+        temp.innerHTML = cost[stock.code][3].toLocaleString('vi-vn');
+        if (tempCost >= stock.capital){
+            temp.setAttribute('class', 'green');
+        }
+        else {
+            temp.setAttribute('class', 'red');
+        }
+        row.appendChild(temp);
 
         capital = document.createElement('td');
         capital.innerHTML = stock.capital.toLocaleString('vi-VN');
@@ -125,7 +105,6 @@ async function getUser(){
         row.appendChild(capital);
 
         temp = document.createElement('td');
-        tempCost = cost[stock.code][3] * stock.weight * 0.999;
         if (tempCost >= stock.capital){
             temp.setAttribute('class', 'green');
         }
@@ -155,6 +134,53 @@ async function getUser(){
         }
         percent.innerHTML = Math.round(tempCost / stock.capital * 10000)/100 + ' %';
         row.appendChild(percent);
+        table.appendChild(row);
+    }
+}
+async function showSellTable(data){
+    tableSell = document.getElementById('tableSell');
+    tableSell.innerHTML = '';
+    rowSell = document.createElement('tr');
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Code'
+    rowSell.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Weight';
+    rowSell.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Date Buy';
+    rowSell.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Weight Sell';
+    rowSell.appendChild(temp);
+
+    temp = document.createElement('th');
+    temp.innerHTML = 'Total Money';
+    rowSell.appendChild(temp);
+    tableSell.appendChild(rowSell);
+
+    cost =  await dataStockGobal;
+    for (let stock of data.stockCode){
+        rowSell = document.createElement('tr');
+        code = document.createElement('td');
+        code.innerHTML = stock.code;
+        rowSell.appendChild(code);
+
+        capital = document.createElement('td');
+        capital.innerHTML = stock.weight.toLocaleString('vi-VN');
+        rowSell.appendChild(capital);
+
+        capital = document.createElement('td');
+        let dateBuy = new Date(stock.dateBuy);
+        const month = String(dateBuy.getMonth() + 1).padStart(2, '0');
+        const day = String(dateBuy.getDate()).padStart(2, '0');
+        const year = dateBuy.getFullYear();
+        capital.innerHTML = day + '/' + month + '/' + year;
+        rowSell.appendChild(capital);
 
         temp = document.createElement('td');
         input = document.createElement('input');
@@ -167,24 +193,7 @@ async function getUser(){
         rowSell.appendChild(temp);
 
         tableSell.appendChild(rowSell);
-        table.appendChild(row);
     }
-    document.getElementById('user-information').innerHTML = '';
-    document.getElementById('user-information').appendChild(table);
-    document.getElementById('user-information').appendChild(tableSell);
-
-    button = document.createElement('button');
-    button.setAttribute('class', "btn btn-outline-warning sellButton")
-    button.innerHTML = 'Sell';
-    button.setAttribute('onclick', 'sellStock()');
-    document.getElementById('user-information').appendChild(button);
-
-    button = document.createElement('button');
-    button.setAttribute('class', "btn btn-outline-light totalButton");
-    button.innerHTML = 'Total money';
-    button.setAttribute('onclick', 'totalBill()');
-    document.getElementById('user-information').appendChild(button);
-    showDiv();
 }
 
 async function updateTableInfo(cost){
@@ -198,11 +207,15 @@ async function updateTableInfo(cost){
     row.appendChild(temp);
 
     temp = document.createElement('th');
+    temp.innerHTML = 'Price';
+    row.appendChild(temp);
+
+    temp = document.createElement('th');
     temp.innerHTML = 'Capital';
     row.appendChild(temp);
 
     temp = document.createElement('th');
-    temp.innerHTML = 'Current Price';
+    temp.innerHTML = 'Total Price';
     row.appendChild(temp);
 
     temp = document.createElement('th');
@@ -215,10 +228,21 @@ async function updateTableInfo(cost){
 
     table.appendChild(row);
     for (let stock of user.stockCode){
+        tempCost = cost[stock.code][3] * stock.weight * 0.999;
         row = document.createElement('tr');
 
         code = document.createElement('td');
         code.innerHTML = stock.code;
+        row.appendChild(code);
+
+        code = document.createElement('td');
+        code.innerHTML = cost[stock.code][3].toLocaleString('vi-vn');
+        if (tempCost >= stock.capital){
+            code.setAttribute('class', 'green');
+        }
+        else {
+            code.setAttribute('class', 'red');
+        }
         row.appendChild(code);
 
         capital = document.createElement('td');
@@ -227,7 +251,6 @@ async function updateTableInfo(cost){
         row.appendChild(capital);
 
         temp = document.createElement('td');
-        tempCost = cost[stock.code][3] * stock.weight * 0.999;
         if (tempCost >= stock.capital){
             temp.setAttribute('class', 'green');
         }
@@ -330,16 +353,6 @@ async function showStock(){
         temp = document.createElement('td');
         temp.setAttribute('id', 'total' + stock);
         temp.setAttribute('class', 'total');
-        row.appendChild(temp);
-
-        temp = document.createElement('td');
-        button = document.createElement('button');
-        button.value = stock;
-        button.textContent = 'Purchase';
-        button.setAttribute('class', "btn btn-outline-info btn" + stock);
-        button.setAttribute('style', 'width: 90px');
-        button.setAttribute('onclick', 'buyStock(this.value)');
-        temp.appendChild(button);
         row.appendChild(temp);
         document.getElementById('exchange').append(row);
     }
@@ -527,7 +540,7 @@ async function updatePrice(){
             }, 2000)
         }
     }
-    updateTableInfo(data);
+    getUser();
 }
 
 function searchStock() {
@@ -560,7 +573,7 @@ async function getVNIndex() {
     });
     let data = await response.json();
     let VNIndex = document.getElementById('VN-Index');
-    VNIndex.className = 'col-4';
+    VNIndex.className = 'col-5';
     if (data['change'] >= 0){
         VNIndex.innerHTML = data['name'] + ': ' + data['price'] + '  &uarr; ' + data['change'] + ' (' + data['prechange'] + '%)';
         VNIndex.classList.add('green');
@@ -581,8 +594,8 @@ async function showDiv(){
         },
     });
     let data = await response.json();
-    let table = document.createElement('table');
-
+    let table = document.getElementById('tableDiv');
+    table.innerHTML = '';
     let th = document.createElement('th');
     th.innerText = 'Code';
     table.appendChild(th);
@@ -623,7 +636,7 @@ async function showDiv(){
 
         td = document.createElement('td');
         if (code.isDiv){
-            td.innerText = 'Done';
+            td.innerText = 'x';
             tr.setAttribute('class', 'green');
         }
         else {
@@ -633,7 +646,6 @@ async function showDiv(){
         table.appendChild(tr);
 
     }
-    document.getElementById('user-information').appendChild(table);
 }
 
 var toggle = 0;
@@ -662,90 +674,4 @@ async function totalPrice() {
     else {
         document.getElementById('CTotal').value = 0;
     }
-}
-
-async function getCommand(){
-    let radio = document.getElementsByName("options");
-    let day = document.getElementsByName("day");
-    let option;
-    let exp;
-    let command = document.getElementById('command').value;
-    let code = document.getElementById('CCode').value;
-    let weight = document.getElementById('CWeight').value;
-    let price = document.getElementById('CPrice').value;
-    
-    if (code == ''){
-        Swal.fire({
-            title: "Please input Code",
-            icon: "error"
-        });
-        return;
-    }
-
-    if (weight == ''){
-        Swal.fire({
-            title: "Please input Weight",
-            icon: "error"
-        });
-        return;
-    }
-    else if (!Number.isInteger(parseFloat(weight))){
-        Swal.fire({
-            title: "Please input integer weight",
-            icon: "error"
-        });
-        return;
-    }
-    else if (parseInt(weight) <= 0){
-        Swal.fire({
-            title: "Please input weight > 0",
-            icon: "error"
-        });
-        return;
-    }
-
-    if (price == ''){
-        Swal.fire({
-            title: "Please input Price",
-            icon: "error"
-        });
-        return;
-    }
-    else if (!Number.isInteger(parseFloat(price))){
-        Swal.fire({
-            title: "Please input integer Price",
-            icon: "error"
-        });
-        return;
-    }
-    else if (parseInt(price) < 1000){
-        Swal.fire({
-            title: "Please input Price >= 1000",
-            icon: "error"
-        });
-        return;
-    }
-
-    for (let value = 0; value < radio.length; value++){
-        if (radio[value].checked){
-            option = radio[value].value;
-        }
-    }
-
-    for (let value = 0; value < day.length; value++){
-        if (day[value].checked){
-            exp = day[value].value;
-        }
-    }
-
-    const data = {
-        option: option,
-        exp: exp,
-        command: command,
-        code: code,
-        weight: parseInt(weight),
-        price: parseInt(price)
-    }
-
-    console.log(data);
 }

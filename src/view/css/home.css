@@ -173,3 +173,20 @@ input::placeholder {
     position: fixed;
     left: 0px;
 }
+
+#command-table{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#info{
+    width: 550px;
+}
+
+#tableinfo, #tableSell, #command-table {
+    width: 520px;
+}
+
+#tableDiv {
+    width: 400px;
+}

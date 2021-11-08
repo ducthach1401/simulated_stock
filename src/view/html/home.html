@@ -12,6 +12,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/env.js"></script>
     <script src="../js/home.js"></script>
+    <script src="../js/command.js"></script>
 </head>
 <body>
     <div class="row header mb-5">
@@ -73,7 +74,7 @@
             
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-5" id="info">
                 <!-- <h3 class="sub1">Information</h3> -->
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header"><h3 class="sub1">Information</h3></div>
@@ -81,6 +82,10 @@
                 </div>
                 <div id="user-information">
                     <script>getUser()</script>
+                    <table id="tableinfo"></table>
+                    <table id="tableSell"></table>
+                    <table id="command-table"></table>
+                    <table id="tableDiv"></table>
                 </div>
                 <!-- <h3 class="sub2">Ranking</h3>
                 <div id="ranking"></div>
@@ -106,7 +111,7 @@
                         <th>Current</th>
                         <th>Weight</th>
                         <th>Total</th>
-                        <th>Purchase</th>
+                        <!-- <th>Purchase</th> -->
                     </tr>
                 </table>
                 <script>showStock()</script>
@@ -146,14 +151,14 @@
                     <label class="btn btn-outline-warning btnfooter" for="option2">Sell</label>
                 </div>
                 <div class="col">
-                    <button class="btn btn-outline-info btnfooter" onclick="getCommand()">Confirm</button>
-                    <input name="day" type="radio" value="today" id="today" checked>
+                    <button class="btn btn-outline-info btnfooter" onclick="setCommand()">Confirm</button>
+                    <input name="day" type="radio" value="false" id="today" checked>
                     <label for="today"  class="radio">Today</label>
 
-                    <input name="day" type="radio" value="unlimited" id="unlimited">
+                    <input name="day" type="radio" value="true" id="unlimited">
                     <label for="unlimited"  class="radio">Unlimited</label>
                 </div>
-                <div class="col-5">
+                <div class="col-5 info">
                     <ul class="m-0">
                         <li>Time</li>
                     </ul>

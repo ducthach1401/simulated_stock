@@ -11,7 +11,7 @@ module.exports.setCommand = async(data) => {
         if (data.option == 'purchase') {
             if ((data.price * data.weight) > user.money) {
                 return {
-                    message: "Fail"
+                    message: "Money is not enough"
                 }
             }
             user.money -= data.price * data.weight;
@@ -29,7 +29,7 @@ module.exports.setCommand = async(data) => {
             }
             if (flag) {
                 return {
-                    message: "Fail"
+                    message: "Can't find stock code in account"
                 }
             }
         }
@@ -43,7 +43,7 @@ module.exports.setCommand = async(data) => {
     }
 }
 
-module.exports.deleteCommand = async (data) => {
+module.exports.deleteCommand = async (data, option) => {
     try {
         const result = await Command.findOne(data);
         if (!result){
@@ -52,20 +52,25 @@ module.exports.deleteCommand = async (data) => {
             }
         }
         const user = await User.findOne({
-            username: data.username
+            username: result.username
         });
-        if (result.option == 'purchase') {
-            user.money += result.price * result.weight;
-        }
-        else {
-            for (let stock of user.stockCode){
-                if (stock.code == result.code){
-                    stock.weight += result.weight;
+        if (!result.isSuccess){
+            if (result.option == 'purchase') {
+                user.money += result.price * result.weight;
+            }
+            else {
+                for (let stock of user.stockCode){
+                    if (stock.code == result.code){
+                        stock.weight += result.weight;
+                    }
                 }
             }
+            await user.save();
         }
-        await user.save();
-        await Command.deleteOne(data);
+        
+        if (option == 1){
+            await Command.deleteOne(data);
+        }
         return {
             message: "Success"
         }
@@ -100,32 +105,37 @@ module.exports.execCommand = async (stock) => {
             let username = {
                 username: command.username
             }
-            let data = {
-                code: code,
-                weight: command.weight,
-                cost: stock[code][3],
-                dateBuy: Date.now()
+            if (!(code in stock)){
+                await this.deleteCommand(command, 1);
+                return;
             }
-            if (stock[code][3] <= command.price) {
-                if (command.option == 'purchase'){
-                    this.deleteCommand(command);
-                    let result = await ServiceUser.buyStock(username, data);
-                    if (result.Money) {
-                        await Command.updateOne(command, {
-                            isSuccess: true
-                        });
+            else {
+                let data = {
+                    code: code,
+                    weight: command.weight,
+                    cost: stock[code][3],
+                    dateBuy: Date.now()
+                }
+                if (stock[code][3] <= command.price) {
+                    if (command.option == 'purchase'){
+                        await this.deleteCommand(command, 0);
+                        let result = await ServiceUser.buyStock(username, data);
+                        if (result.Money) {
+                            await Command.updateOne(command, {
+                                isSuccess: true
+                            });
+                        }
                     }
                 }
-            }
-            if (stock[code][3] >= command.price){
-                if (command.option == 'sell'){
-                    this.deleteCommand(command);
-                    await user.save();
-                    let result = await ServiceUser.sellStock(username, data);
-                    if (result.money) {
-                        await Command.updateOne(command, {
-                            isSuccess: true
-                        });
+                if (stock[code][3] >= command.price){
+                    if (command.option == 'sell'){
+                        await this.deleteCommand(command, 0);
+                        let result = await ServiceUser.sellStock(username, data);
+                        if (result.money) {
+                            await Command.updateOne(command, {
+                                isSuccess: true
+                            });
+                        }
                     }
                 }
             }
@@ -142,13 +152,13 @@ module.exports.clearCommand = async () => {
             if (command.isSuccess){
                 const date = parseInt((Date.now() - command.daySet)/(24*3600*1000));;
                 if (date >= 1){
-                    await this.deleteCommand(command);
+                    await Command.deleteOne(command);
                 }
             }
             else if (command.isUnlimited == false){
                 const date = parseInt((Date.now() - command.daySet)/(24*3600*1000));;
                 if (date >= 1){
-                    await this.deleteCommand(command);
+                    await Command.deleteOne(command);
                 }
             }
         }

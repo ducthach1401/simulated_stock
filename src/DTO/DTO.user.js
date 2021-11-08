@@ -57,5 +57,5 @@ module.exports.setCommandSchema = Joi.object({
     price: Joi.number().integer().required().min(1000),
     weight: Joi.number().integer().required().min(1),
     isUnlimited: Joi.boolean().required(),
-    option: Joi.string().required()
+    option: Joi.string().required().valid('sell', 'purchase')
 });
