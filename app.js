@@ -6,6 +6,8 @@ const View = require('./src/view/route/view');
 const UserUSA = require('./src/route/route.stock');
 const Admin = require('./src/route/router.admin');
 const Coin = require('./src/route/route.coin');
+const Command = require('./src/route/route.command');
+
 const cors = require('cors');   
 require('dotenv').config();
 
@@ -25,6 +27,7 @@ app.use('/v1/user', User);
 app.use('/v1/USA', UserUSA)
 app.use('/v1/admin', Admin)
 app.use('/v1/coin', Coin);
+app.use('/v1/command', Command);
 app.use('/', View);
 app.listen(port, () => {
     console.log("Run Server http://localhost:8080");

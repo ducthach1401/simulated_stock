@@ -1,17 +1,22 @@
 const service = require('../service/service.user.js');
 const { getStocks, getVNIndex, updateDividend, execDividend } = require('../service/getStock.js');
-const serializerUser = require('../serializer/user.serializer')
+const serializerUser = require('../serializer/user.serializer');
+const { clearCommand, execCommand } = require('../service/service.command.js');
 
 var cost;
 async function updateCost(){
     cost = await getStocks();
+    execCommand(cost);
 }
 updateCost();
 execDividend();
 updateDividend();
+clearCommand();
+
 setInterval(updateDividend, 7200000);
 setInterval(execDividend, 14400000);
 setInterval(updateCost, 5000);
+setInterval(clearCommand, 7200000);
 
 module.exports.createUser = async (req, res) => {
     try {
