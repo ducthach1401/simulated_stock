@@ -238,3 +238,41 @@ module.exports.updateDivAfterSell = async (username) => {
     }
 }
 
+module.exports.getStockinssi = async () => {
+    const url = 'https://wgateway-iboard.ssi.com.vn/graphql';
+    const payload = {
+        "operationName": "stockRealtimes",
+        "variables": {
+            "exchange": "hose"
+        },
+        "query": "query stockRealtimes($exchange: String) {\n  stockRealtimes(exchange: $exchange) {\n    ceiling\n    floor\n    refPrice\n    stockSymbol\n    matchedPrice\n   best1Bid\n    best2Bid\n     best3Bid\n   best1Offer\n    best2Offer\n    best3Offer\n  }\n}\n"
+    }
+
+    const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    let data = await response.json();
+    data = data.data.stockRealtimes;
+    let result = {};
+    for (let stock of data){
+        if (stock.stockSymbol.length <= 4){
+            let price;
+            if (stock.best1Offer > 0){
+                price = stock.best1Offer;
+            }
+            else if (stock.matchedPrice > 0) {
+                price = stock.matchedPrice;
+            }
+            else {
+                price = stock.refPrice;
+            }
+            result[stock.stockSymbol] = [stock.refPrice, stock.ceiling, stock.floor, price];
+        }
+    }
+    return result;
+}

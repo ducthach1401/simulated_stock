@@ -1,5 +1,5 @@
 const service = require('../service/service.user.js');
-const { getStocks, getVNIndex, updateDividend, execDividend } = require('../service/getStock.js');
+const { getStocks, getVNIndex, updateDividend, execDividend, getStockinssi } = require('../service/getStock.js');
 const serializerUser = require('../serializer/user.serializer');
 const { clearCommand, execCommand } = require('../service/service.command.js');
 
