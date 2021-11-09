@@ -5,12 +5,15 @@ const { clearCommand, execCommand } = require('../service/service.command.js');
 
 var cost;
 async function updateCost(){
-    const options = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit', month: '2-digit', day: '2-digit', year: 'numeric'};
+    const options1 = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'};
+    const options2 = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  month: '2-digit', day: '2-digit', year: 'numeric'};
+
     const today = new Date();
-    const time = today.toLocaleTimeString("vi-VN", options).slice(0,9);
-    const dateEng = today.toLocaleDateString("en-US", options).slice(0,9);
+    const time = today.toLocaleTimeString("vi-VN", options1).split(' ')[0].trim();
+    const dateEng = today.toLocaleDateString("en-US", options2).split(',')[0].trim();
     const hour = parseInt(time.split(':')[0]);
-    const weekday = new Date(dateEng).getDay();
+    const weekday = parseInt(new Date(dateEng).getDay());
+
     cost = await getStocks();
     if ((weekday != 0) && (weekday != 6)) {
         if ((hour >= 9) && (hour <=14)){

@@ -677,13 +677,14 @@ async function totalPrice() {
 }
 
 async function timeStock () {
-    const options = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit', month: '2-digit', day: '2-digit', year: 'numeric'};
+    const options1 = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'};
+    const options2 = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  month: '2-digit', day: '2-digit', year: 'numeric'};
     const today = new Date();
-    let time = today.toLocaleTimeString("vi-VN", options).slice(0,9);
-    let date = today.toLocaleDateString("vi-VN", options).slice(7);
-    let dateEng = today.toLocaleDateString("en-US", options).slice(0,9);
+    let time = today.toLocaleTimeString("vi-VN", options1).split(' ')[0];
+    let date = today.toLocaleDateString("vi-VN", options2).split(' ')[1];
+    let dateEng = today.toLocaleDateString("en-US", options2).split(',')[0];
     const weekend = new Date(dateEng).getDay();
-
+    
     let exchange = document.getElementById('infoExchange');
     let info = '';
     if ((parseInt(time.split(':')[0]) >= 9) && (parseInt(time.split(':')[0]) <= 14) && (weekend != 0) && (weekend != 6)) {
