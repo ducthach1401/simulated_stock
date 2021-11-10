@@ -7,7 +7,9 @@ async function setCommand(){
     let code = document.getElementById('CCode').value;
     let weight = document.getElementById('CWeight').value;
     let price = document.getElementById('CPrice').value;
-    
+    if (sessionStorage.getItem('number') == 1){
+        return;
+    }
     if (code == ''){
         Swal.fire({
             title: "Please input Code",
@@ -86,6 +88,7 @@ async function setCommand(){
         isUnlimited: exp,
         option: option
     }
+    sessionStorage.setItem("number", 1);
     const url = API_URL + '/v1/command/';
     const response = await fetch(url, {
         method: 'POST',
@@ -96,6 +99,7 @@ async function setCommand(){
         },
     });
     let data = await response.json();
+    sessionStorage.setItem("number", 0);
     if (data.message == 'Success'){
         Swal.fire({
             title: "Set command successfully",
