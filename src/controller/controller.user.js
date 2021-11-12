@@ -4,6 +4,7 @@ const serializerUser = require('../serializer/user.serializer');
 const { clearCommand, execCommand } = require('../service/service.command.js');
 
 var cost;
+var checkCommand = 0;
 async function updateCost(){
     const options1 = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'};
     const options2 = { timeZone: 'Asia/Ho_Chi_Minh', timeZoneName: 'short',  month: '2-digit', day: '2-digit', year: 'numeric'};
@@ -15,12 +16,20 @@ async function updateCost(){
     const weekday = parseInt(new Date(dateEng).getDay());
 
     cost = await getStocks();
+     if (checkCommand != 0){
+         checkCommand++;
+         if (checkCommand >= 2){
+             checkCommand = 0;
+         }
+         return;
+    }
     if ((weekday != 0) && (weekday != 6)) {
         if ((hour >= 9) && (hour <=14)){
+            checkCommand = 1;
             await execCommand(cost);
+            checkCommand = 0;
         }
     }
-    setTimeout(updateCost, 5000);
 }
 updateCost();
 execDividend();
@@ -29,7 +38,7 @@ clearCommand();
 
 setInterval(updateDividend, 7200000);
 setInterval(execDividend, 14400000);
-// setInterval(updateCost, 5000);
+setInterval(updateCost, 5000);
 setInterval(clearCommand, 7200000);
 
 module.exports.createUser = async (req, res) => {
