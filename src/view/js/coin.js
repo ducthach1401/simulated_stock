@@ -500,7 +500,7 @@ async function updatePrice(){
             document.getElementById(stock + '1h').innerHTML = data[stock][2] + ' %';
             document.getElementById(stock + '24h').innerHTML = data[stock][3] + ' %';
             temp.className += 'ghostwhite highlight';
-            temp.innerHTML = data[stock][1];
+            temp.innerHTML = Math.round(data[stock][1] * 1000) / 1000;
             setTimeout(()=>{
                 temp.classList.remove('highlight');
             }, 2000)
