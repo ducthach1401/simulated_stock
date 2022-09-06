@@ -42,9 +42,15 @@ async function getRank() {
   data = data.map((ele) => {
     const total =
       ele.stockCode.reduce((a, b) => {
+        if (cost[b.code] == undefined) {
+          return 0;
+        }
         return a + cost[b.code][3] * b.weight * 0.999;
       }, 0) + ele.money;
     const profit = ele.stockCode.reduce((a, b) => {
+      if (cost[b.code] == undefined) {
+        return 0;
+      }
       return a + cost[b.code][3] * b.weight * 0.999 - b.capital;
     }, 0);
     return {
