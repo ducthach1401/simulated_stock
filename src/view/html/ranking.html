@@ -1,92 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leader Board</title>
-    <link rel="icon" href="../image/trophy.png">
-    <link rel="stylesheet" href="../css/ranking.css">
+    <link rel="icon" href="../image/trophy.png" />
+    <link rel="stylesheet" href="../css/ranking.css" />
     <script src="../js/env.js"></script>
     <script src="../js/ranking.js"></script>
     <script src="../js/admin.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <div class="row header mb-5">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid mx-3">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item" onclick="home()">
-                            <span class="nav-link active fs-4" aria-current="page" >Home</span>
-                        </li>
-                        <!-- <li class="nav-item">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid mx-3">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+              <li class="nav-item" onclick="home()">
+                <span class="nav-link active fs-4" aria-current="page"
+                  >Home</span
+                >
+              </li>
+              <!-- <li class="nav-item">
                             <a class="nav-link fs-4" href="./leaderBoard">Ranking</a>
                         </li> -->
-                        <li class="nav-item">
-                            <a class="nav-link fs-4" href="./USA">S&P 500</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-4" href="./coin">Coin</a>
-                        </li>
-                    </ul>
-                    <a class="navbar-brand mx-auto" href="#">
-                        <h1 class="title">Simulate Stock</h1>
-                        <h5>Những tỷ phú trên phố Walk Nguyễn Huệ</h5>
-                    </a>
-                    <a class="nav-link fs-4 text-decoration-none text-white" href="./leaderBoard">Ranking</a>
-                    <div class="dropdown">
-                        <a class="nav-link dropdown-toggle fs-4 text-decoration-none text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <script>getNameOfUser()</script>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark fs-6" aria-labelledby="navbarDropdown">
-                            <li><span class="dropdown-item" onclick="changeName()">Change Name</span></li>
-                            <li><span class="dropdown-item" onclick="changePassword()">Change Password</span></li>
-                            <li id="admin"></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><span class="dropdown-item" onclick="logout()">Logout</span></li>
-                        </ul>
-                    </div>
-                </div>
+              <li class="nav-item">
+                <a class="nav-link fs-4" href="./USA">S&P 500</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-4" href="./coin">Coin</a>
+              </li>
+            </ul>
+            <a class="navbar-brand mx-auto" href="#">
+              <h1 class="title">Simulate Stock</h1>
+              <h5>Những tỷ phú trên phố Walk Nguyễn Huệ</h5>
+            </a>
+            <a
+              class="nav-link fs-4 text-decoration-none text-white"
+              href="./leaderBoard"
+              >Ranking</a
+            >
+            <div class="dropdown">
+              <a
+                class="nav-link dropdown-toggle fs-4 text-decoration-none text-white"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <script>
+                  getNameOfUser();
+                </script>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end dropdown-menu-dark fs-6"
+                aria-labelledby="navbarDropdown"
+              >
+                <li>
+                  <span class="dropdown-item" onclick="changeName()"
+                    >Change Name</span
+                  >
+                </li>
+                <li>
+                  <span class="dropdown-item" onclick="changePassword()"
+                    >Change Password</span
+                  >
+                </li>
+                <li id="admin"></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <span class="dropdown-item" onclick="logout()">Logout</span>
+                </li>
+              </ul>
             </div>
-        </nav>
+          </div>
+        </div>
+      </nav>
     </div>
     <div class="leaderBoard">
-        <div class="container">
-            <div class="row">
-                <!-- <div class="col-2">
+      <div class="container">
+        <div class="row">
+          <!-- <div class="col-2">
                     <button class="rankbutton btn btn-outline-light" id="hose" onclick="getRank()">Hose</button> <br>
                     <button class="rankbutton btn btn-outline-light" id="sp500" onclick="getRankUSA()">S&P 500</button>
                 </div> -->
-                <div class="col">
-                    <div class="header-ranking d-flex justify-content-center align-items-center">
-                        <img src="../image/trophy.png" alt="">
-                        <h1>Leader Board</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="hose-tab" data-bs-toggle="tab" data-bs-target="#hose" type="button" role="tab" aria-controls="hose" aria-selected="true">Hose</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="sp500-tab" data-bs-toggle="tab" data-bs-target="#sp500" type="button" role="tab" aria-controls="sp500" aria-selected="false">S&P 500</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="hose" role="tabpanel" aria-labelledby="hose-tab">
-                <div id="table-ranking-hose"><script>getRank()</script></div>
-            </div>
-            <div class="tab-pane fade" id="sp500" role="tabpanel" aria-labelledby="sp500-tab">
-                <div id="table-ranking-sp500"><script>getRankUSA()</script></div>
+          <div class="col">
+            <div
+              class="header-ranking d-flex justify-content-center align-items-center"
+            >
+              <img src="../image/trophy.png" alt="" />
+              <h1>Leader Board</h1>
             </div>
           </div>
+        </div>
+      </div>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="hose-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#hose"
+            type="button"
+            role="tab"
+            aria-controls="hose"
+            aria-selected="true"
+          >
+            Hose
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="sp500-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#sp500"
+            type="button"
+            role="tab"
+            aria-controls="sp500"
+            aria-selected="false"
+          >
+            S&P 500
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="hose"
+          role="tabpanel"
+          aria-labelledby="hose-tab"
+        >
+          <div id="table-ranking-hose">
+            <script>
+              getRank();
+            </script>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="sp500"
+          role="tabpanel"
+          aria-labelledby="sp500-tab"
+        >
+          <div id="table-ranking-sp500">
+            <script>
+              getRankUSA();
+            </script>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

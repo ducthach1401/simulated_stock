@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  node:
+    image: node:16.15.1
+    ports:
+      - 80:8080
+    command: /bin/sh -c "cd /var/www && npm run dev"
+    volumes:
+      - ../:/var/www/
+  mongo:
+    image: mongo:6.0.1
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+
+volumes:
+  mongodb:

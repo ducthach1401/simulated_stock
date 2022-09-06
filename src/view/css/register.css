@@ -1,36 +1,44 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:200');
+@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:200");
 
-body  {
-    background-image: url('https://static.pexels.com/photos/414171/pexels-photo-414171.jpeg');
-  background-size:cover;
-        -webkit-animation: slidein 100s;
-        animation: slidein 100s;
+body {
+  background-image: url("https://static.pexels.com/photos/414171/pexels-photo-414171.jpeg");
+  background-size: cover;
+  -webkit-animation: slidein 100s;
+  animation: slidein 100s;
 
-        -webkit-animation-fill-mode: forwards;
-        animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 
-        -webkit-animation-iteration-count: infinite;
-        animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
 
-        -webkit-animation-direction: alternate;
-        animation-direction: alternate;              
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
 }
 
 @-webkit-keyframes slidein {
-from {background-position: top; background-size:3000px; }
-to {background-position: -100px 0px;background-size:2750px;}
+  from {
+    background-position: top;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -100px 0px;
+    background-size: 2750px;
+  }
 }
 
 @keyframes slidein {
-from {background-position: top;background-size:3000px; }
-to {background-position: -100px 0px;background-size:2750px;}
-
+  from {
+    background-position: top;
+    background-size: 3000px;
+  }
+  to {
+    background-position: -100px 0px;
+    background-size: 2750px;
+  }
 }
 
-
-
-.center
-{
+.center {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,11 +51,11 @@ to {background-position: -100px 0px;background-size:2750px;}
   background: rgba(0, 0, 0, 0.3);
   border-radius: 3px;
 }
-.center h1{
-  text-align:center;
-  color:black;
-  font-family: 'Source Code Pro', monospace;
-  text-transform:uppercase;
+.center h1 {
+  text-align: center;
+  color: black;
+  font-family: "Source Code Pro", monospace;
+  text-transform: uppercase;
 }
 
 .frame {
@@ -57,14 +65,14 @@ to {background-position: -100px 0px;background-size:2750px;}
   border-radius: 10px;
 }
 .frame label {
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
   color: black;
   width: 180px;
 }
 
 .frame button {
   margin-top: 10px;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   font-size: 17px;
   width: 100px;
   margin-bottom: 10px;
@@ -72,7 +80,6 @@ to {background-position: -100px 0px;background-size:2750px;}
 
 .frame input {
   margin-top: 5px;
-
 }
 
 .frame a {
@@ -85,7 +92,7 @@ to {background-position: -100px 0px;background-size:2750px;}
   text-decoration: underline;
 }
 
-#login:hover{
+#login:hover {
   cursor: pointer;
   color: gold;
 }

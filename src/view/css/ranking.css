@@ -1,52 +1,52 @@
 body {
-    background-color: #2e2e2e !important;
-    color: ghostwhite !important;
+  background-color: #2e2e2e !important;
+  color: ghostwhite !important;
 }
 
 .title {
-    color: darkorange;
-    text-align: center;
-    margin: 10px;
-    font-size: 45px;
+  color: darkorange;
+  text-align: center;
+  margin: 10px;
+  font-size: 45px;
 }
 
 .leaderBoard {
-    width: 50%;
-    margin: 0 auto;
-    background-color: #212529;
-    border-radius: 10px;
+  width: 50%;
+  margin: 0 auto;
+  background-color: #212529;
+  border-radius: 10px;
 }
 
 .header-ranking {
-    height: 200px;
+  height: 200px;
 }
 
 .header-ranking h1 {
-    display: inline-block;
-    margin: 0;
-    margin-left: 50px;
-    font-size: 60px;
+  display: inline-block;
+  margin: 0;
+  margin-left: 50px;
+  font-size: 60px;
 }
 
 .header-ranking img {
-    width: 80px;
-    height: 80px;
+  width: 80px;
+  height: 80px;
 }
 
 .leaderBoard table {
-    text-align: center;
+  text-align: center;
 }
 
 span {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.rankbutton{
-    width: 100px;
-    height: 50px;
-    margin-top: 10px;
+.rankbutton {
+  width: 100px;
+  height: 50px;
+  margin-top: 10px;
 }
 
 table th {
-    height: 70px;
+  height: 70px;
 }

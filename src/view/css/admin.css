@@ -1,98 +1,102 @@
 body {
-    background-color: #2e2e2e;
-    color: ghostwhite;
+  background-color: #2e2e2e;
+  color: ghostwhite;
 }
 
 .title {
-    color: darkorange;
-    text-align: center;
-    margin: 10px;
-    font-size: 50px;
+  color: darkorange;
+  text-align: center;
+  margin: 10px;
+  font-size: 50px;
 }
 
-#user-information p{
-    margin: auto;
-    margin-bottom: 10px;
+#user-information p {
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 .header {
-    margin-bottom: 20px;
-    background-color: black;
+  margin-bottom: 20px;
+  background-color: black;
 }
 
-table, th, td {
-    border: 2px solid whitesmoke;
-    padding: 10px;
-    background-color: black;
+table,
+th,
+td {
+  border: 2px solid whitesmoke;
+  padding: 10px;
+  background-color: black;
 }
 
-.sub1, .sub2 {
-    color: goldenrod;
+.sub1,
+.sub2 {
+  color: goldenrod;
 }
 
 .sub2 {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .orange {
-    color: orange;
+  color: orange;
 }
 
 .green {
-    color: greenyellow;
+  color: greenyellow;
 }
 
 .red {
-    color: red;
+  color: red;
 }
 
 .cyan {
-    color: cyan;
+  color: cyan;
 }
 
 .magenta {
-    color: magenta;
+  color: magenta;
 }
 
 table input {
-    width: 130px;
+  width: 130px;
 }
 
 table button {
-    width: 75px;
+  width: 75px;
 }
 
-table th, table td {
-    text-align: center;
+table th,
+table td {
+  text-align: center;
 }
 
 .buttonUser {
-    width: 170px;
-    margin-bottom: 20px;
+  width: 170px;
+  margin-bottom: 20px;
 }
 
 h5 {
-    text-align: center;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 #tableinfo {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 table {
-    text-align: center;
-    margin: auto;
-    margin-bottom: 30px;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 30px;
 }
 
 .switch {
-    width: 150px;
-    height: 50px;
-    margin-bottom: 10px;
+  width: 150px;
+  height: 50px;
+  margin-bottom: 10px;
 }
 
 #user {
-    position: relative;
-    right: 100px;
+  position: relative;
+  right: 100px;
 }

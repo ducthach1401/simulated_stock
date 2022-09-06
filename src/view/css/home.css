@@ -1,18 +1,18 @@
 body {
-    background-color: #2e2e2e;
-    color: ghostwhite;
+  background-color: #2e2e2e;
+  color: ghostwhite;
 }
 
 .title {
-    color: darkorange;
-    text-align: center;
-    margin: 10px;
-    font-size: 45px;
+  color: darkorange;
+  text-align: center;
+  margin: 10px;
+  font-size: 45px;
 }
 
-#user-information p{
-    margin: auto;
-    margin-bottom: 10px;
+#user-information p {
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 /* .header {
@@ -20,173 +20,185 @@ body {
     background-color: black;
 } */
 span {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-table, th, td {
-    border: 1px solid whitesmoke;
-    padding: 10px;
-    background-color: black;
+table,
+th,
+td {
+  border: 1px solid whitesmoke;
+  padding: 10px;
+  background-color: black;
 }
 
-.sub1, .sub2 {
-    color: goldenrod;
+.sub1,
+.sub2 {
+  color: goldenrod;
 }
 
 .sub2 {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .orange {
-    color: orange;
+  color: orange;
 }
 
 .green {
-    color: greenyellow;
+  color: greenyellow;
 }
 
 .red {
-    color: red;
+  color: red;
 }
 
 .cyan {
-    color: cyan;
+  color: cyan;
 }
 
 .magenta {
-    color: magenta;
+  color: magenta;
 }
 
 table input {
-    width: 50px;
+  width: 50px;
 }
 
 table button {
-    width: 75px;
+  width: 75px;
 }
 
-table th, table td {
-    text-align: center;
+table th,
+table td {
+  text-align: center;
 }
 
 .buttonUser {
-    width: 170px;
-    margin-bottom: 20px;
+  width: 170px;
+  margin-bottom: 20px;
 }
 
 h5 {
-    text-align: center;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 #tableinfo {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.sellButton, .totalButton {
-    margin-top: 10px;
-    margin-left: 10px;
-    width: 120px;
-    margin-bottom: 20px;
+.sellButton,
+.totalButton {
+  margin-top: 10px;
+  margin-left: 10px;
+  width: 120px;
+  margin-bottom: 20px;
 }
 
 .total {
-    width: 130px;
+  width: 130px;
 }
 
 #exchange input {
-    width: 50px;
+  width: 50px;
 }
 
 .container {
-    max-width: 1400px;
+  max-width: 1400px;
 }
 
 .highlight {
-    animation-name: changebackground;
-    animation-duration: 2s;
+  animation-name: changebackground;
+  animation-duration: 2s;
 }
 
 @keyframes changebackground {
-    from {background-color: black;}
-    to {background-color: gold;}
+  from {
+    background-color: black;
+  }
+  to {
+    background-color: gold;
+  }
 }
 
 #VN-Index {
-    font-size: large;
+  font-size: large;
 }
 
 #form-search {
-    position: relative;
+  position: relative;
 }
 
 #search {
-    padding-left: 35px;
+  padding-left: 35px;
 }
 
 #input-img {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 25%;
-    left: 2%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 25%;
+  left: 2%;
 }
 
 input::placeholder {
-    color: rgb(221, 221, 221);
-    opacity: 1;
-    font-size: 14px;
+  color: rgb(221, 221, 221);
+  opacity: 1;
+  font-size: 14px;
 }
 
 #footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: black;
-    color: ghostwhite;
-    text-align: left;
-    display: block;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: ghostwhite;
+  text-align: left;
+  display: block;
 }
 
-.cmd, .cmd1 {
-    width: 100px;
-    display: inline-block;
-    margin-right: 5px;
+.cmd,
+.cmd1 {
+  width: 100px;
+  display: inline-block;
+  margin-right: 5px;
 }
 
 .cmd1 {
-    width: 120px;
+  width: 120px;
 }
 
- .btnfooter {
-    width: 120px;
-    margin-bottom: 10px;
-    margin-right: 10px;
- }
-
- .radio {
-    margin-right: 10px;
- }
-
- #toggle {
-    position: fixed;
-    left: 0px;
+.btnfooter {
+  width: 120px;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
 
-#command-table{
-    margin-bottom: 20px;
-    margin-top: 20px;
+.radio {
+  margin-right: 10px;
 }
 
-#info{
-    width: 550px;
+#toggle {
+  position: fixed;
+  left: 0px;
 }
 
-#tableinfo, #tableSell, #command-table {
-    width: 520px;
+#command-table {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#info {
+  width: 550px;
+}
+
+#tableinfo,
+#tableSell,
+#command-table {
+  width: 520px;
 }
 
 #tableDiv {
-    width: 400px;
+  width: 400px;
 }
