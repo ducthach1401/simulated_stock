@@ -2,7 +2,9 @@ version: "3.8"
 
 services:
   node:
-    image: node:16.15.1
+    image: stock/node:16-alpine
+    build: images/node
+    restart: on-failure
     ports:
       - 80:8080
     command: /bin/sh -c "cd /var/www && npm run dev"
