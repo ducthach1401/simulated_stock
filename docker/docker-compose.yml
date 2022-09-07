@@ -12,6 +12,7 @@ services:
       - ../:/var/www/
   mongo:
     image: mongo:6.0.1
+    restart: always
     ports:
       - 27017:27017
     volumes:
