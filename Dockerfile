@@ -7,7 +7,10 @@ RUN npm config set unsafe-perm true
 
 # PM2
 RUN npm install pm2 -g
-COPY pm2.json /var/pm2.json
+COPY . .
+RUN npm install
+
+EXPOSE 8080
 
 #
-CMD ["pm2-runtime", "start", "/var/pm2.json"]
+CMD ["pm2-runtime", "start", "pm2.json"]
