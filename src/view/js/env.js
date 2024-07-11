@@ -1,5 +1,5 @@
-// const API_URL = "https://simulatestock.glitch.me";
-const API_URL = "http://192.168.123.31";
+const API_URL = "https://stock.bighand.asia";
+// const API_URL = "http://192.168.123.31";
 
 async function logout() {
   window.location.href = "/logout";
