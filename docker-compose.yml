@@ -5,10 +5,12 @@ services:
     build: .
     restart: always
     ports:
-      - 8082:8080
+      - 10000:8080
   mongo:
     image: mongo:6.0.1
     restart: always
+    ports:
+      - 27017:27017
     volumes:
       - ./mongodb:/data/db
     environment:

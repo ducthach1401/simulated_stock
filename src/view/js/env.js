@@ -1,4 +1,4 @@
-const API_URL = "https://stock.bighand.asia";
+const API_URL = "https://stock.bighand.asia:8443";
 // const API_URL = "http://192.168.123.31";
 
 async function logout() {
